@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import Head from "next/head";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 
 type Props = {
   children: ReactNode;
@@ -15,7 +15,7 @@ export default function Layout({ children }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main className="px-10">{children}</main>
+      <main>{children}</main>
     </>
   );
 }
