@@ -1,49 +1,38 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const tabs = [
-  {
-    name: "Overall",
-    url: "/anime/overview",
-    active: true,
-  },
-  {
-    name: "History",
-    url: "/anime/history",
-    active: false,
-  },
-  {
-    name: "Genre",
-    url: "/anime/genre",
-    active: false,
-  },
-  {
-    name: "Studios",
-    url: "/anime/studios",
-    active: false,
-  },
-];
+const tabs = ["Overview", "History", "Genres", "Studios"];
 
 export default function StatsSideNav() {
   const router = useRouter();
   const { username } = router.query;
 
   return (
-    <div className="w-56 mr-5">
-      <h1 className="text-2xl ml-2 my-1 pb-1 font-medium text-gray-700 inline-block border-solid border-b-2 border-black">
-        Anime
-      </h1>
-      {tabs.map((tab) => (
-        <Link href={`/stats/${username}/${tab.url}`} key={tab.name}>
-          <a
-            className={`p-2.5 my-1 text-lg rounded-md hover:cursor-pointer hover:bg-green-900 hover:text-white ${
-              tab.active ? "bg-green-900 text-white" : "text-gray-500"
-            }`}
+    <div className="w-60 pt-5 pr-3 mr-3">
+      <div className="w-full text-center">
+        <h1 className="text-2xl mb-3 font-medium text-gray-700 inline-block border-solid border-b-2 border-black">
+          Anime
+        </h1>
+      </div>
+      <div className="flex flex-wrap">
+        {tabs.map((name) => (
+          <Link
+            href={`/stats/${username}/anime/${name.toLowerCase()}`}
+            key={name}
           >
-            {tab.name}
-          </a>
-        </Link>
-      ))}
+            <a
+              className={`py-2.5 px-14 my-1 w-full text-lg rounded-l-none rounded-lg ${
+                router.asPath ===
+                `/stats/${username}/anime/${name.toLowerCase()}`
+                  ? "bg-gray-900 text-white"
+                  : "text-gray-700 hover:bg-gray-200 hover:text-gray-900"
+              }`}
+            >
+              {name}
+            </a>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

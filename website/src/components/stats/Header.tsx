@@ -4,7 +4,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 export default function StatsHeader() {
   return (
-    <div className="flex justify-between items-center bg-green-900 text-white h-52 px-14">
+    <header className="flex justify-between items-center bg-gray-900 text-white h-44 px-14">
       <div className="flex items-center gap-5">
         <Image
           src="https://cdn.myanimelist.net/images/userimages/7296529.webp"
@@ -21,6 +21,6 @@ export default function StatsHeader() {
           </span>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
