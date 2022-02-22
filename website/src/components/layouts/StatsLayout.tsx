@@ -20,7 +20,7 @@ export default function Layout({ children }: Props) {
       <StatsHeader />
       <div className="flex h-screen bg-gray-100">
         <StatsSideNav />
-        <div className="my-5 p-5 bg-white w-full rounded-r-none rounded-3xl">
+        <div className="p-5 bg-white w-full shadow">
           <h1>{children}</h1>
         </div>
       </div>
