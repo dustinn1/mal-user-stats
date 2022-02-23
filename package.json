@@ -1,6 +1,9 @@
 {
   "name": "mal-user-stats",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Backend",
+  "author": "Dustin Nguyen",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
