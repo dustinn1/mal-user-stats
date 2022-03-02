@@ -2,7 +2,16 @@
   "jsc": {
     "parser": {
       "syntax": "typescript"
-    }
+    },
+    "target": "es2018",
+    "keepClassNames": true
+  },
+  "module": {
+    "type": "commonjs",
+    "strict": true,
+    "strictMode": true,
+    "lazy": false,
+    "noInterop": false
   },
   "env": {
     "targets": {
