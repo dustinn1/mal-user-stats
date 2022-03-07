@@ -5,7 +5,7 @@ import { faSun } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center px-5 md:px-14 py-3">
+    <nav className="flex justify-between items-center px-5 md:px-14 py-3 border-b border-gray-200">
       <Link href="/">
         <a className="flex items-center gap-2">
           <Image src="/logo.png" alt="logo" width={35} height={35} />
