@@ -11,8 +11,8 @@ type Props = {
 export default function Tab({ name, dropdown, active, icon }: Props) {
   return (
     <div
-      className={`bg-gray-200 inline-block py-2 px-4 rounded-md ${
-        active ? "bg-gray-700 text-white" : "hover:bg-gray-300"
+      className={`inline-block py-2 px-4 rounded-md ${
+        active ? "bg-gray-700 text-white" : "bg-gray-200 hover:bg-gray-300"
       }`}
     >
       <div className="flex items-center gap-3 justify-center">

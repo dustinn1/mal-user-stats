@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import StatsHeader from "../../components/stats/Header";
@@ -12,17 +12,26 @@ export default function Layout({ children }: Props) {
   const router = useRouter();
   const { username } = router.query;
 
+  const [currentCategory, setCurrentCategory] = useState<"anime" | "manga">(
+    "anime"
+  );
+
+  const setCategory = (category: "anime" | "manga") => {
+    setCurrentCategory(category);
+  };
+
   return (
     <>
       <Head>
         <title>{username} - MyAnimeList User Stats</title>
       </Head>
       <StatsHeader />
-      <Tabs />
+      <Tabs
+        currentCategory={currentCategory}
+        setCurrentCategory={setCategory}
+      />
       <div className="flex h-screen">
-        <div className="px-5 pt-7 bg-white w-full">
-          <h1>{children}</h1>
-        </div>
+        <div className="px-3 pt-7 bg-white w-full">{children}</div>
       </div>
     </>
   );
