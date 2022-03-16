@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import StatsLayout from "../../../../components/layouts/StatsLayout";
-import ChartContainer from "../../../../components/charts/Container";
+import ChartContainer from "../../../../components/stats/ChartContainer";
 import stats from "../../../../data/mock/animeStats.json";
 
 const releaseYears = stats.release_years;

@@ -1,17 +1,18 @@
 import { useState } from "react";
-import LineChart from "./Line";
-import BarChart from "./Bar";
-import PieChart from "./Pie";
+import LineChart from "../charts/Line";
+import BarChart from "../charts/Bar";
+import PieChart from "../charts/Pie";
 import Button from "../Button";
 import {
   faArrowDown19,
   faDivide,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import Table from "../Table";
 
 type Props = {
-  height?: number;
-  width?: number;
+  width?: number | string;
+  height?: number | string;
   type: "line" | "bar" | "pie";
   data: any[];
   xKey: string;
@@ -19,8 +20,8 @@ type Props = {
 };
 
 export default function ChartContainer({
-  height,
   width,
+  height,
   type,
   data,
   xKey,
@@ -32,8 +33,8 @@ export default function ChartContainer({
     <div className="px-7 pb-5 my-5 bg-gray-100 rounded-lg">
       {type === "line" && (
         <LineChart
-          width={height ?? 500}
-          height={width ?? 250}
+          width={width ?? "100%"}
+          height={height ?? 300}
           data={data}
           keys={{ x: xKey, y: ykey }}
         />
@@ -54,7 +55,7 @@ export default function ChartContainer({
           keys={{ x: xKey, y: ykey }}
         />
       )}
-      <div className="flex justify-between items-center px-3 pt-3">
+      <div className="flex justify-between items-center px-3 pt-5">
         <h1 className="text-2xl">{name}</h1>
         <div>
           <Button
@@ -65,20 +66,23 @@ export default function ChartContainer({
             active={ykey === "count"}
           />
           <Button
-            onClick={() => setYKey("mean_score")}
-            size="sm"
-            icon={faDivide}
-            text="Mean Score"
-            active={ykey === "mean_score"}
-          />
-          <Button
             onClick={() => setYKey("time_watched")}
             size="sm"
             icon={faClock}
             text="Time Watched"
             active={ykey === "time_watched"}
           />
+          <Button
+            onClick={() => setYKey("mean_score")}
+            size="sm"
+            icon={faDivide}
+            text="Mean Score"
+            active={ykey === "mean_score"}
+          />
         </div>
+      </div>
+      <div className="mt-5">
+        <Table data={data} dataIndex={xKey} />
       </div>
     </div>
   );

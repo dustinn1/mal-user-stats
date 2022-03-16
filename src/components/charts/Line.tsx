@@ -10,8 +10,8 @@ import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 type Props = {
-  width: number;
-  height: number;
+  width?: number | string;
+  height?: number | string;
   data: any[];
   keys: {
     x: string;
@@ -83,7 +83,7 @@ export default function LineChart({ width, height, data, keys }: Props) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative" style={{ height: height, width: width }}>
       <Line
         width={width}
         height={height}
