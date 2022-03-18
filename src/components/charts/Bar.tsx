@@ -1,11 +1,7 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-} from "chart.js";
+import { Chart, CategoryScale, LinearScale, BarElement } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import secondsToHours from "date-fns/secondsToHours";
 
 type Props = {
   width: number | string;
@@ -17,53 +13,58 @@ type Props = {
   };
 };
 
-ChartJS.register(CategoryScale, LinearScale, BarElement);
-
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: {
-    padding: {
-      top: 55,
-    },
-  },
-  scales: {
-    xAxes: {
-      ticks: {
-        color: "#000",
-        font: {
-          size: 14,
-        },
-      },
-    },
-    yAxes: {
-      ticks: {
-        color: "#000",
-        font: {
-          size: 14,
-        },
-        padding: 10,
-      },
-    },
-  },
-  plugins: {
-    datalabels: {
-      backgroundColor: "#000",
-      borderRadius: 4,
-      color: "white",
-      font: {
-        weight: "bold" as const,
-        size: 14,
-      },
-      padding: 6,
-      align: "end" as const,
-      anchor: "end" as const,
-      offset: 8,
-    },
-  },
-};
+Chart.register(CategoryScale, LinearScale, BarElement);
 
 export default function BarChart({ width, height, data, keys }: Props) {
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 55,
+      },
+    },
+    scales: {
+      xAxes: {
+        ticks: {
+          color: "#000",
+          font: {
+            size: 14,
+          },
+        },
+      },
+      yAxes: {
+        ticks: {
+          color: "#000",
+          font: {
+            size: 14,
+          },
+          padding: 10,
+        },
+      },
+    },
+    plugins: {
+      datalabels: {
+        backgroundColor: "#000",
+        borderRadius: 4,
+        color: "white",
+        font: {
+          weight: "bold" as const,
+          size: 14,
+        },
+        padding: 6,
+        align: "end" as const,
+        anchor: "end" as const,
+        offset: 8,
+        formatter: function (value: number) {
+          return keys.y === "time_watched"
+            ? `${secondsToHours(value)} hrs`
+            : value;
+        },
+      },
+    },
+  };
+
   const chartData = {
     labels: data.map((d) => d[keys.x]),
     datasets: [

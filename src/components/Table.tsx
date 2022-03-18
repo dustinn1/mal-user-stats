@@ -13,12 +13,35 @@ import {
   faSortUp,
   faSortDown,
 } from "@fortawesome/free-solid-svg-icons";
+import intervalToDuration from "date-fns/intervalToDuration";
+import formatDuration from "date-fns/formatDuration";
 
 type Props = {
   data: any[];
   dataIndex: string;
-  sortBy: string;
+  sortBy?: string;
 };
+
+function formatDurationValue(seconds: number): string {
+  const minutesSeconds = intervalToDuration({
+    start: 0,
+    end: seconds * 1000,
+  });
+  //const hours = secondsToHours(seconds);
+
+  return formatDuration(
+    intervalToDuration({
+      start: 0,
+      end: seconds * 1000,
+    })
+  );
+
+  /* return seconds !== 0
+    ? `${hours > 0 ? `${hours} hours` : ""}${
+        minutesSeconds.minutes ? `, ${minutesSeconds.minutes} minutes` : ""
+      }${minutesSeconds.seconds ? `, ${minutesSeconds.seconds} seconds` : ""}`
+    : "0"; */
+}
 
 function TableLayout({ columns, data, dataIndex }: any) {
   const {
@@ -114,7 +137,11 @@ function TableLayout({ columns, data, dataIndex }: any) {
                       className="py-2 first:font-semibold"
                       {...restCellProps}
                     >
-                      <div className="px-5">{cell.render("Cell")}</div>
+                      <div className="px-5">
+                        {cell.column.id === "time_watched"
+                          ? formatDurationValue(cell.value)
+                          : cell.value}
+                      </div>
                     </td>
                   );
                 })}

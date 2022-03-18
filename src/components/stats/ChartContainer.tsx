@@ -41,7 +41,7 @@ export default function ChartContainer({
       )}
       {type === "bar" && (
         <BarChart
-          width={height ?? 500}
+          width={height ?? "100%"}
           height={width ?? 250}
           data={data}
           keys={{ x: xKey, y: ykey }}
@@ -49,7 +49,7 @@ export default function ChartContainer({
       )}
       {type === "pie" && (
         <PieChart
-          width={height ?? 500}
+          width={height ?? "100%"}
           height={width ?? 300}
           data={data}
           keys={{ x: xKey, y: ykey }}
