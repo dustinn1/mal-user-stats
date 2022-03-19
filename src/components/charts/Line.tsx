@@ -22,50 +22,6 @@ type Props = {
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Filler);
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: {
-    padding: {
-      top: 55,
-    },
-  },
-  scales: {
-    xAxes: {
-      ticks: {
-        color: "#000",
-        font: {
-          size: 14,
-        },
-      },
-    },
-    yAxes: {
-      ticks: {
-        color: "#000",
-        font: {
-          size: 14,
-        },
-        padding: 10,
-      },
-    },
-  },
-  plugins: {
-    datalabels: {
-      backgroundColor: "#000",
-      borderRadius: 4,
-      color: "white",
-      font: {
-        weight: "bold" as const,
-        size: 14,
-      },
-      padding: 6,
-      align: "end" as const,
-      anchor: "end" as const,
-      offset: 8,
-    },
-  },
-};
-
 export default function LineChart({ width, height, data, keys }: Props) {
   const options = {
     responsive: true,
@@ -73,6 +29,7 @@ export default function LineChart({ width, height, data, keys }: Props) {
     layout: {
       padding: {
         top: 55,
+        right: 35,
       },
     },
     scales: {
@@ -90,7 +47,12 @@ export default function LineChart({ width, height, data, keys }: Props) {
           font: {
             size: 14,
           },
-          padding: 10,
+          padding: 20,
+          callback: function (value: number | string) {
+            return keys.y === "time_watched"
+              ? `${secondsToHours(value as number)} hrs`
+              : value;
+          },
         },
       },
     },
