@@ -1,6 +1,11 @@
+import { CSSProperties, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import type { Anime } from "../../interfaces/stats";
+import stats from "../../data/mock/animeStats.json";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 type Props = {
   name: string;
@@ -8,8 +13,18 @@ type Props = {
   amount: number;
   average: number;
   time: string;
-  covers: string[];
+  animes: number[];
 };
+
+function getCoversAnime(animes: number[], allAnimes: Anime[]): Anime[] {
+  const coverAnimes: Anime[] = [];
+  for (let id of animes) {
+    coverAnimes.push(allAnimes.find((anime: any) => anime.id === id) as Anime);
+  }
+  return coverAnimes;
+}
+
+const allAnimes: Anime[] = stats.animes;
 
 export default function Card({
   name,
@@ -17,18 +32,23 @@ export default function Card({
   amount,
   average,
   time,
-  covers,
+  animes,
 }: Props) {
   const router = useRouter();
   const { username } = router.query;
 
+  const covers: Anime[] = useMemo(
+    () => getCoversAnime(animes, allAnimes),
+    [animes]
+  );
+
   return (
     <div
-      className="w-96 mx-2 mb-4 pt-3 border border-gray-500 rounded-lg"
+      className="mb-4 w-full rounded-lg bg-gray-100 pt-3"
       id={`card-${name}`}
     >
-      <div className="flex items-center mx-4 mb-1.5 font-bold">
-        <div className="bg-gray-700 text-white text-center rounded-full px-3 mr-2 py-1">
+      <div className="mx-4 flex items-center font-bold">
+        <div className="mr-2 rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
           # {rank}
         </div>
         <Link
@@ -42,33 +62,59 @@ export default function Card({
           </a>
         </Link>
       </div>
-      <div className="mx-4 mb-2 pb-2.5 border-b border-gray-700">
-        <p>
-          {amount} <strong>Animes</strong>
-        </p>
-        <p>
-          {average} <strong>Average Score</strong>
-        </p>
-        <p>
-          {time} <strong>Time Watched</strong>
-        </p>
+      <div className="mt-5 h-[120px]">
+        <AutoSizer>
+          {({ width }) => (
+            <List
+              height={130}
+              width={width}
+              layout="horizontal"
+              itemCount={covers.length}
+              itemSize={85}
+              itemData={covers}
+              style={{ bottom: 10 }}
+            >
+              {({
+                data,
+                index,
+                style,
+              }: {
+                data: Anime[];
+                index: number;
+                style: CSSProperties;
+              }) => {
+                return (
+                  <div
+                    style={{
+                      ...style,
+                      left: (style.left as number) + 16,
+                    }}
+                  >
+                    <Image
+                      src={`https://cdn.myanimelist.net/images/anime/${data[index].image_url_id}.webp`}
+                      alt="image"
+                      height={120}
+                      width={80}
+                      layout="fixed"
+                      className="rounded-md"
+                    />
+                  </div>
+                );
+              }}
+            </List>
+          )}
+        </AutoSizer>
       </div>
-      <div className="flex overflow-x-scroll mt-4 mb-0.5 pb-3.5">
-        {covers.map((id) => (
-          <div
-            key={id}
-            className="h-[120px] w-[80px] mx-1 first:ml-4 last:mr-4"
-          >
-            <Image
-              src={`https://cdn.myanimelist.net/images/anime/${id}.webp`}
-              alt="image"
-              height={120}
-              width={80}
-              layout="fixed"
-              className="rounded-md"
-            />
-          </div>
-        ))}
+      <div className="mx-4 mb-3 flex justify-around text-center">
+        <span>
+          <strong>{amount}</strong> Animes
+        </span>
+        <span>
+          <strong>{average}</strong> Average Score
+        </span>
+        <span>
+          <strong>{time}</strong> Time Watched
+        </span>
       </div>
     </div>
   );

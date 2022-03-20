@@ -36,7 +36,7 @@ export default function ChartContainer({
     <Disclosure defaultOpen>
       {({ open }) => (
         <>
-          <div className="px-7 my-5 bg-gray-100 rounded-lg">
+          <div className="my-5 rounded-lg bg-gray-100 px-7">
             {type === "line" && (
               <LineChart
                 width={width ?? "100%"}
@@ -61,7 +61,7 @@ export default function ChartContainer({
                 keys={{ x: xKey, y: ykey }}
               />
             )}
-            <div className="flex justify-between items-center px-3 py-5">
+            <div className="flex items-center justify-between px-3 py-5">
               <h1 className="text-2xl font-bold">{name}</h1>
               <div className="flex divide-x divide-gray-500">
                 <div className="pr-1">

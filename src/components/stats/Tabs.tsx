@@ -19,8 +19,8 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
   )!;
 
   return (
-    <div className="px-3 flex">
-      <div className="pr-3.5 mr-3.5 border-r border-gray-400">
+    <div className="flex px-3">
+      <div className="mr-3.5 border-r border-gray-400 pr-3.5">
         <Menu as="div" className="relative inline-block">
           <Menu.Button>
             <Tab
@@ -38,7 +38,7 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute z-50 bg-white right-0 w-40 mt-2 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute right-0 z-50 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-0.5">
                 {statsTabs.map((tab) => (
                   <Menu.Item
@@ -51,13 +51,13 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
                   >
                     {({ active }) => (
                       <button
-                        className={`flex items-center rounded-md w-full px-3 py-2 my-0.5  ${
+                        className={`my-0.5 flex w-full items-center rounded-md px-3 py-2  ${
                           active || currentCategory === tab.name.toLowerCase()
                             ? "bg-gray-700 text-white"
                             : "text-gray-900"
                         }`}
                       >
-                        <FontAwesomeIcon icon={tab.icon} className="w-6 mr-3" />
+                        <FontAwesomeIcon icon={tab.icon} className="mr-3 w-6" />
                         {tab.name}
                       </button>
                     )}

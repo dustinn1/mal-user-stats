@@ -53,9 +53,9 @@ function TableLayout({ columns, data, dataIndex }: any) {
 
   return (
     <>
-      <div className="bg-white border border-gray-300">
+      <div className="border border-gray-300 bg-white">
         <table
-          className="table-fixed w-full border-collapse"
+          className="w-full table-fixed border-collapse"
           {...getTableProps()}
         >
           <thead className="border-b border-gray-300 bg-gray-100/80">
@@ -74,7 +74,7 @@ function TableLayout({ columns, data, dataIndex }: any) {
                     );
                     return (
                       <th key={key} className="py-2" {...restColumnProps}>
-                        <div className="flex justify-between px-5 select-none">
+                        <div className="flex select-none justify-between px-5">
                           {column.render("Header")}
                           <span>
                             {column.isSorted ? (
@@ -102,7 +102,7 @@ function TableLayout({ columns, data, dataIndex }: any) {
               return (
                 <tr
                   key={key}
-                  className="even:bg-gray-100/75 divide-x divide-gray-200"
+                  className="divide-x divide-gray-200 even:bg-gray-100/75"
                   {...restRowProps}
                 >
                   {row.cells.map((cell: Cell<object, any>) => {
@@ -133,15 +133,15 @@ function TableLayout({ columns, data, dataIndex }: any) {
         </table>
       </div>
       {pageCount > 1 && (
-        <div className="flex justify-end py-3 border-collapse">
+        <div className="flex border-collapse justify-end py-3">
           {[...Array(pageCount)].map((_, index) => {
             return (
               <button
                 key={index}
-                className={`border-l border-y border-gray-700 py-1 px-3.5 first:rounded-l-md last:border last:rounded-r-md ${
+                className={`border-y border-l border-gray-700 py-1 px-3.5 first:rounded-l-md last:rounded-r-md last:border ${
                   pageIndex === index
                     ? "bg-gray-700 text-white"
-                    : "text-gray-700 hover:bg-gray-700 hover:text-white transition-colors"
+                    : "text-gray-700 transition-colors hover:bg-gray-700 hover:text-white"
                 }`}
                 onClick={() => gotoPage(index)}
               >

@@ -9,7 +9,7 @@ export default function Input() {
       name="search"
       placeholder="Search"
       autoComplete="off"
-      className="w-full border border-gray-600 rounded-lg py-1.5 px-3 outline-0  ring-blue-300 focus:border-blue-400 focus:ring-4 focus:transition-colors duration-200 ease-linear"
+      className="w-full rounded-lg border border-gray-600 py-1.5 px-3 outline-0  ring-blue-300 duration-200 ease-linear focus:border-blue-400 focus:ring-4 focus:transition-colors"
     />
   );
 }
