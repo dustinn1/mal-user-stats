@@ -1,11 +1,13 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
 import round from "lodash/round";
+import orderBy from "lodash/orderBy";
 
 interface EpisodeCountObject {
   length: string;
   count: number;
   time_watched: number;
   mean_score: number;
+  animes: number[];
 }
 
 const lengths = [
@@ -29,6 +31,7 @@ export function episodesCountsStats(
       count: 0,
       time_watched: 0,
       mean_score: 0,
+      animes: [],
     };
     const animes = animeList.filter(
       (anime) =>
@@ -53,6 +56,10 @@ export function episodesCountsStats(
       2
     );
     if (!Number.isNaN(meanScore)) lengthStat.mean_score = meanScore;
+    // all animes with episode count
+    orderBy(animes, "node.title", "asc").map((anime) =>
+      lengthStat.animes.push(anime.node.id)
+    );
     stats.push(lengthStat);
   }
   return stats;

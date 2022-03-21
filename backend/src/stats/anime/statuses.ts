@@ -1,11 +1,13 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
 import round from "lodash/round";
+import orderBy from "lodash/orderBy";
 
 interface StatusObject {
   status: string;
   count: number;
   time_watched: number;
   mean_score: number;
+  animes: number[];
 }
 
 const statuses = [
@@ -39,6 +41,7 @@ export function statusesStats(animeList: AnimeListObject[]): StatusObject[] {
       count: 0,
       time_watched: 0,
       mean_score: 0,
+      animes: [],
     };
     const animes = animeList.filter(
       (anime) => anime.list_status.status == status.id
@@ -61,6 +64,10 @@ export function statusesStats(animeList: AnimeListObject[]): StatusObject[] {
       2
     );
     if (!Number.isNaN(meanScore)) statusStat.mean_score = meanScore;
+    // all animes with status
+    orderBy(animes, "node.title", "asc").map((anime) =>
+      statusStat.animes.push(anime.node.id)
+    );
     stats.push(statusStat);
   }
   return stats;

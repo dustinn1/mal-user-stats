@@ -1,11 +1,13 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
 import round from "lodash/round";
+import orderBy from "lodash/orderBy";
 
 interface ScoreObject {
   score: number;
   count: number;
   time_watched: number;
   mean_score: number;
+  animes: number[];
 }
 
 export function scoresStats(animeList: AnimeListObject[]): ScoreObject[] {
@@ -16,6 +18,7 @@ export function scoresStats(animeList: AnimeListObject[]): ScoreObject[] {
       count: 0,
       time_watched: 0,
       mean_score: 0,
+      animes: [],
     };
     const animes = animeList.filter((anime) => anime.list_status.score === i);
     if (animes.length === 0) {
@@ -36,6 +39,10 @@ export function scoresStats(animeList: AnimeListObject[]): ScoreObject[] {
       2
     );
     if (!Number.isNaN(meanScore)) scoreStat.mean_score = meanScore;
+    // all animes with score
+    orderBy(animes, "node.title", "asc").map((anime) =>
+      scoreStat.animes.push(anime.node.id)
+    );
     stats.push(scoreStat);
   }
   return stats;

@@ -2,12 +2,14 @@ import type { AnimeListObject } from "../../interfaces/fetchList";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
+import orderBy from "lodash/orderBy";
 
 interface ReleaseYearObject {
   year: number;
   count: number;
   time_watched: number;
   mean_score: number;
+  animes: number[];
 }
 
 export function releaseYearsStats(
@@ -30,6 +32,7 @@ export function releaseYearsStats(
       count: 0,
       time_watched: 0,
       mean_score: 0,
+      animes: [],
     };
     const animes = animeList.filter(
       (anime) =>
@@ -57,6 +60,10 @@ export function releaseYearsStats(
       2
     );
     if (!Number.isNaN(meanScore)) releaseYearStat.mean_score = meanScore;
+    // all animes with release year
+    orderBy(animes, "node.title", "asc").map((anime) =>
+      releaseYearStat.animes.push(anime.node.id)
+    );
     stats.push(releaseYearStat);
   }
   return stats;
