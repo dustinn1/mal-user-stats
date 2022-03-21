@@ -4,7 +4,17 @@ export const statsTabs = [
   {
     name: "Anime",
     icon: faTelevision,
-    tabs: ["Overview", "History", "Genres", "Studios"],
+    tabs: [
+      "Overview",
+      "Episodes Counts",
+      "Formats",
+      "Genres",
+      "Release Years",
+      "Scores",
+      "Statuses",
+      "Studios",
+      "Watch Years",
+    ],
   },
   {
     name: "Manga",

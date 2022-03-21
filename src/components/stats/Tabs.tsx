@@ -52,7 +52,9 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
                     {({ active }) => (
                       <button
                         className={`my-0.5 flex w-full items-center rounded-md px-3 py-2  ${
-                          active || currentCategory === tab.name.toLowerCase()
+                          active ||
+                          currentCategory ===
+                            tab.name.toLowerCase().replace(" ", "_")
                             ? "bg-gray-700 text-white"
                             : "text-gray-900"
                         }`}
@@ -71,7 +73,9 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
       <div className="flex gap-2.5 overflow-x-scroll">
         {currentCategoryTab.tabs.map((tab) => (
           <Link
-            href={`/stats/${username}/${currentCategory}/${tab.toLowerCase()}`}
+            href={`/stats/${username}/${currentCategory}/${tab
+              .toLowerCase()
+              .replace(" ", "_")}`}
             key={tab}
           >
             <a>
@@ -79,7 +83,9 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
                 name={tab}
                 active={
                   router.asPath ===
-                  `/stats/${username}/${currentCategory}/${tab.toLowerCase()}`
+                  `/stats/${username}/${currentCategory}/${tab
+                    .toLowerCase()
+                    .replace(" ", "_")}`
                 }
               />
             </a>

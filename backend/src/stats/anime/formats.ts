@@ -1,14 +1,7 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
+import type { StatArray } from "../../interfaces/animeStats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
-
-interface FormatObject {
-  format: string;
-  count: number;
-  time_watched: number;
-  mean_score: number;
-  animes: number[];
-}
 
 const formats = [
   {
@@ -37,11 +30,12 @@ const formats = [
   },
 ];
 
-export function formatsStats(animeList: AnimeListObject[]): FormatObject[] {
-  const stats: FormatObject[] = [];
+export function formatsStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   for (const format of formats) {
-    const formatStat: FormatObject = {
-      format: format.name,
+    const formatStat: StatArray = {
+      id: format.id,
+      name: format.name,
       count: 0,
       time_watched: 0,
       mean_score: 0,

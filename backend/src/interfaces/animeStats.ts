@@ -6,58 +6,14 @@ export interface AnimeStats {
     mean_score: number;
     standard_deviation: number;
   };
-  episodes_counts: {
-    length: string;
-    count: number;
-    time_watched: number;
-    mean_score: number;
-  }[];
-  formats: {
-    format: string;
-    count: number;
-    time_watched: number;
-    mean_score: number;
-  }[];
-  release_years: {
-    year: number;
-    count: number;
-    time_watched: number;
-    mean_score: number;
-  }[];
-  scores: {
-    score: number;
-    count: number;
-    time_watched: number;
-    mean_score: number;
-  }[];
-  statues: {
-    status: string;
-    count: number;
-    time_watched: number;
-    mean_score: number;
-  }[];
-  watch_years: {
-    year: number;
-    count: number;
-    time_watched: number;
-    mean_score: number;
-  }[];
-  genres: {
-    id: number;
-    name: string;
-    count: number;
-    mean_score: number;
-    time_watched: number;
-    animes: number[];
-  }[];
-  studios: {
-    id: number;
-    name: string;
-    count: number;
-    mean_score: number;
-    time_watched: number;
-    animes: number[];
-  }[];
+  episodes_counts: StatArray[];
+  formats: StatArray[];
+  release_years: StatArray[];
+  scores: StatArray[];
+  statuses: StatArray[];
+  watch_years: StatArray[];
+  genres: StatArray[];
+  studios: StatArray[];
   animes: {
     id: number;
     title: string;
@@ -65,4 +21,13 @@ export interface AnimeStats {
     title_en: string;
     title_ja: string;
   }[];
+}
+
+export interface StatArray {
+  id: string | number;
+  name: string;
+  count: number;
+  mean_score: number;
+  time_watched: number;
+  animes: number[];
 }

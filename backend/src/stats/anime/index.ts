@@ -18,7 +18,7 @@ export function generateAnimeStats(animelist: AnimeListObject[]): AnimeStats {
     formats: formatsStats(animelist),
     release_years: releaseYearsStats(animelist),
     scores: scoresStats(animelist),
-    statues: statusesStats(animelist),
+    statuses: statusesStats(animelist),
     watch_years: watchYearsStats(animelist),
     genres: genresStats(animelist),
     studios: studiosStats(animelist),

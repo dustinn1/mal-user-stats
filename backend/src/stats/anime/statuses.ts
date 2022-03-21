@@ -1,14 +1,7 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
+import type { StatArray } from "../../interfaces/animeStats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
-
-interface StatusObject {
-  status: string;
-  count: number;
-  time_watched: number;
-  mean_score: number;
-  animes: number[];
-}
 
 const statuses = [
   {
@@ -33,11 +26,12 @@ const statuses = [
   },
 ];
 
-export function statusesStats(animeList: AnimeListObject[]): StatusObject[] {
-  const stats: StatusObject[] = [];
+export function statusesStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   for (const status of statuses) {
-    const statusStat: StatusObject = {
-      status: status.name,
+    const statusStat: StatArray = {
+      id: status.id,
+      name: status.name,
       count: 0,
       time_watched: 0,
       mean_score: 0,

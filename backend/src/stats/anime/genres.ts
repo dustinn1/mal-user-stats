@@ -1,20 +1,12 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
+import type { StatArray } from "../../interfaces/animeStats";
 import sortBy from "lodash/sortBy";
 import sortedUniqBy from "lodash/sortedUniqBy";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-interface GenreObject {
-  id: number;
-  name: string;
-  count: number;
-  mean_score: number;
-  time_watched: number;
-  animes: number[];
-}
-
-export function genresStats(animeList: AnimeListObject[]): GenreObject[] {
-  const stats: GenreObject[] = [];
+export function genresStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all unique genres in list
   let genresList: { id: number; name: string }[] = [];
   animeList.map((anime) =>
@@ -34,7 +26,7 @@ export function genresStats(animeList: AnimeListObject[]): GenreObject[] {
     }
   );
   for (const genre of genresList) {
-    const genreStat: GenreObject = {
+    const genreStat: StatArray = {
       id: genre.id,
       name: genre.name,
       count: 0,
