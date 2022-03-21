@@ -21,7 +21,7 @@ export default function Button({ text, size, icon, active, onClick }: Props) {
         active
           ? `bg-gray-700 text-white`
           : `transition-colors hover:bg-gray-700 hover:text-white`,
-        "mx-1 inline-block rounded-md border border-gray-700"
+        "mx-1 inline-block cursor-pointer rounded-md border border-gray-700"
       )}
       onClick={onClick}
     >

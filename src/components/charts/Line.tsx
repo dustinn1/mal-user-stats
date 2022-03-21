@@ -70,9 +70,7 @@ export default function LineChart({ width, height, data, keys }: Props) {
         anchor: "end" as const,
         offset: 8,
         formatter: function (value: number) {
-          return keys.y === "time_watched"
-            ? `${secondsToHours(value)} hrs`
-            : value;
+          return keys.y === "time_watched" ? secondsToHours(value) : value;
         },
       },
     },

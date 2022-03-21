@@ -33,7 +33,7 @@ export default function ChartContainer({
   const [ykey, setYKey] = useState("count");
 
   return (
-    <Disclosure defaultOpen>
+    <Disclosure>
       {({ open }) => (
         <>
           <div className="my-5 rounded-lg bg-gray-100 px-7">
@@ -48,7 +48,7 @@ export default function ChartContainer({
             {type === "bar" && (
               <BarChart
                 width={height ?? "100%"}
-                height={width ?? 250}
+                height={width ?? 300}
                 data={data}
                 keys={{ x: xKey, y: ykey }}
               />

@@ -6,9 +6,12 @@ import type { Anime } from "../../interfaces/stats";
 import stats from "../../data/mock/animeStats.json";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import intervalToDuration from "date-fns/intervalToDuration";
+import formatDuration from "date-fns/formatDuration";
 
 type Props = {
   name: string;
+  sort: "count" | "time_watched" | "mean_score";
   rank: number;
   amount: number;
   average: number;
@@ -28,6 +31,7 @@ const allAnimes: Anime[] = stats.animes;
 
 export default function Card({
   name,
+  sort,
   rank,
   amount,
   average,
@@ -37,10 +41,52 @@ export default function Card({
   const router = useRouter();
   const { username } = router.query;
 
-  const covers: Anime[] = useMemo(
-    () => getCoversAnime(animes, allAnimes),
-    [animes]
-  );
+  const CoversList = useMemo(() => {
+    const covers = getCoversAnime(animes, allAnimes);
+    return (
+      <AutoSizer>
+        {({ width }) => (
+          <List
+            height={130}
+            width={width}
+            layout="horizontal"
+            itemCount={covers.length}
+            itemSize={90}
+            itemData={covers}
+            style={{ bottom: 10 }}
+          >
+            {({
+              data,
+              index,
+              style,
+            }: {
+              data: Anime[];
+              index: number;
+              style: CSSProperties;
+            }) => {
+              return (
+                <div
+                  style={{
+                    ...style,
+                    left: (style.left as number) + 16,
+                  }}
+                >
+                  <Image
+                    src={`https://cdn.myanimelist.net/images/anime/${data[index].image_url_id}.webp`}
+                    alt="image"
+                    height={120}
+                    width={80}
+                    layout="fixed"
+                    className="rounded-md"
+                  />
+                </div>
+              );
+            }}
+          </List>
+        )}
+      </AutoSizer>
+    );
+  }, [animes]);
 
   return (
     <div
@@ -62,58 +108,30 @@ export default function Card({
           </a>
         </Link>
       </div>
-      <div className="mt-5 h-[120px]">
-        <AutoSizer>
-          {({ width }) => (
-            <List
-              height={130}
-              width={width}
-              layout="horizontal"
-              itemCount={covers.length}
-              itemSize={85}
-              itemData={covers}
-              style={{ bottom: 10 }}
-            >
-              {({
-                data,
-                index,
-                style,
-              }: {
-                data: Anime[];
-                index: number;
-                style: CSSProperties;
-              }) => {
-                return (
-                  <div
-                    style={{
-                      ...style,
-                      left: (style.left as number) + 16,
-                    }}
-                  >
-                    <Image
-                      src={`https://cdn.myanimelist.net/images/anime/${data[index].image_url_id}.webp`}
-                      alt="image"
-                      height={120}
-                      width={80}
-                      layout="fixed"
-                      className="rounded-md"
-                    />
-                  </div>
-                );
-              }}
-            </List>
-          )}
-        </AutoSizer>
-      </div>
+      <div className="mt-5 h-[120px]">{CoversList}</div>
       <div className="mx-4 mb-3 flex justify-around text-center">
-        <span>
+        <span className={sort === "count" ? "border-b-2 border-black" : ""}>
           <strong>{amount}</strong> Animes
         </span>
-        <span>
-          <strong>{average}</strong> Average Score
+        <span
+          className={sort === "time_watched" ? "border-b-2 border-black" : ""}
+        >
+          <strong>
+            {parseInt(time) > 0
+              ? formatDuration(
+                  intervalToDuration({
+                    start: 0,
+                    end: parseInt(time) * 1000,
+                  })
+                )
+              : "No time"}
+          </strong>{" "}
+          Watched
         </span>
-        <span>
-          <strong>{time}</strong> Time Watched
+        <span
+          className={sort === "mean_score" ? "border-b-2 border-black" : ""}
+        >
+          <strong>{average}</strong> Average Score
         </span>
       </div>
     </div>
