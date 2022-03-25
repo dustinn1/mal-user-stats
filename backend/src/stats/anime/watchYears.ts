@@ -9,13 +9,12 @@ export function watchYearsStats(animeList: AnimeListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all watch years in list
   let watchYearsList: number[] = [];
-  animeList.map((anime) =>
-    watchYearsList.push(
-      anime.list_status.start_date
-        ? parseInt(anime.list_status.start_date.split("-")[0] as string)
-        : 0
-    )
-  );
+  animeList.map((anime) => {
+    if (anime.list_status.start_date)
+      watchYearsList.push(
+        parseInt(anime.list_status.start_date.split("-")[0] as string)
+      );
+  });
   watchYearsList = sortedUniq(sortBy(watchYearsList));
   for (const watchYear of watchYearsList) {
     const watchYearStat: StatArray = {

@@ -9,14 +9,16 @@ export function studiosStats(animeList: AnimeListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all unique studios in list
   let studiosList: { id: number; name: string }[] = [];
-  animeList.map((anime) =>
-    anime.node.studios.map((studio) =>
-      studiosList.push({
-        id: studio.id,
-        name: studio.name,
-      })
-    )
-  );
+  animeList.map((anime) => {
+    if (anime.node.studios) {
+      anime.node.studios.map((studio) =>
+        studiosList.push({
+          id: studio.id,
+          name: studio.name,
+        })
+      );
+    }
+  });
   studiosList = sortedUniqBy(
     sortBy(studiosList, function (n) {
       return n.id;
@@ -34,11 +36,13 @@ export function studiosStats(animeList: AnimeListObject[]): StatArray[] {
       time_watched: 0,
       animes: [],
     };
-    const animes = animeList.filter((anime) =>
-      anime.node.studios.some(
-        (animeStudio) =>
-          animeStudio.id === studio.id && animeStudio.name === studio.name
-      )
+    const animes = animeList.filter(
+      (anime) =>
+        anime.node.studios &&
+        anime.node.studios.some(
+          (animeStudio) =>
+            animeStudio.id === studio.id && animeStudio.name === studio.name
+        )
     );
     if (animes.length === 0) {
       continue;

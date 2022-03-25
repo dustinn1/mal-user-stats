@@ -9,14 +9,16 @@ export function genresStats(animeList: AnimeListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all unique genres in list
   let genresList: { id: number; name: string }[] = [];
-  animeList.map((anime) =>
-    anime.node.genres.map((genre) =>
-      genresList.push({
-        id: genre.id,
-        name: genre.name,
-      })
-    )
-  );
+  animeList.map((anime) => {
+    if (anime.node.genres) {
+      anime.node.genres.map((genre) =>
+        genresList.push({
+          id: genre.id,
+          name: genre.name,
+        })
+      );
+    }
+  });
   genresList = sortedUniqBy(
     sortBy(genresList, function (n) {
       return n.id;
@@ -34,11 +36,13 @@ export function genresStats(animeList: AnimeListObject[]): StatArray[] {
       time_watched: 0,
       animes: [],
     };
-    const animes = animeList.filter((anime) =>
-      anime.node.genres.some(
-        (animeGenre) =>
-          animeGenre.id === genre.id && animeGenre.name === genre.name
-      )
+    const animes = animeList.filter(
+      (anime) =>
+        anime.node.genres &&
+        anime.node.genres.some(
+          (animeGenre) =>
+            animeGenre.id === genre.id && animeGenre.name === genre.name
+        )
     );
     if (animes.length === 0) {
       continue;

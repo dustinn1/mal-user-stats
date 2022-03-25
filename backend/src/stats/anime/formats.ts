@@ -28,6 +28,10 @@ const formats = [
     id: "music",
     name: "Music",
   },
+  {
+    id: "unknown",
+    name: "Unknown",
+  },
 ];
 
 export function formatsStats(animeList: AnimeListObject[]): StatArray[] {

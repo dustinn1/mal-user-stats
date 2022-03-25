@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setTimeout } from "timers/promises";
 import type { AnimeListObject } from "../interfaces/fetchList";
 
 const api_fields: { anime: string; manga: string } = {
@@ -32,10 +33,14 @@ export async function fetchFullList(
     );
     const data = response.data;
     for (const title of data.data) {
-      const image_url_split = title.node.main_picture.medium.split("/");
-      title.node.image_url_id = `${image_url_split[5]}/${
-        image_url_split[6].split(".")[0]
-      }`;
+      if (title.node.main_picture) {
+        const image_url_split = title.node.main_picture.medium.split("/");
+        title.node.image_url_id = `${image_url_split[5]}/${
+          image_url_split[6].split(".")[0]
+        }`;
+      } else {
+        title.node.image_url_id = "";
+      }
       title.node.title_en =
         title.node.alternative_titles.en.length !== 0
           ? title.node.alternative_titles.en
@@ -64,6 +69,7 @@ export async function fetchFullList(
       isEnd = true;
     } else {
       offset++;
+      await setTimeout(1000); // 1s delay
     }
   } while (!isEnd);
   return list;

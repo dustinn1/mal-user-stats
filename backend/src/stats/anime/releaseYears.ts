@@ -9,13 +9,15 @@ export function releaseYearsStats(animeList: AnimeListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all release years in list
   let releaseYearsList: number[] = [];
-  animeList.map((anime) =>
-    releaseYearsList.push(
-      anime.node.start_season
-        ? anime.node.start_season.year
-        : parseInt(anime.node.start_date.split("-")[0] as string)
-    )
-  );
+  animeList.map((anime) => {
+    if (anime.node.start_season) {
+      releaseYearsList.push(anime.node.start_season.year);
+    } else if (anime.node.start_date) {
+      releaseYearsList.push(
+        parseInt(anime.node.start_date.split("-")[0] as string)
+      );
+    }
+  });
   releaseYearsList = sortedUniq(sortBy(releaseYearsList));
   for (const releaseYear of releaseYearsList) {
     const releaseYearStat: StatArray = {

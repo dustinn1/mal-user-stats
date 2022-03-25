@@ -2,23 +2,30 @@ export interface AnimeListObject {
   node: {
     id: number;
     title: string;
-    main_picture: {
+    main_picture?: {
       medium: string;
       large: string;
     };
-    alternative_titles: {
+    alternative_titles?: {
       synonyms: string[];
       en: string;
       ja: string;
     };
-    start_date: string;
+    start_date?: string;
     end_date?: string;
     mean?: number;
-    genres: {
+    genres?: {
       id: number;
       name: string;
     }[];
-    media_type: "tv" | "ova" | "movie" | "special" | "ona" | "music";
+    media_type:
+      | "unknown"
+      | "tv"
+      | "ova"
+      | "movie"
+      | "special"
+      | "ona"
+      | "music";
     status: "currently_airing" | "finished_airing" | "not_yet_aired";
     num_episodes: number;
     start_season?: {
@@ -29,9 +36,9 @@ export interface AnimeListObject {
       day_of_the_week: string;
       start_time?: string;
     };
-    source: string;
-    average_episode_duration: number;
-    studios: {
+    source?: string;
+    average_episode_duration?: number;
+    studios?: {
       id: number;
       name: string;
     }[];
@@ -40,7 +47,7 @@ export interface AnimeListObject {
     title_ja: string;
   };
   list_status: {
-    status: string;
+    status: "watching" | "completed" | "on_hold" | "dropped" | "plan_to_watch";
     score: number;
     num_episodes_watched: number;
     is_rewatching: boolean;
