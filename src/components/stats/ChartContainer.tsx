@@ -4,7 +4,7 @@ import BarChart from "../charts/Bar";
 import PieChart from "../charts/Pie";
 import Button from "../Button";
 import {
-  faArrowDown19,
+  faArrowDown91,
   faDivide,
   faClock,
   faAngleUp,
@@ -68,7 +68,7 @@ export default function ChartContainer({
                   <Button
                     onClick={() => setYKey("count")}
                     size="sm"
-                    icon={faArrowDown19}
+                    icon={faArrowDown91}
                     text="Count"
                     active={ykey === "count"}
                   />

@@ -13,7 +13,7 @@ type Props = {
 
 export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
   const router = useRouter();
-  const { username } = router.query;
+  const { username, stat } = router.query;
   const currentCategoryTab = statsTabs.find(
     (tab) => tab.name.toLowerCase() === currentCategory
   )!;
@@ -54,7 +54,7 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
                         className={`my-0.5 flex w-full items-center rounded-md px-3 py-2  ${
                           active ||
                           currentCategory ===
-                            tab.name.toLowerCase().replace(" ", "_")
+                            tab.name.toLowerCase().replaceAll(" ", "_")
                             ? "bg-gray-700 text-white"
                             : "text-gray-900"
                         }`}
@@ -75,18 +75,13 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
           <Link
             href={`/stats/${username}/${currentCategory}/${tab
               .toLowerCase()
-              .replace(" ", "_")}`}
+              .replaceAll(" ", "_")}`}
             key={tab}
           >
             <a>
               <Tab
                 name={tab}
-                active={
-                  router.asPath ===
-                  `/stats/${username}/${currentCategory}/${tab
-                    .toLowerCase()
-                    .replace(" ", "_")}`
-                }
+                active={stat === tab.toLowerCase().replaceAll(" ", "_")}
               />
             </a>
           </Link>

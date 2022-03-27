@@ -8,6 +8,7 @@ import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
+import { getAnimesInfo } from "../../utils/getAnimesInfo";
 
 type Props = {
   name: string;
@@ -19,17 +20,9 @@ type Props = {
   animes: number[];
 };
 
-function getCoversAnime(animes: number[], allAnimes: Anime[]): Anime[] {
-  const coverAnimes: Anime[] = [];
-  for (let id of animes) {
-    coverAnimes.push(allAnimes.find((anime: any) => anime.id === id) as Anime);
-  }
-  return coverAnimes;
-}
-
 const allAnimes: Anime[] = stats.animes;
 
-export default function Card({
+export default function StatCard({
   name,
   sort,
   rank,
@@ -39,10 +32,10 @@ export default function Card({
   animes,
 }: Props) {
   const router = useRouter();
-  const { username } = router.query;
+  const { username, stat } = router.query;
 
   const CoversList = useMemo(() => {
-    const covers = getCoversAnime(animes, allAnimes);
+    const animesInfo = getAnimesInfo(animes, allAnimes);
     return (
       <AutoSizer>
         {({ width }) => (
@@ -50,9 +43,9 @@ export default function Card({
             height={130}
             width={width}
             layout="horizontal"
-            itemCount={covers.length}
+            itemCount={animesInfo.length}
             itemSize={90}
-            itemData={covers}
+            itemData={animesInfo}
             style={{ bottom: 10 }}
           >
             {({
@@ -98,10 +91,9 @@ export default function Card({
           # {rank}
         </div>
         <Link
-          href={{
-            pathname: `${router.pathname}/comedy`,
-            query: { username: username },
-          }}
+          href={`/stats/${username}/anime/${stat}/${name
+            .toLowerCase()
+            .replaceAll(" ", "_")}`}
         >
           <a className="text-3xl text-blue-500 hover:text-blue-600 hover:underline">
             {name}

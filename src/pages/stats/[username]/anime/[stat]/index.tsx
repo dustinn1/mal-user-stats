@@ -1,18 +1,20 @@
 import { useState, useEffect, ReactElement } from "react";
 import { useRouter } from "next/router";
-import type { StatArraysOnly, StatArray } from "../../../../interfaces/stats";
-import StatsLayout from "../../../../components/layouts/StatsLayout";
-import Card from "../../../../components/stats/Card";
-import ChartContainer from "../../../../components/stats/ChartContainer";
-import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
+import type {
+  StatArraysOnly,
+  StatArray,
+} from "../../../../../interfaces/stats";
+import StatsLayout from "../../../../../components/layouts/StatsLayout";
+import StatCard from "../../../../../components/stats/StatCard";
+import ChartContainer from "../../../../../components/stats/ChartContainer";
+import Button from "../../../../../components/Button";
 import {
-  faArrowDown19,
+  faArrowDown91,
   faClock,
   faDivide,
 } from "@fortawesome/free-solid-svg-icons";
-import { statsPages } from "../../../../data/statsPages";
-import stats from "../../../../data/mock/animeStats.json";
+import { statsPages } from "../../../../../data/statsPages";
+import stats from "../../../../../data/mock/animeStats.json";
 
 function compare(prop: string) {
   if (prop === "count" || prop === "time_watched" || prop === "mean_score") {
@@ -63,13 +65,13 @@ export default function StatsAnimePage() {
             xKey="name"
             name={pageInfo.name}
           />
-          <div className="mb-5 flex justify-between">
-            <Input />
+          <div className="mb-5 flex justify-end">
+            {/* <Input /> */}
             <div>
               <Button
                 onClick={() => setSort("count")}
                 size="sm"
-                icon={faArrowDown19}
+                icon={faArrowDown91}
                 text="Count"
                 active={sort === "count"}
               />
@@ -93,7 +95,7 @@ export default function StatsAnimePage() {
             {statsDataCards
               .sort(compare(sort))
               .map((stat: StatArray, index: number) => (
-                <Card
+                <StatCard
                   key={stat.id}
                   sort={sort}
                   name={stat.name}
@@ -111,7 +113,7 @@ export default function StatsAnimePage() {
       return <p>404</p>;
     }
   } else {
-    return <p>Loadinng</p>;
+    return <p>Loading</p>;
   }
 }
 

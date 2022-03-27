@@ -14,13 +14,7 @@ export interface AnimeStats {
   watch_years: StatArray[];
   genres: StatArray[];
   studios: StatArray[];
-  animes: {
-    id: number;
-    title: string;
-    image_url_id: string;
-    title_en: string;
-    title_ja: string;
-  }[];
+  animes: Anime[];
 }
 
 export interface StatArray {
@@ -30,6 +24,22 @@ export interface StatArray {
   mean_score: number;
   time_watched: number;
   animes: number[];
+}
+
+export interface Anime {
+  id: number;
+  title: string;
+  title_en: string;
+  title_ja: string;
+  image_url_id: string;
+  genres: string[];
+  studios: string[];
+  episodes_count: number;
+  format: string;
+  release_year?: number | undefined;
+  watch_year?: number | undefined;
+  score: number;
+  status: string;
 }
 
 export type StatArraysOnly = Omit<AnimeStats, "overview" | "animes">;

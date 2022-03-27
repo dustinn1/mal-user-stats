@@ -1,23 +1,8 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
+import type { Anime } from "../../interfaces/animeStats";
 
-interface AnimeObject {
-  id: number;
-  title: string;
-  title_en: string;
-  title_ja: string;
-  image_url_id: string;
-  genres: string[];
-  studios: string[];
-  episodes_count: number;
-  format: string;
-  release_year: number | undefined;
-  watch_year: number | undefined;
-  score: number;
-  status: "watching" | "completed" | "on_hold" | "dropped" | "plan_to_watch";
-}
-
-export function allAnimes(animeList: AnimeListObject[]): AnimeObject[] {
-  const animes: AnimeObject[] = [];
+export function allAnimes(animeList: AnimeListObject[]): Anime[] {
+  const animes: Anime[] = [];
   animeList.map((item: AnimeListObject) => {
     function getReleaseYear(): number | undefined {
       if (item.node.start_season) {
