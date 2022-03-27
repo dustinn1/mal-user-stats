@@ -1,14 +1,13 @@
-import { CSSProperties, useMemo } from "react";
+import { useMemo, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { Anime } from "../../interfaces/stats";
 import stats from "../../data/mock/animeStats.json";
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
 import { getAnimesInfo } from "../../utils/getAnimesInfo";
+import { useVirtual } from "react-virtual";
 
 type Props = {
   name: string;
@@ -34,52 +33,55 @@ export default function StatCard({
   const router = useRouter();
   const { username, stat } = router.query;
 
+  const listParentRef = useRef<HTMLDivElement>(null);
+
+  const rowVirtualizer = useVirtual({
+    horizontal: true,
+    size: animes.length,
+    parentRef: listParentRef,
+    estimateSize: useCallback(() => 90, []),
+    overscan: 3,
+    paddingStart: 16,
+    paddingEnd: 16,
+  });
+
   const CoversList = useMemo(() => {
     const animesInfo = getAnimesInfo(animes, allAnimes);
     return (
-      <AutoSizer>
-        {({ width }) => (
-          <List
-            height={130}
-            width={width}
-            layout="horizontal"
-            itemCount={animesInfo.length}
-            itemSize={90}
-            itemData={animesInfo}
-            style={{ bottom: 10 }}
-          >
-            {({
-              data,
-              index,
-              style,
-            }: {
-              data: Anime[];
-              index: number;
-              style: CSSProperties;
-            }) => {
-              return (
-                <div
-                  style={{
-                    ...style,
-                    left: (style.left as number) + 16,
-                  }}
-                >
-                  <Image
-                    src={`https://cdn.myanimelist.net/images/anime/${data[index].image_url_id}.webp`}
-                    alt="image"
-                    height={120}
-                    width={80}
-                    layout="fixed"
-                    className="rounded-md"
-                  />
-                </div>
-              );
+      <div
+        style={{
+          width: `${rowVirtualizer.totalSize}px`,
+          height: "120px",
+          position: "relative",
+        }}
+      >
+        {rowVirtualizer.virtualItems.map((virtualRow) => (
+          <div
+            key={virtualRow.index}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: "100%",
+              width: `${virtualRow.size}px`,
+              transform: `translateX(${virtualRow.start}px)`,
             }}
-          </List>
-        )}
-      </AutoSizer>
+          >
+            <Image
+              src={`https://cdn.myanimelist.net/images/anime/${
+                animesInfo[virtualRow.index].image_url_id
+              }l.webp`}
+              alt="image"
+              height={"120"}
+              width={"85"}
+              objectFit="cover"
+              className="rounded-md"
+            />
+          </div>
+        ))}
+      </div>
     );
-  }, [animes]);
+  }, [animes, rowVirtualizer.totalSize, rowVirtualizer.virtualItems]);
 
   return (
     <div
@@ -100,7 +102,9 @@ export default function StatCard({
           </a>
         </Link>
       </div>
-      <div className="mt-5 h-[120px]">{CoversList}</div>
+      <div className="overflow-auto py-3" ref={listParentRef}>
+        {CoversList}
+      </div>
       <div className="mx-4 mb-3 flex justify-around text-center">
         <span className={sort === "count" ? "border-b-2 border-black" : ""}>
           <strong>{amount}</strong> Animes
