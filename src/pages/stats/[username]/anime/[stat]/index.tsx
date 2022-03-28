@@ -12,6 +12,8 @@ import {
   faArrowDown91,
   faClock,
   faDivide,
+  faGrip,
+  faGripLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { statsPages } from "../../../../../data/statsPages";
 import stats from "../../../../../data/mock/animeStats.json";
@@ -43,6 +45,7 @@ export default function StatsAnimePage() {
   const router = useRouter();
   const query: string = router.query.stat as string;
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isGrid, setIsGrid] = useState(true);
   const [sort, setSort] = useState<"count" | "time_watched" | "mean_score">(
     "count"
   );
@@ -65,8 +68,24 @@ export default function StatsAnimePage() {
             xKey="name"
             name={pageInfo.name}
           />
-          <div className="mb-5 flex justify-end">
+          <div className="mb-5 flex justify-between">
             {/* <Input /> */}
+            <div>
+              <Button
+                onClick={() => setIsGrid(true)}
+                size="sm"
+                icon={faGrip}
+                text="Grid"
+                active={isGrid}
+              />
+              <Button
+                onClick={() => setIsGrid(false)}
+                size="sm"
+                icon={faGripLines}
+                text="Rows"
+                active={!isGrid}
+              />
+            </div>
             <div>
               <Button
                 onClick={() => setSort("count")}
@@ -91,7 +110,9 @@ export default function StatsAnimePage() {
               />
             </div>
           </div>
-          <div className="flex flex-wrap">
+          <div
+            className={`grid ${isGrid ? "grid-cols-3" : "grid-cols-1"} gap-5`}
+          >
             {statsDataCards
               .sort(compare(sort))
               .map((stat: StatArray, index: number) => (
@@ -104,6 +125,7 @@ export default function StatsAnimePage() {
                   average={stat.mean_score}
                   time={stat.time_watched.toString()}
                   animes={stat.animes}
+                  isGrid={isGrid}
                 />
               ))}
           </div>

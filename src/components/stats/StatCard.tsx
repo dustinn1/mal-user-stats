@@ -17,6 +17,7 @@ type Props = {
   average: number;
   time: string;
   animes: number[];
+  isGrid: boolean;
 };
 
 const allAnimes: Anime[] = stats.animes;
@@ -29,6 +30,7 @@ export default function StatCard({
   average,
   time,
   animes,
+  isGrid,
 }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
@@ -40,7 +42,7 @@ export default function StatCard({
     size: animes.length,
     parentRef: listParentRef,
     estimateSize: useCallback(() => 90, []),
-    overscan: 3,
+    //overscan: 3,
     paddingStart: 16,
     paddingEnd: 16,
   });
@@ -76,6 +78,7 @@ export default function StatCard({
               width={"85"}
               objectFit="cover"
               className="rounded-md"
+              priority={virtualRow.index < 6}
             />
           </div>
         ))}
@@ -84,10 +87,7 @@ export default function StatCard({
   }, [animes, rowVirtualizer.totalSize, rowVirtualizer.virtualItems]);
 
   return (
-    <div
-      className="mb-4 w-full rounded-lg bg-gray-100 pt-3"
-      id={`card-${name}`}
-    >
+    <div className="w-full rounded-lg bg-gray-100 pt-3" id={`card-${name}`}>
       <div className="mx-4 flex items-center font-bold">
         <div className="mr-2 rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
           # {rank}
@@ -105,30 +105,50 @@ export default function StatCard({
       <div className="overflow-auto py-3" ref={listParentRef}>
         {CoversList}
       </div>
-      <div className="mx-4 mb-3 flex justify-around text-center">
-        <span className={sort === "count" ? "border-b-2 border-black" : ""}>
-          <strong>{amount}</strong> Animes
-        </span>
-        <span
-          className={sort === "time_watched" ? "border-b-2 border-black" : ""}
-        >
-          <strong>
-            {parseInt(time) > 0
-              ? formatDuration(
-                  intervalToDuration({
-                    start: 0,
-                    end: parseInt(time) * 1000,
-                  })
-                )
-              : "No time"}
-          </strong>{" "}
-          Watched
-        </span>
-        <span
-          className={sort === "mean_score" ? "border-b-2 border-black" : ""}
-        >
-          <strong>{average}</strong> Average Score
-        </span>
+      <div
+        className={`mx-4 mb-3 ${
+          isGrid ? "" : "flex"
+        } justify-around text-center`}
+      >
+        {(!isGrid || sort === "count") && (
+          <p
+            className={
+              !isGrid && sort === "count" ? "border-b-2 border-black" : ""
+            }
+          >
+            <strong>{amount}</strong> Animes
+          </p>
+        )}
+        {(!isGrid || sort === "time_watched") && (
+          <p
+            className={
+              !isGrid && sort === "time_watched"
+                ? "border-b-2 border-black"
+                : ""
+            }
+          >
+            <strong>
+              {parseInt(time) > 0
+                ? formatDuration(
+                    intervalToDuration({
+                      start: 0,
+                      end: parseInt(time) * 1000,
+                    })
+                  )
+                : "No time"}
+            </strong>{" "}
+            Watched
+          </p>
+        )}
+        {(!isGrid || sort === "mean_score") && (
+          <p
+            className={
+              !isGrid && sort === "mean_score" ? "border-b-2 border-black" : ""
+            }
+          >
+            <strong>{average}</strong> Average Score
+          </p>
+        )}
       </div>
     </div>
   );

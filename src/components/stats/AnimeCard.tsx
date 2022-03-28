@@ -10,12 +10,12 @@ export default function AnimeCard({ anime }: Props) {
   return (
     <div className="rounded-lg bg-gray-100" key={anime.id}>
       <div className="flex">
-        <div className="relative mr-1 h-56 w-1/3">
+        <div className="relative mr-1 h-56 w-1/3 self-center">
           <Image
             src={`https://cdn.myanimelist.net/images/anime/${anime.image_url_id}l.webp`}
             alt="image"
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
             className="rounded-l-md"
           />
           <div className="absolute top-0 left-0 m-1 rounded bg-gray-700/75 py-1 px-2 text-center text-white">
