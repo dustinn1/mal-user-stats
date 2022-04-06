@@ -1,8 +1,9 @@
-import { useState, ReactNode } from "react";
+import { useState, useContext, ReactNode } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import StatsHeader from "../../components/stats/Header";
 import Tabs from "../stats/Tabs";
+import { StatsContextProvider } from "../../contexts/StatsContext";
 
 type Props = {
   children: ReactNode;
@@ -30,9 +31,11 @@ export default function Layout({ children }: Props) {
         currentCategory={currentCategory}
         setCurrentCategory={setCategory}
       />
-      <div className="flex h-screen">
-        <div className="w-full bg-white px-3 pt-7">{children}</div>
-      </div>
+      <StatsContextProvider>
+        <div className="flex h-screen">
+          <div className="w-full bg-white px-3 pt-7">{children}</div>
+        </div>
+      </StatsContextProvider>
     </>
   );
 }

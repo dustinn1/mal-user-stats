@@ -1,12 +1,10 @@
-import { useState, useEffect, ReactElement } from "react";
+import { useState, useEffect, useContext, useRef, ReactElement } from "react";
 import { useRouter } from "next/router";
 import type {
   StatArraysOnly,
   StatArray,
 } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
-import StatCard from "../../../../../components/stats/StatCard";
-import ChartContainer from "../../../../../components/stats/ChartContainer";
 import Button from "../../../../../components/Button";
 import {
   faArrowDown91,
@@ -16,19 +14,8 @@ import {
   faGripLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { statsPages } from "../../../../../data/statsPages";
-import stats from "../../../../../data/mock/animeStats.json";
-
-function compare(prop: string) {
-  if (prop === "count" || prop === "time_watched" || prop === "mean_score") {
-    return function (a: StatArray, b: StatArray) {
-      return b[prop] - a[prop];
-    };
-  } else {
-    return function (a: StatArray, b: StatArray) {
-      return b.count - a.count;
-    };
-  }
-}
+import { StatsContext } from "../../../../../contexts/StatsContext";
+import StatCardsContainer from "../../../../../components/stats/StatCardsContainer";
 
 const validStats = [
   "episodes_counts",
@@ -50,6 +37,8 @@ export default function StatsAnimePage() {
     "count"
   );
 
+  const stats = useContext(StatsContext);
+
   useEffect(() => {
     if (!router.isReady) return;
     setIsLoaded(true);
@@ -62,12 +51,12 @@ export default function StatsAnimePage() {
       const statsDataCards = [...statsData];
       return (
         <>
-          <ChartContainer
+          {/* <ChartContainer
             type={pageInfo.chart.type}
             data={statsData}
             xKey="name"
             name={pageInfo.name}
-          />
+          /> */}
           <div className="mb-5 flex justify-between">
             {/* <Input /> */}
             <div>
@@ -110,25 +99,11 @@ export default function StatsAnimePage() {
               />
             </div>
           </div>
-          <div
+          <StatCardsContainer data={statsDataCards} sort={sort} />
+          {/* <div
             className={`grid ${isGrid ? "grid-cols-3" : "grid-cols-1"} gap-5`}
           >
-            {statsDataCards
-              .sort(compare(sort))
-              .map((stat: StatArray, index: number) => (
-                <StatCard
-                  key={stat.id}
-                  sort={sort}
-                  name={stat.name}
-                  rank={index + 1}
-                  amount={stat.count}
-                  average={stat.mean_score}
-                  time={stat.time_watched.toString()}
-                  animes={stat.animes}
-                  isGrid={isGrid}
-                />
-              ))}
-          </div>
+          </div> */}
         </>
       );
     } else {

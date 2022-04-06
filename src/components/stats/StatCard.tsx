@@ -1,13 +1,13 @@
-import { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useCallback, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { Anime } from "../../interfaces/stats";
-import stats from "../../data/mock/animeStats.json";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
 import { getAnimesInfo } from "../../utils/getAnimesInfo";
 import { useVirtual } from "react-virtual";
+import { StatsContext } from "../../contexts/StatsContext";
 
 type Props = {
   name: string;
@@ -19,8 +19,6 @@ type Props = {
   animes: number[];
   isGrid: boolean;
 };
-
-const allAnimes: Anime[] = stats.animes;
 
 export default function StatCard({
   name,
@@ -34,6 +32,7 @@ export default function StatCard({
 }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
+  const allAnimes: Anime[] = useContext(StatsContext).animes;
 
   const listParentRef = useRef<HTMLDivElement>(null);
 
@@ -84,10 +83,18 @@ export default function StatCard({
         ))}
       </div>
     );
-  }, [animes, rowVirtualizer.totalSize, rowVirtualizer.virtualItems]);
+  }, [
+    allAnimes,
+    animes,
+    rowVirtualizer.totalSize,
+    rowVirtualizer.virtualItems,
+  ]);
 
   return (
-    <div className="w-full rounded-lg bg-gray-100 pt-3" id={`card-${name}`}>
+    <div
+      className="w-full rounded-lg bg-gray-100 pt-3 pb-0.5"
+      id={`card-${name}`}
+    >
       <div className="mx-4 flex items-center font-bold">
         <div className="mr-2 rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
           # {rank}
