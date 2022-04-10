@@ -2,12 +2,12 @@ import { useMemo, useRef, useCallback, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import type { Anime } from "../../interfaces/stats";
+import type { Anime } from "../../../interfaces/stats";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
-import { getAnimesInfo } from "../../utils/getAnimesInfo";
+import { getAnimesInfo } from "../../../utils/getAnimesInfo";
 import { useVirtual } from "react-virtual";
-import { StatsContext } from "../../contexts/StatsContext";
+import { StatsContext } from "../../../contexts/StatsContext";
 
 type Props = {
   name: string;
@@ -32,7 +32,7 @@ export default function StatCard({
 }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
-  const allAnimes: Anime[] = useContext(StatsContext).animes;
+  const allAnimes: { [k: string]: Anime } = useContext(StatsContext).animes;
 
   const listParentRef = useRef<HTMLDivElement>(null);
 

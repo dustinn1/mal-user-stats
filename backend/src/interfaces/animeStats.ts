@@ -14,7 +14,7 @@ export interface AnimeStats {
   watch_years: StatArray[];
   genres: StatArray[];
   studios: StatArray[];
-  animes: Anime[];
+  animes: { [k: string]: Anime };
 }
 
 export interface StatArray {
@@ -35,9 +35,9 @@ export interface Anime {
   genres: string[];
   studios: string[];
   episodes_count: number;
-  format: string;
+  format: { id: string; name: string };
   release_year: number | undefined;
   watch_year: number | undefined;
   score: number;
-  status: string;
+  status: { id: string; name: string };
 }

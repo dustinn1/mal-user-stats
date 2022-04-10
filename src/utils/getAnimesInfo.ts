@@ -1,9 +1,12 @@
 import type { Anime } from "../interfaces/stats";
 
-export function getAnimesInfo(animes: number[], allAnimes: Anime[]): Anime[] {
+export function getAnimesInfo(
+  animes: number[],
+  allAnimes: { [k: string]: Anime }
+): Anime[] {
   const animesInfo: Anime[] = [];
   for (let id of animes) {
-    animesInfo.push(allAnimes.find((anime: any) => anime.id === id) as Anime);
+    animesInfo.push(allAnimes[id] as Anime);
   }
   return animesInfo;
 }

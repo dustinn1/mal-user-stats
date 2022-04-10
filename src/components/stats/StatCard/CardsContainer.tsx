@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
-import StatCard from "./StatCard";
-import { StatArray } from "../../interfaces/stats";
+import StatCard from ".";
+import { StatArray } from "../../../interfaces/stats";
 
 type Props = {
   data: StatArray[];

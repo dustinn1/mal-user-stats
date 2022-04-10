@@ -22,6 +22,6 @@ export function generateAnimeStats(animelist: AnimeListObject[]): AnimeStats {
     watch_years: watchYearsStats(animelist),
     genres: genresStats(animelist),
     studios: studiosStats(animelist),
-    animes: allAnimes(animelist),
+    animes: Object.fromEntries(allAnimes(animelist)),
   };
 }

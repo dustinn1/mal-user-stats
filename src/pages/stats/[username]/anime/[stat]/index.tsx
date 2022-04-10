@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef, ReactElement } from "react";
+import { useState, useEffect, useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
 import type {
   StatArraysOnly,
@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { statsPages } from "../../../../../data/statsPages";
 import { StatsContext } from "../../../../../contexts/StatsContext";
-import StatCardsContainer from "../../../../../components/stats/StatCardsContainer";
+import StatCardsContainer from "../../../../../components/stats/StatCard/CardsContainer";
 
 const validStats = [
   "episodes_counts",

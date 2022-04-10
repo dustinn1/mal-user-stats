@@ -1,8 +1,28 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
 import type { Anime } from "../../interfaces/animeStats";
+import upperCase from "lodash/upperCase";
+import capitalize from "lodash/capitalize";
 
-export function allAnimes(animeList: AnimeListObject[]): Anime[] {
-  const animes: Anime[] = [];
+function capitalizeFormat(
+  format: "unknown" | "tv" | "ova" | "movie" | "special" | "ona" | "music"
+) {
+  switch (format) {
+    case "tv":
+    case "ova":
+    case "ona":
+      return upperCase(format);
+    case "movie":
+    case "special":
+    case "music":
+      return capitalize(format);
+    default:
+      return "Unknown";
+  }
+}
+
+export function allAnimes(animeList: AnimeListObject[]): Map<number, Anime> {
+  //const animes: Anime[] = [];
+  const animes: Map<number, Anime> = new Map();
   animeList.map((item: AnimeListObject) => {
     function getReleaseYear(): number | undefined {
       if (item.node.start_season) {
@@ -13,7 +33,7 @@ export function allAnimes(animeList: AnimeListObject[]): Anime[] {
         return undefined;
       }
     }
-    animes.push({
+    animes.set(item.node.id, {
       id: item.node.id,
       title: item.node.title,
       title_en: item.node.title_en,
@@ -26,13 +46,19 @@ export function allAnimes(animeList: AnimeListObject[]): Anime[] {
         ? item.node.studios.map((studio) => studio.name)
         : [],
       episodes_count: item.node.num_episodes,
-      format: item.node.media_type,
+      format: {
+        id: item.node.media_type,
+        name: capitalizeFormat(item.node.media_type),
+      },
       release_year: getReleaseYear(),
       watch_year: item.list_status.start_date
         ? parseInt(item.list_status.start_date.split("-")[0] as string)
         : undefined,
       score: item.list_status.score,
-      status: item.list_status.status,
+      status: {
+        id: item.list_status.status,
+        name: capitalize(item.list_status.status.replaceAll("_", " ")),
+      },
     });
   });
   return animes;

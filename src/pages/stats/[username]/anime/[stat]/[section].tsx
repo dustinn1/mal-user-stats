@@ -9,6 +9,7 @@ import stats from "../../../../../data/mock/animeStats.json";
 import AnimeCard from "../../../../../components/stats/AnimeCard";
 
 import { getAnimesInfo } from "../../../../../utils/getAnimesInfo";
+import CardsContainer from "../../../../../components/stats/AnimeCard/CardsContainer";
 
 export default function StatSection() {
   const router = useRouter();
@@ -59,11 +60,12 @@ export default function StatSection() {
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-5">
+            {/* <div className="grid grid-cols-3 gap-5">
               {animesInfos.map((anime) => (
                 <AnimeCard anime={anime} key={anime.id} />
               ))}
-            </div>
+            </div> */}
+            <CardsContainer data={animesInfos} />
           </>
         );
       } else {
