@@ -12,10 +12,12 @@ import {
   faDivide,
   faGrip,
   faGripLines,
+  faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import { statsPages } from "../../../../../data/statsPages";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import StatCardsContainer from "../../../../../components/stats/StatCard/CardsContainer";
+import Input from "../../../../../components/Input";
 
 const validStats = [
   "episodes_counts",
@@ -58,8 +60,13 @@ export default function StatsAnimePage() {
             name={pageInfo.name}
           /> */}
           <div className="mb-5 flex justify-between">
-            {/* <Input /> */}
-            <div>
+            <div className="flex w-1/2">
+              <div className="grow">
+                <Input />
+              </div>
+              <Button size="sm" icon={faFilter} text="Filter" />
+            </div>
+            {/* <div>
               <Button
                 onClick={() => setIsGrid(true)}
                 size="sm"
@@ -74,7 +81,7 @@ export default function StatsAnimePage() {
                 text="Rows"
                 active={!isGrid}
               />
-            </div>
+            </div> */}
             <div>
               <Button
                 onClick={() => setSort("count")}

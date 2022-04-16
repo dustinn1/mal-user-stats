@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   text: string;
   size: "sm" | "lg";
   icon?: IconDefinition;
   active?: boolean;
+  dropdown?: boolean;
   onClick?: () => void;
 };
 
@@ -13,7 +14,14 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Button({ text, size, icon, active, onClick }: Props) {
+export default function Button({
+  text,
+  size,
+  icon,
+  active,
+  dropdown,
+  onClick,
+}: Props) {
   return (
     <div
       className={classNames(
@@ -33,6 +41,7 @@ export default function Button({ text, size, icon, active, onClick }: Props) {
       >
         {icon && <FontAwesomeIcon icon={icon} />}
         <span>{text}</span>
+        {dropdown && <FontAwesomeIcon icon={faCaretDown} className="text-sm" />}
       </div>
     </div>
   );

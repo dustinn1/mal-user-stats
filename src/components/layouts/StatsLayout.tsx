@@ -33,7 +33,7 @@ export default function Layout({ children }: Props) {
       />
       <StatsContextProvider>
         <div className="flex h-screen">
-          <div className="w-full bg-white px-3 pt-7">{children}</div>
+          <div className="w-full bg-white px-3 pt-5">{children}</div>
         </div>
       </StatsContextProvider>
     </>

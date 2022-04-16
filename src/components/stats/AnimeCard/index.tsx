@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Anime } from "../../../interfaces/stats";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   anime: Anime;
@@ -8,7 +10,7 @@ type Props = {
 
 export default function AnimeCard({ anime }: Props) {
   return (
-    <div className="rounded-lg bg-gray-100" key={anime.id}>
+    <div className="rounded-lg bg-gray-100">
       <div className="flex">
         <div className="relative mr-1 h-56 w-1/3 self-center">
           <Image
@@ -29,10 +31,22 @@ export default function AnimeCard({ anime }: Props) {
               href={`/stats/triplezko/anime/episodes_counts/${anime.episodes_count}`}
             >
               <a className="underline hover:text-gray-200">
-                {anime.episodes_count} {anime.episodes_count > 1 ? "eps" : "ep"}
+                {anime.episodes_count}{" "}
+                {anime.episodes_count > 1 || anime.episodes_count === 0
+                  ? "eps"
+                  : "ep"}
               </a>
             </Link>
           </div>
+          <Link href={`https://myanimelist.net/anime/${anime.id}`}>
+            <a
+              className="absolute bottom-0 right-0 m-1 rounded bg-gray-800/75 py-1 px-2 text-center text-sm text-white"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+            </a>
+          </Link>
         </div>
         <div className="w-2/3 py-1.5 px-2">
           <div className="border-b border-gray-600 pb-0.5">

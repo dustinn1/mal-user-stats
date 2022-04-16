@@ -14,7 +14,7 @@ export interface AnimeStats {
   watch_years: StatArray[];
   genres: StatArray[];
   studios: StatArray[];
-  animes: { [k: string]: Anime };
+  animes: Animes;
 }
 
 export interface StatArray {
@@ -41,5 +41,7 @@ export interface Anime {
   score: number;
   status: { id: string; name: string };
 }
+
+export type Animes = { [k: string]: Anime };
 
 export type StatArraysOnly = Omit<AnimeStats, "overview" | "animes">;
