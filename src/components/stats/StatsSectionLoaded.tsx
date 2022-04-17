@@ -24,8 +24,14 @@ type Props = {
 export default function StatsSectionLoaded({ data, allStats }: Props) {
   const animesInfos = getAnimesInfo(data.animes, allStats.animes);
 
-  const { filteredList, length, addFilter, clearFilters, filters } =
-    useListFilter(animesInfos);
+  const {
+    filteredList,
+    length,
+    addFilter,
+    removeFilter,
+    clearFilters,
+    filters,
+  } = useListFilter(animesInfos);
 
   return (
     <>
@@ -106,21 +112,29 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
           data={allStats.genres}
           name="genres"
           addFilter={addFilter}
+          removeFilter={removeFilter}
+          filters={filters}
         />
         <FilterSelect
           data={allStats.studios}
           name="studios"
           addFilter={addFilter}
+          removeFilter={removeFilter}
+          filters={filters}
         />
         <FilterSelect
           data={allStats.statuses}
           name="statuses"
           addFilter={addFilter}
+          removeFilter={removeFilter}
+          filters={filters}
         />
         <FilterSelect
           data={allStats.formats}
           name="formats"
           addFilter={addFilter}
+          removeFilter={removeFilter}
+          filters={filters}
         />
       </div>
       <CardsContainer data={filteredList} />

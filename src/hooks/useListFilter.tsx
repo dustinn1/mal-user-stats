@@ -1,24 +1,6 @@
 import { useState, useEffect } from "react";
 import { Anime } from "../interfaces/stats";
-
-type Filters = {
-  genres: {
-    includes: string[];
-    excludes: string[];
-  };
-  studios: {
-    includes: string[];
-    excludes: string[];
-  };
-  statuses: {
-    includes: string[];
-    excludes: string[];
-  };
-  formats: {
-    includes: string[];
-    excludes: string[];
-  };
-};
+import { Filters } from "../interfaces/filters";
 
 function filtersMatch(anime: Anime, filters: Filters): boolean {
   if (filters.genres.excludes.length > 0) {
@@ -88,6 +70,11 @@ export function useListFilter(initialList: Anime[]): {
     action: "includes" | "excludes",
     value: string
   ): void;
+  removeFilter(
+    category: "genres" | "studios" | "statuses" | "formats",
+    action: "includes" | "excludes",
+    value: string
+  ): void;
   clearFilters(): void;
   filters: Filters;
 } {
@@ -119,12 +106,28 @@ export function useListFilter(initialList: Anime[]): {
   }, [filteredList.length]);
 
   function addFilter(
-    category: "genres" | "studios",
+    category: "genres" | "studios" | "statuses" | "formats",
     action: "includes" | "excludes",
     value: string
   ) {
     const updatedFilter = filters;
     updatedFilter[category][action].push(value);
+    setFilters(updatedFilter);
+    setFilteredList(
+      initialList.filter((anime) => filtersMatch(anime, filters))
+    );
+  }
+
+  function removeFilter(
+    category: "genres" | "studios" | "statuses" | "formats",
+    action: "includes" | "excludes",
+    value: string
+  ) {
+    const updatedFilter = filters;
+    const index = updatedFilter[category][action].indexOf(value);
+    if (index > -1) {
+      updatedFilter[category][action].splice(index, 1); // 2nd parameter means remove one item only
+    }
     setFilters(updatedFilter);
     setFilteredList(
       initialList.filter((anime) => filtersMatch(anime, filters))
@@ -140,6 +143,7 @@ export function useListFilter(initialList: Anime[]): {
     filteredList,
     length,
     addFilter,
+    removeFilter,
     clearFilters,
     filters,
   };
