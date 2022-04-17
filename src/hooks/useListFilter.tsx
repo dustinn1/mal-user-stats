@@ -4,60 +4,44 @@ import { Filters } from "../interfaces/filters";
 
 function filtersMatch(anime: Anime, filters: Filters): boolean {
   if (filters.genres.excludes.length > 0) {
-    if (filters.genres.excludes.some((genre) => anime.genres.includes(genre))) {
-      return false;
-    }
+    return !filters.genres.excludes.some((genre) =>
+      anime.genres.includes(genre)
+    );
   }
   if (filters.genres.includes.length > 0) {
-    if (
-      !filters.genres.includes.every((genre) => anime.genres.includes(genre))
-    ) {
-      return false;
-    }
+    return filters.genres.includes.every((genre) =>
+      anime.genres.includes(genre)
+    );
   }
   if (filters.studios.excludes.length > 0) {
-    if (
-      filters.studios.excludes.some((studio) => anime.studios.includes(studio))
-    ) {
-      return false;
-    }
+    return !filters.studios.excludes.some((studio) =>
+      anime.studios.includes(studio)
+    );
   }
   if (filters.studios.includes.length > 0) {
-    if (
-      !filters.studios.includes.every((studio) =>
-        anime.studios.includes(studio)
-      )
-    ) {
-      return false;
-    }
+    return filters.studios.includes.every((studio) =>
+      anime.studios.includes(studio)
+    );
   }
   if (filters.statuses.excludes.length > 0) {
-    if (
-      filters.statuses.excludes.some((status) => status === anime.status.name)
-    ) {
-      return false;
-    }
+    return !filters.statuses.excludes.some(
+      (status) => status === anime.status.name
+    );
   }
   if (filters.statuses.includes.length > 0) {
-    if (
-      !filters.statuses.includes.every((status) => status === anime.status.name)
-    ) {
-      return false;
-    }
+    return filters.statuses.includes.every(
+      (status) => status === anime.status.name
+    );
   }
   if (filters.formats.excludes.length > 0) {
-    if (
-      filters.formats.excludes.some((format) => format === anime.format.name)
-    ) {
-      return false;
-    }
+    return !filters.formats.excludes.some(
+      (format) => format === anime.format.name
+    );
   }
   if (filters.formats.includes.length > 0) {
-    if (
-      !filters.formats.includes.every((format) => format === anime.format.name)
-    ) {
-      return false;
-    }
+    return filters.formats.includes.every(
+      (format) => format === anime.format.name
+    );
   }
   return true;
 }
@@ -126,7 +110,7 @@ export function useListFilter(initialList: Anime[]): {
     const updatedFilter = filters;
     const index = updatedFilter[category][action].indexOf(value);
     if (index > -1) {
-      updatedFilter[category][action].splice(index, 1); // 2nd parameter means remove one item only
+      updatedFilter[category][action].splice(index, 1);
     }
     setFilters(updatedFilter);
     setFilteredList(

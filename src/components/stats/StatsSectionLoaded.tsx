@@ -1,20 +1,9 @@
-import Link from "next/link";
-import Button from "../Button";
-import {
-  faAngleLeft,
-  faArrowDown91,
-  faArrowDownAZ,
-  faCalendar,
-  faFilter,
-  faTv,
-} from "@fortawesome/free-solid-svg-icons";
-
 import { getAnimesInfo } from "../../utils/getAnimesInfo";
 import CardsContainer from "./AnimeCard/CardsContainer";
-import Input from "../Input";
-import FilterSelect from "../FilterSelect";
 import { useListFilter } from "../../hooks/useListFilter";
 import { StatArray, AnimeStats } from "../../interfaces/stats";
+import FilterContainer from "../stats/Filters/Container";
+import { FilterContext } from "../../contexts/FilterContext";
 
 type Props = {
   data: StatArray;
@@ -62,81 +51,9 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
           </span>
         </div>
       </div>
-      <div className="mb-3 flex justify-between">
-        <div className="flex w-1/3">
-          <div className="grow">
-            <Input />
-          </div>
-          <Button size="sm" icon={faFilter} text="Filter" dropdown />
-        </div>
-        <div>
-          <Button
-            //onClick={() => setSort("count")}
-            size="sm"
-            icon={faArrowDownAZ}
-            text="Title"
-            //active={sort === "count"}
-          />
-          <Button
-            //onClick={() => setSort("count")}
-            size="sm"
-            icon={faArrowDown91}
-            text="Score"
-            //active={sort === "count"}
-          />
-          <Button
-            //onClick={() => setSort("count")}
-            size="sm"
-            icon={faCalendar}
-            text="Release Year"
-            //active={sort === "count"}
-          />
-          <Button
-            //onClick={() => setSort("count")}
-            size="sm"
-            icon={faCalendar}
-            text="Watch Year"
-            //active={sort === "count"}
-          />
-          <Button
-            //onClick={() => setSort("count")}
-            size="sm"
-            icon={faTv}
-            text="Episode Count"
-            //active={sort === "count"}
-          />
-        </div>
-      </div>
-      <div className="mb-5 grid grid-cols-4 gap-5 rounded-md bg-gray-200 p-5">
-        <FilterSelect
-          data={allStats.genres}
-          name="genres"
-          addFilter={addFilter}
-          removeFilter={removeFilter}
-          filters={filters}
-        />
-        <FilterSelect
-          data={allStats.studios}
-          name="studios"
-          addFilter={addFilter}
-          removeFilter={removeFilter}
-          filters={filters}
-        />
-        <FilterSelect
-          data={allStats.statuses}
-          name="statuses"
-          addFilter={addFilter}
-          removeFilter={removeFilter}
-          filters={filters}
-        />
-        <FilterSelect
-          data={allStats.formats}
-          name="formats"
-          addFilter={addFilter}
-          removeFilter={removeFilter}
-          filters={filters}
-        />
-      </div>
+      <FilterContext.Provider value={{ addFilter, removeFilter, filters }}>
+        <FilterContainer stats={allStats} />
+      </FilterContext.Provider>
       <CardsContainer data={filteredList} />
     </>
   );
