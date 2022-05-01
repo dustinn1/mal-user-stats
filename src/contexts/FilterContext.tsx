@@ -1,18 +1,14 @@
 import { createContext } from "react";
-import { Filters } from "../interfaces/filters";
+import { Filter, FilterCategories, FilterTypes } from "../interfaces/filters";
 
-type Filter = {
-  addFilter(
-    category: "genres" | "studios" | "statuses" | "formats",
-    action: "includes" | "excludes",
-    value: string
-  ): void;
+type FilterContext = {
+  addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
   removeFilter(
-    category: "genres" | "studios" | "statuses" | "formats",
-    action: "includes" | "excludes",
+    category: FilterCategories,
+    type: FilterTypes,
     value: string
   ): void;
-  filters: Filters;
+  filters: Filter[];
 };
 
-export const FilterContext = createContext({} as Filter);
+export const FilterContext = createContext({} as FilterContext);

@@ -66,8 +66,8 @@ export default function FilterContainer({ stats }: Props) {
       <div className="mb-5 grid grid-cols-4 gap-5 rounded-md bg-gray-200 p-5">
         <FilterSelect data={stats.genres} name="genres" />
         <FilterSelect data={stats.studios} name="studios" />
-        <FilterSelect data={stats.statuses} name="statuses" />
-        <FilterSelect data={stats.formats} name="formats" />
+        <FilterSelect data={stats.statuses} name="status" />
+        <FilterSelect data={stats.formats} name="format" />
       </div>
     </>
   );

@@ -1,18 +1,9 @@
-export type Filters = {
-  genres: {
-    includes: string[];
-    excludes: string[];
-  };
-  studios: {
-    includes: string[];
-    excludes: string[];
-  };
-  statuses: {
-    includes: string[];
-    excludes: string[];
-  };
-  formats: {
-    includes: string[];
-    excludes: string[];
-  };
+export type Filter = {
+  category: FilterCategories;
+  type: FilterTypes;
+  value: string;
 };
+
+export type FilterCategories = "genres" | "studios" | "status" | "format";
+
+export type FilterTypes = "include" | "exclude";
