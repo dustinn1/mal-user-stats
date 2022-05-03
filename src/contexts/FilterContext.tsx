@@ -5,8 +5,13 @@ type FilterContext = {
   addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
   removeFilter(
     category: FilterCategories,
-    type: FilterTypes,
-    value: string
+    type?: FilterTypes,
+    value?: string
+  ): void;
+  updateFilter(
+    category: FilterCategories,
+    type?: FilterTypes,
+    value?: string
   ): void;
   filters: Filter[];
 };

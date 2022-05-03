@@ -18,6 +18,7 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
     length,
     addFilter,
     removeFilter,
+    updateFilter,
     clearFilters,
     filters,
   } = useListFilter(animesInfos);
@@ -51,9 +52,14 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
           </span>
         </div>
       </div>
-      <FilterContext.Provider value={{ addFilter, removeFilter, filters }}>
+      <FilterContext.Provider
+        value={{ addFilter, removeFilter, updateFilter, filters }}
+      >
         <FilterContainer stats={allStats} />
       </FilterContext.Provider>
+      {filters.map((filter) => (
+        <span key={`${filter.category}_${filter.value}`}>{filter.value}</span>
+      ))}
       <CardsContainer data={filteredList} />
     </>
   );

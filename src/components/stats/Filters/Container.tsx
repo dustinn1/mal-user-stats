@@ -10,6 +10,7 @@ import {
 import FilterSelect from "./FilterSelect";
 import Input from "../../Input";
 import { AnimeStats } from "../../../interfaces/stats";
+import FilterRange from "./FilterRange";
 
 type Props = {
   stats: AnimeStats;
@@ -68,6 +69,10 @@ export default function FilterContainer({ stats }: Props) {
         <FilterSelect data={stats.studios} name="studios" />
         <FilterSelect data={stats.statuses} name="status" />
         <FilterSelect data={stats.formats} name="format" />
+        <FilterRange name="score" data={stats.scores} />
+        {/* <FilterRange name="episodes_count" data={stats.episodes_counts} /> */}
+        <FilterRange name="release_year" data={stats.release_years} />
+        <FilterRange name="watch_year" data={stats.watch_years} />
       </div>
     </>
   );

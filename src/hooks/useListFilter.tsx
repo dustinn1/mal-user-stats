@@ -28,8 +28,22 @@ function filterList(animes: Anime[], filters: Filter[]): Anime[] {
           );
         }
       }
+      if (
+        filter.category === "score" ||
+        filter.category === "release_year" ||
+        filter.category === "watch_year"
+      ) {
+        const range = filter.value.split(",");
+        return (
+          (anime[filter.category] ?? -1) >= parseInt(range[0]) &&
+          (anime[filter.category] ?? -1) <= parseInt(range[1])
+        );
+      }
       return false;
     });
+    if (filteredList.length === 0) {
+      break;
+    }
   }
   return filteredList;
 }
@@ -40,8 +54,13 @@ export function useListFilter(initialList: Anime[]): {
   addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
   removeFilter(
     category: FilterCategories,
-    type: FilterTypes,
-    value: string
+    type?: FilterTypes,
+    value?: string
+  ): void;
+  updateFilter(
+    category: FilterCategories,
+    type?: FilterTypes,
+    value?: string
   ): void;
   clearFilters(): void;
   filters: Filter[];
@@ -66,18 +85,39 @@ export function useListFilter(initialList: Anime[]): {
 
   function removeFilter(
     category: FilterCategories,
+    type?: FilterTypes,
+    value?: string
+  ) {
+    const updatedFilter = filters;
+    let index: number;
+    if (type !== undefined || value !== undefined) {
+      index = updatedFilter.findIndex(
+        (filter) =>
+          filter.category === category &&
+          filter.type === type &&
+          filter.value === value
+      );
+    } else {
+      index = updatedFilter.findIndex((filter) => filter.category === category);
+    }
+    if (index > -1) {
+      updatedFilter.splice(index, 1);
+    }
+    setFilters(updatedFilter);
+    setFilteredList(filterList(initialList, updatedFilter));
+  }
+
+  function updateFilter(
+    category: FilterCategories,
     type: FilterTypes,
     value: string
   ) {
     const updatedFilter = filters;
     const index = updatedFilter.findIndex(
-      (filter) =>
-        filter.category === category &&
-        filter.type === type &&
-        filter.value === value
+      (filter) => filter.category === category
     );
     if (index > -1) {
-      updatedFilter.splice(index, 1);
+      updatedFilter[index] = { category, type, value };
     }
     setFilters(updatedFilter);
     setFilteredList(filterList(initialList, updatedFilter));
@@ -93,6 +133,7 @@ export function useListFilter(initialList: Anime[]): {
     length,
     addFilter,
     removeFilter,
+    updateFilter,
     clearFilters,
     filters,
   };

@@ -4,6 +4,14 @@ export type Filter = {
   value: string;
 };
 
-export type FilterCategories = "genres" | "studios" | "status" | "format";
+export type FilterCategories =
+  | "genres"
+  | "studios"
+  | "status"
+  | "format"
+  | "score"
+  | "episodes_count"
+  | "release_year"
+  | "watch_year";
 
-export type FilterTypes = "include" | "exclude";
+export type FilterTypes = "include" | "exclude" | "range";
