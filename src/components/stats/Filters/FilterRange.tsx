@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, memo } from "react";
 import { FilterContext } from "../../../contexts/FilterContext";
-import { FilterCategories, FilterTypes } from "../../../interfaces/filters";
+import { FilterCategories } from "../../../interfaces/filters";
 import { Range, getTrackBackground } from "react-range";
 import { StatArray } from "../../../interfaces/stats";
 
@@ -9,7 +9,7 @@ type Props = {
   data: StatArray[];
 };
 
-export default function FilterRange({ name, data }: Props) {
+export default memo(function FilterRange({ name, data }: Props) {
   const filter = useContext(FilterContext);
 
   const dataRange = data.map((e) => e.name);
@@ -24,7 +24,7 @@ export default function FilterRange({ name, data }: Props) {
   }, [filter.filters.length, max, min]);
 
   return (
-    <div className="px-2">
+    <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5">
       <div className="mb-2.5 flex justify-between">
         <span className="font-bold capitalize">
           {name.replaceAll("_", " ")}
@@ -88,4 +88,4 @@ export default function FilterRange({ name, data }: Props) {
       />
     </div>
   );
-}
+});

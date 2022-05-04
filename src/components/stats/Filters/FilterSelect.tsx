@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, memo } from "react";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StatArray } from "../../../interfaces/stats";
@@ -11,7 +11,7 @@ type animes = {
   name: FilterCategories;
 };
 
-export default function FilterSelect({ data, name }: animes) {
+export default memo(function FilterSelect({ data, name }: animes) {
   const filter = useContext(FilterContext);
 
   function SelectRow({ stat }: { stat: StatArray }) {
@@ -98,4 +98,4 @@ export default function FilterSelect({ data, name }: animes) {
       </div>
     </div>
   );
-}
+});

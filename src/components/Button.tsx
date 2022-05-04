@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faCaretUp,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   text: string;
@@ -41,7 +45,12 @@ export default function Button({
       >
         {icon && <FontAwesomeIcon icon={icon} />}
         <span>{text}</span>
-        {dropdown && <FontAwesomeIcon icon={faCaretDown} className="text-sm" />}
+        {dropdown && (
+          <FontAwesomeIcon
+            icon={active ? faCaretUp : faCaretDown}
+            className="text-sm"
+          />
+        )}
       </div>
     </div>
   );

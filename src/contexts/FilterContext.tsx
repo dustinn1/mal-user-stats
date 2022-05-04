@@ -13,6 +13,8 @@ type FilterContext = {
     type?: FilterTypes,
     value?: string
   ): void;
+  clearFilters(): void;
+  length: number;
   filters: Filter[];
 };
 

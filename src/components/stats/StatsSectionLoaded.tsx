@@ -25,19 +25,16 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
 
   return (
     <>
-      {length}
-      <p onClick={() => clearFilters()}>Clear Filters</p>
-      {JSON.stringify(filters)}
       {/* <Link href={`/stats/${username}/anime/${stat}`}>
         <a>
           <Button size="sm" icon={faAngleLeft} text="Back" />
         </a>
       </Link> */}
-      <div className="my-4 w-full rounded-lg bg-gray-100 pt-3">
+      <div className="mb-3 w-full rounded-lg bg-gray-100 pt-3">
         <div className="mx-4 flex items-center justify-center font-bold">
           <span className="text-3xl">{data.name}</span>
         </div>
-        <div className="mx-4 flex py-3 text-center">
+        <div className="mx-4 flex py-2 text-center">
           <span className="w-1/3">
             <strong>{data.count}</strong>
             <br /> Animes
@@ -53,13 +50,17 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
         </div>
       </div>
       <FilterContext.Provider
-        value={{ addFilter, removeFilter, updateFilter, filters }}
+        value={{
+          addFilter,
+          removeFilter,
+          updateFilter,
+          clearFilters,
+          length,
+          filters,
+        }}
       >
         <FilterContainer stats={allStats} />
       </FilterContext.Provider>
-      {filters.map((filter) => (
-        <span key={`${filter.category}_${filter.value}`}>{filter.value}</span>
-      ))}
       <CardsContainer data={filteredList} />
     </>
   );
