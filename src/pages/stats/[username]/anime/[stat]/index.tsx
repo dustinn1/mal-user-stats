@@ -17,7 +17,6 @@ import {
 import { statsPages } from "../../../../../data/statsPages";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import StatCardsContainer from "../../../../../components/stats/StatCard/CardsContainer";
-import Input from "../../../../../components/Input";
 
 const validStats = [
   "episodes_counts",
@@ -61,9 +60,7 @@ export default function StatsAnimePage() {
           /> */}
           <div className="mb-5 flex justify-between">
             <div className="flex w-1/2">
-              <div className="grow">
-                <Input />
-              </div>
+              <div className="grow">{/* <Input /> */}</div>
               <Button size="sm" icon={faFilter} text="Filter" />
             </div>
             {/* <div>

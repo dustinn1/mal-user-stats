@@ -43,10 +43,6 @@ export default memo(function FilterRange({ name, data }: Props) {
         onFinalChange={(values) => {
           if (values.toString() === [min, max].toString()) {
             filter.removeFilter(name);
-          } else if (
-            filter.filters.find((filter) => filter.category === name)
-          ) {
-            filter.updateFilter(name, "range", values.toString());
           } else {
             filter.addFilter(name, "range", values.toString());
           }

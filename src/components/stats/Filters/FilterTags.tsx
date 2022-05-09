@@ -25,7 +25,8 @@ export default function FilterTags() {
           "group inline-flex h-7 items-center rounded px-2 py-0.5 text-sm capitalize text-white",
           type === "include" ? "bg-green-500" : "",
           type === "exclude" ? "bg-red-500" : "",
-          type === "range" ? "bg-yellow-500" : ""
+          type === "range" ? "bg-yellow-500" : "",
+          type === "search" ? "bg-blue-500" : ""
         )}
       >
         <span className="mr-1 font-bold">{category.replaceAll("_", " ")}:</span>
@@ -44,8 +45,8 @@ export default function FilterTags() {
   return (
     <div className="my-3.5 flex flex-wrap items-center gap-1.5">
       <span className="mr-2 text-lg font-bold">
-        <FontAwesomeIcon icon={faFilter} className="mr-1" /> {filter.length}{" "}
-        Animes
+        <FontAwesomeIcon icon={faFilter} className="mr-1" />{" "}
+        {filter.filteredList.length} Animes
       </span>
       {filter.filters.map((filter) => (
         <Tag

@@ -13,15 +13,7 @@ type Props = {
 export default function StatsSectionLoaded({ data, allStats }: Props) {
   const animesInfos = getAnimesInfo(data.animes, allStats.animes);
 
-  const {
-    filteredList,
-    length,
-    addFilter,
-    removeFilter,
-    updateFilter,
-    clearFilters,
-    filters,
-  } = useListFilter(animesInfos);
+  const filtersContext = useListFilter(animesInfos);
 
   return (
     <>
@@ -49,19 +41,10 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
           </span>
         </div>
       </div>
-      <FilterContext.Provider
-        value={{
-          addFilter,
-          removeFilter,
-          updateFilter,
-          clearFilters,
-          length,
-          filters,
-        }}
-      >
+      <FilterContext.Provider value={filtersContext}>
         <FilterContainer stats={allStats} />
       </FilterContext.Provider>
-      <CardsContainer data={filteredList} />
+      <CardsContainer data={filtersContext.filteredList} />
     </>
   );
 }

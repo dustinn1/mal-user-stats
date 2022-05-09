@@ -10,11 +10,11 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
-import Input from "../../Input";
 import { AnimeStats } from "../../../interfaces/stats";
 import FilterRange from "./FilterRange";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
+import { DebounceInput } from "react-debounce-input";
 
 type Props = {
   stats: AnimeStats;
@@ -30,7 +30,24 @@ export default function FilterContainer({ stats }: Props) {
           <div className="mb-3 flex justify-between">
             <div className="flex w-1/3">
               <div className="grow">
-                <Input />
+                <DebounceInput
+                  type="search"
+                  id="search"
+                  name="search"
+                  placeholder="Search"
+                  autoComplete="off"
+                  className="h-full w-full rounded-md border border-gray-400 px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors"
+                  debounceTimeout={300}
+                  //onChange={(event) => filter.setSearch(event.target.value)}
+                  onChange={(event) => {
+                    const input = event.target.value;
+                    if (input !== "") {
+                      filter.addFilter("search", "search", event.target.value);
+                    } else {
+                      filter.removeFilter("search");
+                    }
+                  }}
+                />
               </div>
               <Disclosure.Button>
                 <Button
@@ -98,7 +115,7 @@ export default function FilterContainer({ stats }: Props) {
               <FilterRange name="watch_year" data={stats.watch_years} />
             </Disclosure.Panel>
           </Transition>
-          {filter.filters.length > 0 && <FilterTags />}
+          <FilterTags />
         </>
       )}
     </Disclosure>
