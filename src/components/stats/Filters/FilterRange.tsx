@@ -1,27 +1,20 @@
-import { useState, useContext, useEffect, memo } from "react";
+import { useContext, useState, useEffect, memo } from "react";
 import { FilterContext } from "../../../contexts/FilterContext";
-import { FilterCategories } from "../../../interfaces/filters";
 import { Range, getTrackBackground } from "react-range";
-import { StatArray } from "../../../interfaces/stats";
 
 type Props = {
-  name: FilterCategories;
-  data: StatArray[];
+  name: "score" | "episodes_count" | "release_year" | "watch_year";
 };
 
-export default memo(function FilterRange({ name, data }: Props) {
+export default memo(function FilterRange({ name }: Props) {
   const filter = useContext(FilterContext);
 
-  const dataRange = data.map((e) => e.name);
-  const min: number = parseInt(dataRange[0]);
-  const max: number = parseInt(dataRange[dataRange.length - 1]);
-  const [values, setValues] = useState([min, max]);
+  const [minMax] = useState(filter.inputValues[name]);
+  const [values, setValues] = useState(filter.inputValues[name]);
 
   useEffect(() => {
-    if (filter.filters.length === 0) {
-      setValues([min, max]);
-    }
-  }, [filter.filters.length, max, min]);
+    setValues(filter.inputValues[name]);
+  }, [filter.inputValues, name]);
 
   return (
     <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5">
@@ -29,19 +22,31 @@ export default memo(function FilterRange({ name, data }: Props) {
         <span className="font-bold capitalize">
           {name.replaceAll("_", " ")}
         </span>
-        <span>
+        <span className="flex items-center">
+          {minMax.toString() !== values.toString() && (
+            <span
+              className="mr-2 cursor-pointer text-blue-500 hover:text-blue-600"
+              onClick={() => {
+                filter.updateInputValues(name, JSON.stringify(minMax));
+                setValues(minMax);
+              }}
+            >
+              Reset
+            </span>
+          )}
           {values[0]} - {values[1]}
         </span>
       </div>
       <Range
         values={values}
-        min={min}
-        max={max}
+        min={minMax[0]}
+        max={minMax[1]}
         onChange={(values) => {
           setValues(values);
         }}
         onFinalChange={(values) => {
-          if (values.toString() === [min, max].toString()) {
+          filter.updateInputValues(name, JSON.stringify(values));
+          if (values.toString() === [0, 10].toString()) {
             filter.removeFilter(name);
           } else {
             filter.addFilter(name, "range", values.toString());
@@ -62,8 +67,8 @@ export default memo(function FilterRange({ name, data }: Props) {
                 background: getTrackBackground({
                   values,
                   colors: ["#ccc", "#548BF4", "#ccc"],
-                  min: min,
-                  max: max,
+                  min: minMax[0],
+                  max: minMax[1],
                 }),
               }}
               className="h-1.5 w-full self-center rounded-md"

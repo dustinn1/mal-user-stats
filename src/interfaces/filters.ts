@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { Anime } from "./stats";
 
 export type Filter = {
@@ -19,6 +20,14 @@ export type FilterCategories =
 
 export type FilterTypes = "include" | "exclude" | "range" | "search";
 
+export type FilterInputValues = {
+  search: string;
+  score: number[];
+  episodes_count: number[];
+  release_year: number[];
+  watch_year: number[];
+};
+
 export type FilterHookExports = {
   filteredList: Anime[];
   addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
@@ -29,4 +38,8 @@ export type FilterHookExports = {
   ): void;
   clearFilters(): void;
   filters: Filter[];
+  inputValues: FilterInputValues;
+  updateInputValues(category: keyof FilterInputValues, value: string): void;
+  sort: string;
+  setSort: Dispatch<SetStateAction<string>>;
 };

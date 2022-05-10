@@ -1,18 +1,29 @@
-import { useContext, memo } from "react";
+import { useContext, useRef, useCallback } from "react";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StatArray } from "../../../interfaces/stats";
 import { FilterContext } from "../../../contexts/FilterContext";
 import { FilterCategories } from "../../../interfaces/filters";
 import { classNames } from "../../../utils/classNames";
+import { useVirtual } from "react-virtual";
 
 type animes = {
   data: StatArray[];
   name: FilterCategories;
 };
 
-export default memo(function FilterSelect({ data, name }: animes) {
+export default function FilterSelect({ data, name }: animes) {
   const filter = useContext(FilterContext);
+
+  const parentRef = useRef<HTMLDivElement>(null);
+  const rowVirtualizer = useVirtual({
+    size: data.length,
+    parentRef,
+    estimateSize: useCallback(() => 35, []),
+    overscan: 5,
+  });
+
+  const dataSort = data.sort((a, b) => a.name.localeCompare(b.name));
 
   function SelectRow({ stat }: { stat: StatArray }) {
     const matchedFilter = filter.filters.find(
@@ -89,13 +100,28 @@ export default memo(function FilterSelect({ data, name }: animes) {
       <div className="border-b border-black px-4 py-1 font-bold capitalize">
         {name}
       </div>
-      <div className="h-64 divide-y divide-gray-300 overflow-y-scroll px-4 py-1 ">
-        {data
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((stat) => (
-            <SelectRow key={stat.id} stat={stat} />
+      <div ref={parentRef} className="h-64 overflow-y-scroll px-4 py-1">
+        <div
+          className="relative divide-y divide-gray-300"
+          style={{ height: `${rowVirtualizer.totalSize}px` }}
+        >
+          {rowVirtualizer.virtualItems.map((virtualRow) => (
+            <div
+              key={virtualRow.index}
+              className="absolute top-0 left-0 w-full"
+              style={{
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              <SelectRow
+                key={dataSort[virtualRow.index].id}
+                stat={dataSort[virtualRow.index]}
+              />
+            </div>
           ))}
+        </div>
       </div>
     </div>
   );
-});
+}

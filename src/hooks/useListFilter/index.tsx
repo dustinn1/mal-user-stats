@@ -1,71 +1,40 @@
 import { useState } from "react";
-import { Anime } from "../interfaces/stats";
+import { Anime } from "../../interfaces/stats";
 import {
   Filter,
   FilterCategories,
   FilterHookExports,
   FilterTypes,
-} from "../interfaces/filters";
-import Fuse from "fuse.js";
-
-function filterList(animes: Anime[], filters: Filter[]): Anime[] {
-  let filteredList = animes;
-  for (const filter of filters) {
-    if (filter.category !== "search") {
-      filteredList = filteredList.filter((anime) => {
-        if (filter.category === "genres" || filter.category === "studios") {
-          if (filter.type === "exclude") {
-            return !anime[filter.category].includes(filter.value);
-          }
-          if (filter.type === "include") {
-            return anime[filter.category].includes(filter.value);
-          }
-        }
-        if (filter.category === "format" || filter.category === "status") {
-          if (filter.type === "exclude") {
-            return !(
-              anime[filter.category].name.toLowerCase() ===
-              filter.value.toLowerCase()
-            );
-          }
-          if (filter.type === "include") {
-            return (
-              anime[filter.category].name.toLowerCase() ===
-              filter.value.toLowerCase()
-            );
-          }
-        }
-        if (
-          filter.category === "score" ||
-          filter.category === "release_year" ||
-          filter.category === "watch_year"
-        ) {
-          const range = filter.value.split(",");
-          return (
-            (anime[filter.category] ?? -1) >= parseInt(range[0]) &&
-            (anime[filter.category] ?? -1) <= parseInt(range[1])
-          );
-        }
-        return false;
-      });
-      if (filteredList.length === 0) {
-        break;
-      }
-    } else {
-      const fuse = new Fuse(filteredList, {
-        keys: ["title"],
-        fieldNormWeight: 1,
-      });
-      filteredList = fuse.search(filter.value).map((result) => result.item);
-    }
-  }
-
-  return filteredList;
-}
+  FilterInputValues,
+} from "../../interfaces/filters";
+import { filterList } from "./filterList";
+import { getMin, getMax } from "./minMax";
 
 export function useListFilter(initialList: Anime[]): FilterHookExports {
   const [filteredList, setFilteredList] = useState(initialList);
   const [filters, setFilters] = useState<Filter[]>([]);
+  const [sort, setSort] = useState("title");
+
+  const InputValuesEmpty: FilterInputValues = {
+    search: "",
+    score: [0, 10],
+    episodes_count: [
+      getMin(initialList, "episodes_count"),
+      getMax(initialList, "episodes_count"),
+    ],
+    release_year: [
+      getMin(initialList, "release_year"),
+      getMax(initialList, "release_year"),
+    ],
+    watch_year: [
+      getMin(initialList, "watch_year"),
+      getMax(initialList, "watch_year"),
+    ],
+  };
+
+  console.log(InputValuesEmpty);
+  const [inputValues, setInputValues] =
+    useState<FilterInputValues>(InputValuesEmpty);
 
   function addFilter(
     category: FilterCategories,
@@ -89,7 +58,6 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
     } else {
       updatedFilter = [...filters, { category, type, value }];
     }
-    console.log(index, updatedFilter);
     setFilters(updatedFilter);
     setFilteredList(filterList(initialList, updatedFilter));
   }
@@ -114,6 +82,18 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
     if (index > -1) {
       updatedFilter.splice(index, 1);
     }
+    if (
+      category === "search" ||
+      category === "score" ||
+      category === "episodes_count" ||
+      category === "release_year" ||
+      category === "watch_year"
+    ) {
+      updateInputValues(
+        category,
+        category === "search" ? "" : JSON.stringify(InputValuesEmpty[category])
+      );
+    }
     setFilters(updatedFilter);
     setFilteredList(filterList(initialList, updatedFilter));
   }
@@ -121,6 +101,13 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
   function clearFilters() {
     setFilters([]);
     setFilteredList(initialList);
+    setInputValues(InputValuesEmpty);
+  }
+
+  function updateInputValues(category: keyof FilterInputValues, value: string) {
+    const newValues = inputValues;
+    newValues[category] = category === "search" ? value : JSON.parse(value);
+    setInputValues(newValues);
   }
 
   return {
@@ -129,5 +116,9 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
     removeFilter,
     clearFilters,
     filters,
+    inputValues,
+    updateInputValues,
+    sort,
+    setSort,
   };
 }

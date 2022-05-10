@@ -1,7 +1,7 @@
 import { getAnimesInfo } from "../../utils/getAnimesInfo";
 import CardsContainer from "./AnimeCard/CardsContainer";
 import { useListFilter } from "../../hooks/useListFilter";
-import { StatArray, AnimeStats } from "../../interfaces/stats";
+import { StatArray, AnimeStats, Anime } from "../../interfaces/stats";
 import FilterContainer from "../stats/Filters/Container";
 import { FilterContext } from "../../contexts/FilterContext";
 
@@ -9,6 +9,23 @@ type Props = {
   data: StatArray;
   allStats: AnimeStats;
 };
+
+function compare(prop: string) {
+  if (prop === "title") {
+    return function (a: Anime, b: Anime) {
+      return a[prop].localeCompare(b[prop]);
+    };
+  } else if (
+    prop === "score" ||
+    prop === "episodes_count" ||
+    prop === "release_year" ||
+    prop === "watch_year"
+  ) {
+    return function (a: Anime, b: Anime) {
+      return b[prop]! - a[prop]!;
+    };
+  }
+}
 
 export default function StatsSectionLoaded({ data, allStats }: Props) {
   const animesInfos = getAnimesInfo(data.animes, allStats.animes);
@@ -44,7 +61,9 @@ export default function StatsSectionLoaded({ data, allStats }: Props) {
       <FilterContext.Provider value={filtersContext}>
         <FilterContainer stats={allStats} />
       </FilterContext.Provider>
-      <CardsContainer data={filtersContext.filteredList} />
+      <CardsContainer
+        data={filtersContext.filteredList.sort(compare(filtersContext.sort))}
+      />
     </>
   );
 }

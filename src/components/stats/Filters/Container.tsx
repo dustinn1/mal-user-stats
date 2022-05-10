@@ -14,7 +14,7 @@ import { AnimeStats } from "../../../interfaces/stats";
 import FilterRange from "./FilterRange";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
-import { DebounceInput } from "react-debounce-input";
+import FilterInput from "./FilterInput";
 
 type Props = {
   stats: AnimeStats;
@@ -30,24 +30,7 @@ export default function FilterContainer({ stats }: Props) {
           <div className="mb-3 flex justify-between">
             <div className="flex w-1/3">
               <div className="grow">
-                <DebounceInput
-                  type="search"
-                  id="search"
-                  name="search"
-                  placeholder="Search"
-                  autoComplete="off"
-                  className="h-full w-full rounded-md border border-gray-400 px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors"
-                  debounceTimeout={300}
-                  //onChange={(event) => filter.setSearch(event.target.value)}
-                  onChange={(event) => {
-                    const input = event.target.value;
-                    if (input !== "") {
-                      filter.addFilter("search", "search", event.target.value);
-                    } else {
-                      filter.removeFilter("search");
-                    }
-                  }}
-                />
+                <FilterInput />
               </div>
               <Disclosure.Button>
                 <Button
@@ -61,39 +44,39 @@ export default function FilterContainer({ stats }: Props) {
             </div>
             <div>
               <Button
-                //onClick={() => setSort("count")}
+                onClick={() => filter.setSort("title")}
                 size="sm"
                 icon={faArrowDownAZ}
                 text="Title"
-                //active={sort === "count"}
+                active={filter.sort === "title"}
               />
               <Button
-                //onClick={() => setSort("count")}
+                onClick={() => filter.setSort("score")}
                 size="sm"
                 icon={faArrowDown91}
                 text="Score"
-                //active={sort === "count"}
+                active={filter.sort === "score"}
               />
               <Button
-                //onClick={() => setSort("count")}
+                onClick={() => filter.setSort("episodes_count")}
+                size="sm"
+                icon={faTv}
+                text="Episodes Count"
+                active={filter.sort === "episodes_count"}
+              />
+              <Button
+                onClick={() => filter.setSort("release_year")}
                 size="sm"
                 icon={faCalendar}
                 text="Release Year"
-                //active={sort === "count"}
+                active={filter.sort === "release_year"}
               />
               <Button
-                //onClick={() => setSort("count")}
+                onClick={() => filter.setSort("watch_year")}
                 size="sm"
                 icon={faCalendar}
                 text="Watch Year"
-                //active={sort === "count"}
-              />
-              <Button
-                //onClick={() => setSort("count")}
-                size="sm"
-                icon={faTv}
-                text="Episode Count"
-                //active={sort === "count"}
+                active={filter.sort === "watch_year"}
               />
             </div>
           </div>
@@ -110,9 +93,10 @@ export default function FilterContainer({ stats }: Props) {
               <FilterSelect data={stats.studios} name="studios" />
               <FilterSelect data={stats.statuses} name="status" />
               <FilterSelect data={stats.formats} name="format" />
-              <FilterRange name="score" data={stats.scores} />
-              <FilterRange name="release_year" data={stats.release_years} />
-              <FilterRange name="watch_year" data={stats.watch_years} />
+              {/* <FilterRange name="score" />
+              <FilterRange name="episodes_count" />
+              <FilterRange name="release_year" />
+              <FilterRange name="watch_year" /> */}
             </Disclosure.Panel>
           </Transition>
           <FilterTags />
