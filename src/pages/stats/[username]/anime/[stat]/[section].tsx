@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { StatArray, StatArraysOnly } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
-import StatsSectionLoaded from "../../../../../components/stats/StatsSectionLoaded";
+import AnimeCardsFilters from "../../../../../components/stats/AnimeCardsFilters";
 
 export default function StatSection() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function StatSection() {
         ) ?? undefined;
 
       if (statsSectionData) {
-        return <StatsSectionLoaded data={statsSectionData} allStats={stats} />;
+        return <AnimeCardsFilters data={statsSectionData} allStats={stats} />;
       } else {
         return <p>404</p>;
       }

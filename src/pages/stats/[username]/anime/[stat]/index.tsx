@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
+//import dynamic from "next/dynamic";
 import type {
   StatArraysOnly,
   StatArray,
@@ -12,11 +13,13 @@ import {
   faDivide,
   faGrip,
   faGripLines,
-  faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import { statsPages } from "../../../../../data/statsPages";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import StatCardsContainer from "../../../../../components/stats/StatCard/CardsContainer";
+import { DebounceInput } from "react-debounce-input";
+import Fuse from "fuse.js";
+//import ChartContainer from "../../../../../components/stats/ChartContainer";
 
 const validStats = [
   "episodes_counts",
@@ -29,6 +32,10 @@ const validStats = [
   "watch_years",
 ];
 
+/* const ChartContainer = dynamic(
+  () => import("../../../../../components/stats/ChartContainer")
+); */
+
 export default function StatsAnimePage() {
   const router = useRouter();
   const query: string = router.query.stat as string;
@@ -37,6 +44,7 @@ export default function StatsAnimePage() {
   const [sort, setSort] = useState<"count" | "time_watched" | "mean_score">(
     "count"
   );
+  const [searchQuery, setSearchQuery] = useState("");
 
   const stats = useContext(StatsContext);
 
@@ -50,6 +58,10 @@ export default function StatsAnimePage() {
       const pageInfo = statsPages.find((v) => v.id === query)!;
       const statsData: StatArray[] = stats[query as keyof StatArraysOnly];
       const statsDataCards = [...statsData];
+      const fuse = new Fuse(statsDataCards, {
+        keys: ["name"],
+        fieldNormWeight: 1,
+      });
       return (
         <>
           {/* <ChartContainer
@@ -60,25 +72,33 @@ export default function StatsAnimePage() {
           /> */}
           <div className="mb-5 flex justify-between">
             <div className="flex w-1/2">
-              <div className="grow">{/* <Input /> */}</div>
-              <Button size="sm" icon={faFilter} text="Filter" />
+              <DebounceInput
+                type="search"
+                id="search"
+                name="search"
+                placeholder="Search"
+                autoComplete="off"
+                className="h-full w-1/2 rounded-md border border-gray-400 px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors"
+                debounceTimeout={300}
+                onChange={(event) => setSearchQuery(event.target.value)}
+              />
+              <div>
+                <Button
+                  onClick={() => setIsGrid(true)}
+                  size="sm"
+                  icon={faGrip}
+                  text="Grid"
+                  active={isGrid}
+                />
+                <Button
+                  onClick={() => setIsGrid(false)}
+                  size="sm"
+                  icon={faGripLines}
+                  text="Rows"
+                  active={!isGrid}
+                />
+              </div>
             </div>
-            {/* <div>
-              <Button
-                onClick={() => setIsGrid(true)}
-                size="sm"
-                icon={faGrip}
-                text="Grid"
-                active={isGrid}
-              />
-              <Button
-                onClick={() => setIsGrid(false)}
-                size="sm"
-                icon={faGripLines}
-                text="Rows"
-                active={!isGrid}
-              />
-            </div> */}
             <div>
               <Button
                 onClick={() => setSort("count")}
@@ -103,11 +123,16 @@ export default function StatsAnimePage() {
               />
             </div>
           </div>
-          <StatCardsContainer data={statsDataCards} sort={sort} />
-          {/* <div
-            className={`grid ${isGrid ? "grid-cols-3" : "grid-cols-1"} gap-5`}
-          >
-          </div> */}
+          <StatCardsContainer
+            data={
+              searchQuery !== ""
+                ? fuse.search(searchQuery).map((e) => e.item)
+                : statsDataCards
+            }
+            sort={sort}
+            isGrid={isGrid}
+            isSearching={searchQuery !== ""}
+          />
         </>
       );
     } else {

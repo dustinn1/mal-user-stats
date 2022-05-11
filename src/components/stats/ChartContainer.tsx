@@ -7,15 +7,14 @@ import {
   faArrowDown91,
   faDivide,
   faClock,
-  faAngleUp,
-  faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { StatArray } from "../../interfaces/stats";
 
 type Props = {
   width?: number | string;
   height?: number | string;
   type: "line" | "bar" | "pie";
-  data: any[];
+  data: StatArray[];
   xKey: string;
   name: string;
 };

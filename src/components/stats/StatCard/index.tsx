@@ -2,7 +2,7 @@ import { useMemo, useRef, useCallback, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import type { Anime } from "../../../interfaces/stats";
+import type { Anime, StatArray } from "../../../interfaces/stats";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
 import { getAnimesInfo } from "../../../utils/getAnimesInfo";
@@ -10,26 +10,13 @@ import { useVirtual } from "react-virtual";
 import { StatsContext } from "../../../contexts/StatsContext";
 
 type Props = {
-  name: string;
+  statArray: StatArray;
   sort: "count" | "time_watched" | "mean_score";
   rank: number;
-  amount: number;
-  average: number;
-  time: string;
-  animes: number[];
   isGrid: boolean;
 };
 
-export default function StatCard({
-  name,
-  sort,
-  rank,
-  amount,
-  average,
-  time,
-  animes,
-  isGrid,
-}: Props) {
+export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
   const allAnimes: { [k: string]: Anime } = useContext(StatsContext).animes;
@@ -38,16 +25,15 @@ export default function StatCard({
 
   const rowVirtualizer = useVirtual({
     horizontal: true,
-    size: animes.length,
+    size: statArray.animes.length,
     parentRef: listParentRef,
     estimateSize: useCallback(() => 90, []),
-    //overscan: 3,
     paddingStart: 16,
     paddingEnd: 16,
   });
 
   const CoversList = useMemo(() => {
-    const animesInfo = getAnimesInfo(animes, allAnimes);
+    const animesInfo = getAnimesInfo(statArray.animes, allAnimes);
     return (
       <div
         style={{
@@ -85,27 +71,27 @@ export default function StatCard({
     );
   }, [
     allAnimes,
-    animes,
     rowVirtualizer.totalSize,
     rowVirtualizer.virtualItems,
+    statArray.animes,
   ]);
 
   return (
     <div
       className="w-full rounded-lg bg-gray-100 pt-3 pb-0.5"
-      id={`card-${name}`}
+      id={`card-${statArray.name}`}
     >
       <div className="mx-4 flex items-center font-bold">
         <div className="mr-2 rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
           # {rank}
         </div>
         <Link
-          href={`/stats/${username}/anime/${stat}/${name
+          href={`/stats/${username}/anime/${stat}/${statArray.name
             .toLowerCase()
             .replaceAll(" ", "_")}`}
         >
           <a className="text-3xl text-blue-500 hover:text-blue-600 hover:underline">
-            {name}
+            {statArray.name}
           </a>
         </Link>
       </div>
@@ -123,7 +109,7 @@ export default function StatCard({
               !isGrid && sort === "count" ? "border-b-2 border-black" : ""
             }
           >
-            <strong>{amount}</strong> Animes
+            <strong>{statArray.count}</strong> Animes
           </p>
         )}
         {(!isGrid || sort === "time_watched") && (
@@ -135,11 +121,11 @@ export default function StatCard({
             }
           >
             <strong>
-              {parseInt(time) > 0
+              {statArray.time_watched > 0
                 ? formatDuration(
                     intervalToDuration({
                       start: 0,
-                      end: parseInt(time) * 1000,
+                      end: statArray.time_watched * 1000,
                     })
                   )
                 : "No time"}
@@ -153,7 +139,7 @@ export default function StatCard({
               !isGrid && sort === "mean_score" ? "border-b-2 border-black" : ""
             }
           >
-            <strong>{average}</strong> Average Score
+            <strong>{statArray.mean_score}</strong> Average Score
           </p>
         )}
       </div>

@@ -2,7 +2,7 @@ import { getAnimesInfo } from "../../utils/getAnimesInfo";
 import CardsContainer from "./AnimeCard/CardsContainer";
 import { useListFilter } from "../../hooks/useListFilter";
 import { StatArray, AnimeStats, Anime } from "../../interfaces/stats";
-import FilterContainer from "../stats/Filters/Container";
+import FilterContainer from "./Filters/Container";
 import { FilterContext } from "../../contexts/FilterContext";
 
 type Props = {
@@ -27,9 +27,8 @@ function compare(prop: string) {
   }
 }
 
-export default function StatsSectionLoaded({ data, allStats }: Props) {
+export default function AnimeCardsFilters({ data, allStats }: Props) {
   const animesInfos = getAnimesInfo(data.animes, allStats.animes);
-
   const filtersContext = useListFilter(animesInfos);
 
   return (

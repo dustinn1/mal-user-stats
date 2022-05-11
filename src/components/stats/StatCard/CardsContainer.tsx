@@ -2,10 +2,13 @@ import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
 import StatCard from ".";
 import { StatArray } from "../../../interfaces/stats";
+import { classNames } from "../../../utils/classNames";
 
 type Props = {
   data: StatArray[];
   sort: "count" | "time_watched" | "mean_score";
+  isGrid: boolean;
+  isSearching: boolean;
 };
 
 function compare(prop: string) {
@@ -13,28 +16,30 @@ function compare(prop: string) {
     return function (a: StatArray, b: StatArray) {
       return b[prop] - a[prop];
     };
-  } else {
-    return function (a: StatArray, b: StatArray) {
-      return b.count - a.count;
-    };
   }
 }
 
-export default function StatCardsContainer({ data, sort }: Props) {
-  const stats = data.sort(compare(sort));
+export default function StatCardsContainer({
+  data,
+  sort,
+  isGrid,
+  isSearching,
+}: Props) {
+  const stats = !isSearching ? data.sort(compare(sort)) : data;
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
     size: stats.length,
-    estimateSize: useCallback(() => 245, []),
+    estimateSize: useCallback(() => (isGrid ? 275 : 245), [isGrid]),
     parentRef,
     windowRef: useRef(window),
+    overscan: 3,
   });
 
   return (
-    <div className="grid grid-cols-1" ref={parentRef}>
+    <div ref={parentRef}>
       <div
         style={{
-          height: `${rowVirtualizer.totalSize}px`,
+          height: `${rowVirtualizer.totalSize / (isGrid ? 3 : 1)}px`,
           width: "100%",
           position: "relative",
         }}
@@ -42,6 +47,10 @@ export default function StatCardsContainer({ data, sort }: Props) {
         {rowVirtualizer.virtualItems.map((virtualRow) => (
           <div
             key={virtualRow.index}
+            className={classNames(
+              "grid gap-4",
+              isGrid ? "grid-cols-3" : "grid-cols-1"
+            )}
             style={{
               position: "absolute",
               top: 0,
@@ -50,17 +59,22 @@ export default function StatCardsContainer({ data, sort }: Props) {
               transform: `translateY(${virtualRow.start}px)`,
             }}
           >
-            <StatCard
-              key={stats[virtualRow.index].id}
-              sort={sort}
-              name={stats[virtualRow.index].name}
-              rank={virtualRow.index + 1}
-              amount={stats[virtualRow.index].count}
-              average={stats[virtualRow.index].mean_score}
-              time={stats[virtualRow.index].time_watched.toString()}
-              animes={stats[virtualRow.index].animes}
-              isGrid={false}
-            />
+            {[...Array(isGrid ? 3 : 1)].map((_, i) => {
+              const index = isGrid
+                ? 3 * virtualRow.index + i
+                : virtualRow.index;
+              if (stats[index] !== undefined) {
+                return (
+                  <StatCard
+                    key={stats[index].id}
+                    statArray={stats[index]}
+                    sort={sort}
+                    rank={index + 1}
+                    isGrid={isGrid}
+                  />
+                );
+              }
+            })}
           </div>
         ))}
       </div>
