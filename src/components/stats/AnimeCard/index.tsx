@@ -48,7 +48,7 @@ export default function AnimeCard({ anime }: Props) {
             </a>
           </Link>
         </div>
-        <div className="w-2/3 py-1.5 px-2">
+        <div className="max-h-56 w-2/3 overflow-y-scroll py-1.5 px-2">
           <div className="border-b border-gray-600 pb-0.5">
             <h1
               className="text-lg font-bold leading-none line-clamp-2"

@@ -27,12 +27,10 @@ export default function FilterContainer({ stats }: Props) {
     <Disclosure>
       {({ open }) => (
         <>
-          <div className="mb-3 flex justify-between">
-            <div className="flex w-1/3">
-              <div className="grow">
-                <FilterInput />
-              </div>
-              <Disclosure.Button>
+          <div className="mb-5 flex flex-wrap justify-center gap-2 lg:justify-between">
+            <div className="flex grow xl:w-1/2 xl:grow-0">
+              <FilterInput />
+              <Disclosure.Button className="ml-1">
                 <Button
                   size="sm"
                   icon={faFilter}
@@ -42,7 +40,7 @@ export default function FilterContainer({ stats }: Props) {
                 />
               </Disclosure.Button>
             </div>
-            <div>
+            <div className="overflow-x-scroll">
               <Button
                 onClick={() => filter.setSort("title")}
                 size="sm"
