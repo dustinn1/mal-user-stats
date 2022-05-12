@@ -9,8 +9,8 @@ import Button from "../Button";
 
 export default function StatsHeader() {
   return (
-    <header className="my-3 flex h-40 flex-wrap items-center justify-between rounded-3xl bg-gray-200 px-14 text-gray-900">
-      <div className="flex flex-wrap items-center">
+    <header className="h-68 my-3 mx-3 flex flex-wrap items-center justify-between rounded-3xl bg-gray-200 py-3 px-5 text-gray-900 sm:h-52 xl:mx-auto xl:h-44 xl:px-14">
+      <div className="flex w-full flex-wrap items-center justify-center lg:w-auto">
         <div className="relative h-[100px] w-[100px]">
           <Image
             src="https://cdn.myanimelist.net/images/userimages/7296529.webp"
@@ -20,9 +20,11 @@ export default function StatsHeader() {
             priority
           />
         </div>
-        <h1 className="ml-5 text-5xl font-bold">triplezko</h1>
+        <h1 className="ml-5 w-full break-words text-center text-xl font-bold sm:w-auto sm:text-2xl md:text-4xl xl:text-5xl">
+          WWWWWWWWWWWWWWWW
+        </h1>
       </div>
-      <div className="ml-5 flex flex-grow-0 flex-col gap-3">
+      <div className="flex w-full flex-grow-0 flex-col gap-3 text-center lg:w-auto">
         <span className="text-lg">
           <FontAwesomeIcon icon={faClock} className="mr-1.5" />
           Last Updated: 5 months ago

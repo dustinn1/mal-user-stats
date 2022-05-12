@@ -29,7 +29,7 @@ export default function StatCardsContainer({
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
     size: stats.length,
-    estimateSize: useCallback(() => (isGrid ? 275 : 245), [isGrid]),
+    estimateSize: useCallback(() => 245, []),
     parentRef,
     windowRef: useRef(window),
     overscan: 3,

@@ -19,6 +19,7 @@ import { StatsContext } from "../../../../../contexts/StatsContext";
 import StatCardsContainer from "../../../../../components/stats/StatCard/CardsContainer";
 import { DebounceInput } from "react-debounce-input";
 import Fuse from "fuse.js";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
 //import ChartContainer from "../../../../../components/stats/ChartContainer";
 
 const validStats = [
@@ -45,8 +46,9 @@ export default function StatsAnimePage() {
     "count"
   );
   const [searchQuery, setSearchQuery] = useState("");
-
   const stats = useContext(StatsContext);
+
+  const width = useWindowWidth();
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -70,36 +72,38 @@ export default function StatsAnimePage() {
             xKey="name"
             name={pageInfo.name}
           /> */}
-          <div className="mb-5 flex justify-between">
-            <div className="flex w-1/2">
+          <div className="mb-5 flex flex-wrap justify-center gap-2 lg:justify-between">
+            <div className="flex grow xl:w-1/2 xl:grow-0">
               <DebounceInput
                 type="search"
                 id="search"
                 name="search"
                 placeholder="Search"
                 autoComplete="off"
-                className="h-full w-1/2 rounded-md border border-gray-400 px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors"
+                className="h-8 w-full rounded-md border border-gray-400 px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors lg:h-auto"
                 debounceTimeout={300}
                 onChange={(event) => setSearchQuery(event.target.value)}
               />
-              <div>
-                <Button
-                  onClick={() => setIsGrid(true)}
-                  size="sm"
-                  icon={faGrip}
-                  text="Grid"
-                  active={isGrid}
-                />
-                <Button
-                  onClick={() => setIsGrid(false)}
-                  size="sm"
-                  icon={faGripLines}
-                  text="Rows"
-                  active={!isGrid}
-                />
-              </div>
+              {width >= 1024 && (
+                <div className="ml-2 w-1/2">
+                  <Button
+                    onClick={() => setIsGrid(true)}
+                    size="sm"
+                    icon={faGrip}
+                    text="Grid"
+                    active={isGrid}
+                  />
+                  <Button
+                    onClick={() => setIsGrid(false)}
+                    size="sm"
+                    icon={faGripLines}
+                    text="Rows"
+                    active={!isGrid}
+                  />
+                </div>
+              )}
             </div>
-            <div>
+            <div className="overflow-x-scroll">
               <Button
                 onClick={() => setSort("count")}
                 size="sm"
@@ -130,7 +134,7 @@ export default function StatsAnimePage() {
                 : statsDataCards
             }
             sort={sort}
-            isGrid={isGrid}
+            isGrid={isGrid && width >= 1024}
             isSearching={searchQuery !== ""}
           />
         </>
