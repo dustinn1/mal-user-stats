@@ -18,7 +18,10 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
   const InputValuesEmpty: FilterInputValues = {
     search: "",
     score: [0, 10],
-    episodes_count: [
+    episodes_count: [0, 10],
+    release_year: [0, 10],
+    watch_year: [0, 10],
+    /* episodes_count: [
       getMin(initialList, "episodes_count"),
       getMax(initialList, "episodes_count"),
     ],
@@ -29,10 +32,9 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
     watch_year: [
       getMin(initialList, "watch_year"),
       getMax(initialList, "watch_year"),
-    ],
+    ], */
   };
 
-  console.log(InputValuesEmpty);
   const [inputValues, setInputValues] =
     useState<FilterInputValues>(InputValuesEmpty);
 

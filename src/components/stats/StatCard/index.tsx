@@ -8,6 +8,8 @@ import formatDuration from "date-fns/formatDuration";
 import { getAnimesInfo } from "../../../utils/getAnimesInfo";
 import { useVirtual } from "react-virtual";
 import { StatsContext } from "../../../contexts/StatsContext";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
+import { classNames } from "../../../utils/classNames";
 
 type Props = {
   statArray: StatArray;
@@ -20,9 +22,9 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
   const allAnimes: { [k: string]: Anime } = useContext(StatsContext).animes;
+  const width = useWindowWidth();
 
   const listParentRef = useRef<HTMLDivElement>(null);
-
   const rowVirtualizer = useVirtual({
     horizontal: true,
     size: statArray.animes.length,
@@ -99,11 +101,12 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
         {CoversList}
       </div>
       <div
-        className={`mx-4 mb-3 ${
+        className={classNames(
+          "mx-4 mb-3 justify-around text-center",
           isGrid ? "" : "flex"
-        } justify-around text-center`}
+        )}
       >
-        {(!isGrid || sort === "count") && (
+        {((!isGrid && width >= 768) || sort === "count") && (
           <p
             className={
               !isGrid && sort === "count" ? "border-b-2 border-black" : ""
@@ -112,7 +115,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
             <strong>{statArray.count}</strong> Animes
           </p>
         )}
-        {(!isGrid || sort === "time_watched") && (
+        {((!isGrid && width >= 768) || sort === "time_watched") && (
           <p
             className={
               !isGrid && sort === "time_watched"
@@ -133,7 +136,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
             Watched
           </p>
         )}
-        {(!isGrid || sort === "mean_score") && (
+        {((!isGrid && width >= 768) || sort === "mean_score") && (
           <p
             className={
               !isGrid && sort === "mean_score" ? "border-b-2 border-black" : ""

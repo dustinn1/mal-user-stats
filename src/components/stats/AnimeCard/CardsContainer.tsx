@@ -2,6 +2,7 @@ import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
 import AnimeCard from ".";
 import { Anime } from "../../../interfaces/stats";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
 
 type Props = {
   data: Anime[];
@@ -17,11 +18,22 @@ export default function StatCardsContainer({ data }: Props) {
     overscan: 5,
   });
 
+  const width = useWindowWidth();
+  let split: number;
+
+  if (width >= 1280) {
+    split = 3;
+  } else if (width >= 768) {
+    split = 3;
+  } else {
+    split = 1;
+  }
+
   return (
     <div ref={parentRef}>
       <div
         style={{
-          height: `${rowVirtualizer.totalSize / 3}px`,
+          height: `${rowVirtualizer.totalSize / split}px`,
           width: "100%",
           position: "relative",
         }}
@@ -29,7 +41,7 @@ export default function StatCardsContainer({ data }: Props) {
         {rowVirtualizer.virtualItems.map((virtualRow) => (
           <div
             key={virtualRow.index}
-            className="grid grid-cols-3 gap-4"
+            className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
             style={{
               position: "absolute",
               top: 0,
@@ -38,10 +50,13 @@ export default function StatCardsContainer({ data }: Props) {
               transform: `translateY(${virtualRow.start}px)`,
             }}
           >
-            {[...Array(3)].map((_, i) => {
-              if (data[3 * virtualRow.index + i] !== undefined) {
+            {[...Array(split)].map((_, i) => {
+              if (data[split * virtualRow.index + i] !== undefined) {
                 return (
-                  <AnimeCard anime={data[3 * virtualRow.index + i]} key={i} />
+                  <AnimeCard
+                    anime={data[split * virtualRow.index + i]}
+                    key={i}
+                  />
                 );
               }
             })}

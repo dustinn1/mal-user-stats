@@ -40,7 +40,7 @@ export default function Button({
       <div
         className={classNames(
           size === "sm" ? "text-sm" : "",
-          "flex items-center justify-center gap-2"
+          "flex items-center justify-center gap-2 whitespace-nowrap"
         )}
       >
         {icon && <FontAwesomeIcon icon={icon} />}
