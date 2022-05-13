@@ -42,11 +42,11 @@ export default function FilterSelect({ data, name }: animes) {
             : ""
         )}
       >
-        <span>{stat.name}</span>
-        <div className="grid grid-cols-2 gap-2.5">
+        <span className="col-span-9 truncate">{stat.name}</span>
+        <div className="flex gap-1">
           <div
             className={classNames(
-              "cursor-pointer rounded-md border border-green-500 px-1.5 transition-all hover:bg-green-500 hover:text-white",
+              "w-7 cursor-pointer rounded-md border border-green-500 px-1.5 transition-all hover:bg-green-500 hover:text-white",
               matchedFilter && matchedFilter.type === "include"
                 ? "bg-green-500 text-white"
                 : "text-green-500"
@@ -69,7 +69,7 @@ export default function FilterSelect({ data, name }: animes) {
           </div>
           <div
             className={classNames(
-              "cursor-pointer rounded-md border border-red-500 px-1.5 text-center transition-all hover:bg-red-500 hover:text-white",
+              "w-7 cursor-pointer rounded-md border border-red-500 px-1.5 text-center transition-all hover:bg-red-500 hover:text-white",
               matchedFilter && matchedFilter.type === "exclude"
                 ? "bg-red-500 text-white"
                 : " text-red-500"
@@ -100,7 +100,7 @@ export default function FilterSelect({ data, name }: animes) {
       <div className="border-b border-black px-4 py-1 font-bold capitalize">
         {name}
       </div>
-      <div ref={parentRef} className="h-64 overflow-y-scroll px-4 py-1">
+      <div ref={parentRef} className="max-h-64 overflow-y-scroll px-4 py-1">
         <div
           className="relative divide-y divide-gray-300"
           style={{ height: `${rowVirtualizer.totalSize}px` }}
