@@ -40,7 +40,7 @@ export default function FilterContainer({ stats }: Props) {
                 />
               </Disclosure.Button>
             </div>
-            <div className="overflow-x-scroll">
+            <div className="flex overflow-x-scroll">
               <Button
                 onClick={() => filter.setSort("title")}
                 size="sm"

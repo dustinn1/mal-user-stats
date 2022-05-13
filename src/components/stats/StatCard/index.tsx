@@ -9,6 +9,7 @@ import { getAnimesInfo } from "../../../utils/getAnimesInfo";
 import { useVirtual } from "react-virtual";
 import { StatsContext } from "../../../contexts/StatsContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
+import { classNames } from "../../../utils/classNames";
 
 type Props = {
   statArray: StatArray;
@@ -100,9 +101,10 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
         {CoversList}
       </div>
       <div
-        className={`mx-4 mb-3 ${
+        className={classNames(
+          "mx-4 mb-3 justify-around text-center",
           isGrid ? "" : "flex"
-        } justify-around text-center`}
+        )}
       >
         {((!isGrid && width >= 768) || sort === "count") && (
           <p

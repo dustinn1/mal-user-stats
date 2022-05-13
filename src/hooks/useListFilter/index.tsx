@@ -35,7 +35,6 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
     ], */
   };
 
-  console.log(InputValuesEmpty);
   const [inputValues, setInputValues] =
     useState<FilterInputValues>(InputValuesEmpty);
 

@@ -80,7 +80,7 @@ export default function StatsAnimePage() {
                 name="search"
                 placeholder="Search"
                 autoComplete="off"
-                className="h-8 w-full rounded-md border border-gray-400 px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors lg:h-auto"
+                className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors lg:h-auto"
                 debounceTimeout={300}
                 onChange={(event) => setSearchQuery(event.target.value)}
               />
@@ -103,7 +103,7 @@ export default function StatsAnimePage() {
                 </div>
               )}
             </div>
-            <div className="overflow-x-scroll">
+            <div className="flex overflow-x-scroll">
               <Button
                 onClick={() => setSort("count")}
                 size="sm"

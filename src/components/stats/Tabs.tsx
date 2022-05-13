@@ -15,7 +15,7 @@ type Props = {
 
 export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
   const router = useRouter();
-  const { username, stat } = router.query;
+  const { username } = router.query;
   const currentCategoryTab = statsTabs.find(
     (tab) => tab.name.toLowerCase() === currentCategory
   )!;
@@ -80,17 +80,19 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
             <a>
               <Tab
                 name={tab}
-                active={stat === tab.toLowerCase().replaceAll(" ", "_")}
+                active={
+                  router.asPath.split("/")[4] ===
+                  tab.toLowerCase().replaceAll(" ", "_")
+                }
               />
             </a>
           </Link>
         ))}
       </div>
       <Menu as="div" className="relative inline-block lg:hidden">
-        <Menu.Button className="w-full">
+        <Menu.Button className="w-full capitalize">
           <Tab
-            //name={statsPages.find((page) => page.id === (stat as string))!.name}
-            name={stat as string}
+            name={router.asPath.split("/")[4].replaceAll("_", " ")}
             dropdown
           />
         </Menu.Button>
@@ -117,9 +119,10 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
                       {({ active }) => (
                         <button
                           className={classNames(
-                            "my-0.5 flex w-full items-center rounded-md px-3 py-2",
+                            "my-0.5 flex w-full items-center truncate rounded-md px-3 py-2",
                             active ||
-                              stat === tab.toLowerCase().replaceAll(" ", "_")
+                              router.asPath.split("/")[4] ===
+                                tab.toLowerCase().replaceAll(" ", "_")
                               ? "bg-gray-700 text-white"
                               : "text-gray-900"
                           )}
