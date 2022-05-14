@@ -26,7 +26,13 @@ export default function StatSection() {
         ) ?? undefined;
 
       if (statsSectionData) {
-        return <AnimeCardsFilters data={statsSectionData} allStats={stats} />;
+        return (
+          <AnimeCardsFilters
+            key={router.asPath}
+            data={statsSectionData}
+            allStats={stats}
+          />
+        );
       } else {
         return <p>404</p>;
       }

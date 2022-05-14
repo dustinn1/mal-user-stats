@@ -4,6 +4,8 @@ import { useListFilter } from "../../hooks/useListFilter";
 import { StatArray, AnimeStats, Anime } from "../../interfaces/stats";
 import FilterContainer from "./Filters/Container";
 import { FilterContext } from "../../contexts/FilterContext";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
+import prettyMs from "pretty-ms";
 
 type Props = {
   data: StatArray;
@@ -31,6 +33,8 @@ export default function AnimeCardsFilters({ data, allStats }: Props) {
   const animesInfos = getAnimesInfo(data.animes, allStats.animes);
   const filtersContext = useListFilter(animesInfos);
 
+  const width = useWindowWidth();
+
   return (
     <>
       {/* <Link href={`/stats/${username}/anime/${stat}`}>
@@ -48,7 +52,14 @@ export default function AnimeCardsFilters({ data, allStats }: Props) {
             <br /> Animes
           </span>
           <span className="w-1/3">
-            <strong>{data.time_watched}</strong>
+            <strong>
+              {data.time_watched > 0
+                ? prettyMs(data.time_watched * 1000, {
+                    verbose: true,
+                    unitCount: width >= 768 ? 3 : 2,
+                  })
+                : "No time"}
+            </strong>
             <br /> Watched
           </span>
           <span className="w-1/3">

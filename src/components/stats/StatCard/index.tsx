@@ -3,13 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { Anime, StatArray } from "../../../interfaces/stats";
-import intervalToDuration from "date-fns/intervalToDuration";
-import formatDuration from "date-fns/formatDuration";
 import { getAnimesInfo } from "../../../utils/getAnimesInfo";
 import { useVirtual } from "react-virtual";
 import { StatsContext } from "../../../contexts/StatsContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import { classNames } from "../../../utils/classNames";
+import prettyMs from "pretty-ms";
 
 type Props = {
   statArray: StatArray;
@@ -84,7 +83,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
       id={`card-${statArray.name}`}
     >
       <div className="mx-4 flex items-center font-bold">
-        <div className="mr-2 rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
+        <div className="mr-2 whitespace-nowrap rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
           # {rank}
         </div>
         <Link
@@ -92,7 +91,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
             .toLowerCase()
             .replaceAll(" ", "_")}`}
         >
-          <a className="text-3xl text-blue-500 hover:text-blue-600 hover:underline">
+          <a className="truncate text-3xl text-blue-500 hover:text-blue-600 hover:underline">
             {statArray.name}
           </a>
         </Link>
@@ -125,12 +124,10 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
           >
             <strong>
               {statArray.time_watched > 0
-                ? formatDuration(
-                    intervalToDuration({
-                      start: 0,
-                      end: statArray.time_watched * 1000,
-                    })
-                  )
+                ? prettyMs(statArray.time_watched * 1000, {
+                    verbose: true,
+                    unitCount: width >= 640 ? 3 : 2,
+                  })
                 : "No time"}
             </strong>{" "}
             Watched
