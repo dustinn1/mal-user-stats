@@ -21,7 +21,6 @@ function capitalizeFormat(
 }
 
 export function allAnimes(animeList: AnimeListObject[]): Map<number, Anime> {
-  //const animes: Anime[] = [];
   const animes: Map<number, Anime> = new Map();
   animeList.map((item: AnimeListObject) => {
     function getReleaseYear(): number | undefined {

@@ -37,11 +37,6 @@ export default function AnimeCardsFilters({ data, allStats }: Props) {
 
   return (
     <>
-      {/* <Link href={`/stats/${username}/anime/${stat}`}>
-        <a>
-          <Button size="sm" icon={faAngleLeft} text="Back" />
-        </a>
-      </Link> */}
       <div className="mb-3 w-full rounded-lg bg-gray-100 pt-3">
         <div className="mx-4 flex items-center justify-center font-bold">
           <span className="text-3xl">{data.name}</span>

@@ -28,7 +28,7 @@ export default function FilterContainer({ stats }: Props) {
       {({ open }) => (
         <>
           <div className="mb-5 flex flex-wrap justify-center gap-2 lg:justify-between">
-            <div className="flex grow xl:w-1/2 xl:grow-0">
+            <div className="flex grow xl:w-1/3 xl:grow-0">
               <FilterInput />
               <Disclosure.Button className="ml-1">
                 <Button

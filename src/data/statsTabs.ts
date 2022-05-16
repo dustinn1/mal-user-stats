@@ -19,6 +19,6 @@ export const statsTabs = [
   {
     name: "Manga",
     icon: faBook,
-    tabs: ["Overview", "History", "Genres"],
+    tabs: ["Overview"],
   },
 ];
