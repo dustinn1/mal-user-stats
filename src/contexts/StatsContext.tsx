@@ -1,13 +1,43 @@
-import { createContext, FunctionComponent } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { AnimeStats } from "../interfaces/stats";
-import mock from "../data/mock/animeStats.json";
+import { db } from "../db";
+import { useLiveQuery } from "dexie-react-hooks";
+import LoadngIndicator from "../components/LoadngIndicator";
+
+type ContextProps = {
+  children: ReactNode;
+  username: string;
+};
 
 export const StatsContext = createContext<AnimeStats>({} as AnimeStats);
 
-export const StatsContextProvider: FunctionComponent = ({ children }) => {
+export const StatsContextProvider = ({ children, username }: ContextProps) => {
+  const [loaded, setLoaded] = useState(false);
+
+  const stats = useLiveQuery(async () => {
+    return await db.stats
+      .where("[username+type]")
+      .equals([username, "anime"])
+      .toArray();
+  });
+
+  useEffect(() => setLoaded(stats !== undefined), [stats]);
+
+  if (!loaded) {
+    return <LoadngIndicator />;
+  }
+
   return (
-    <StatsContext.Provider value={mock as AnimeStats}>
-      {children}
-    </StatsContext.Provider>
+    <>
+      {loaded && stats !== undefined && stats.length > 0 ? (
+        <StatsContext.Provider value={stats[0].data}>
+          {children}
+        </StatsContext.Provider>
+      ) : (
+        <>
+          <p>Does not exist</p>
+        </>
+      )}
+    </>
   );
 };

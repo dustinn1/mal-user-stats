@@ -20,6 +20,7 @@ import StatCardsContainer from "../../../../../components/stats/StatCard/CardsCo
 import { DebounceInput } from "react-debounce-input";
 import Fuse from "fuse.js";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
+import LoadngIndicator from "../../../../../components/LoadngIndicator";
 //import ChartContainer from "../../../../../components/stats/ChartContainer";
 
 const validStats = [
@@ -143,7 +144,7 @@ export default function StatsAnimePage() {
       return <p>404</p>;
     }
   } else {
-    return <p>Loading</p>;
+    return <LoadngIndicator />;
   }
 }
 
