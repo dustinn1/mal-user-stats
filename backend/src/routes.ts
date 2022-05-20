@@ -27,8 +27,8 @@ export default async function routes(fastify: FastifyInstance) {
       }>,
       reply: FastifyReply
     ) => {
+      reply.send({ code: 200, message: "generating" });
       await getStats(request.body.username);
-      return reply.code(200).send("success");
     }
   );
 
@@ -46,9 +46,9 @@ export default async function routes(fastify: FastifyInstance) {
           "src/temp_data/" + request.body.username + "_anime.json"
         )
       ) {
-        reply.code(200).send("stats has been generated");
+        reply.send({ code: 200, message: "stats has been generated" });
       } else {
-        reply.code(404).send("stats has not been generated");
+        reply.send({ code: 404, message: "stats has not been generated" });
       }
     }
   );
@@ -76,7 +76,7 @@ export default async function routes(fastify: FastifyInstance) {
           )
         );
       } else {
-        reply.code(404).send("stats has not been generated");
+        reply.send("stats has not been generated");
       }
     }
   );

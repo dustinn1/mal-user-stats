@@ -2,7 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { AnimeStats } from "../interfaces/stats";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
-import LoadngIndicator from "../components/LoadngIndicator";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 type ContextProps = {
   children: ReactNode;
@@ -24,7 +24,11 @@ export const StatsContextProvider = ({ children, username }: ContextProps) => {
   useEffect(() => setLoaded(stats !== undefined), [stats]);
 
   if (!loaded) {
-    return <LoadngIndicator />;
+    return (
+      <div className="flex h-48 items-center justify-center">
+        <LoadingIndicator />;
+      </div>
+    );
   }
 
   return (
