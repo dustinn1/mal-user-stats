@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import StatsHeader from "../../components/stats/Header";
 import Tabs from "../stats/Tabs";
 import { StatsContextProvider } from "../../contexts/StatsContext";
-import LoadngIndicator from "../LoadngIndicator";
+import LoadingIndicator from "../LoadingIndicator";
 
 type Props = {
   children: ReactNode;
@@ -47,9 +47,17 @@ export default function Layout({ children }: Props) {
         </>
       );
     } else {
-      return <LoadngIndicator />;
+      return (
+        <div className="flex h-48 items-center justify-center">
+          <LoadingIndicator />;
+        </div>
+      );
     }
   } else {
-    return <LoadngIndicator />;
+    return (
+      <div className="flex h-48 items-center justify-center">
+        <LoadingIndicator />;
+      </div>
+    );
   }
 }

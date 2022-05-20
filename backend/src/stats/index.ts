@@ -6,7 +6,7 @@ import { writeFileSync } from "fs";
 export async function getStats(username: string): Promise<AnimeStats | null> {
   try {
     writeFileSync(
-      "src/temp/" + username + "_anime.json",
+      "src/temp_data/" + username + "_anime.json",
       JSON.stringify(
         generateAnimeStats(await fetchFullList(username, "anime"))
       ),

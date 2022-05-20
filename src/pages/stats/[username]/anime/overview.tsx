@@ -9,7 +9,7 @@ import { Anime } from "../../../../interfaces/stats";
 import { getAnimesInfo } from "../../../../utils/getAnimesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
 import prettyMs from "pretty-ms";
-import LoadngIndicator from "../../../../components/LoadngIndicator";
+import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 function compare(prop: string) {
   if (prop === "title") {
@@ -84,7 +84,11 @@ export default function StatsAnimeOverview() {
       </>
     );
   } else {
-    return <LoadngIndicator />;
+    return (
+      <div className="flex h-48 items-center justify-center">
+        <LoadingIndicator />;
+      </div>
+    );
   }
 }
 
