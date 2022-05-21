@@ -2,6 +2,7 @@ import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { readFileSync } from "fs";
 import { getStats } from "./stats";
 import { fileExists } from "./utils/fileExists";
+import { generatedStats } from "./db";
 
 export default async function routes(fastify: FastifyInstance) {
   fastify.get("*", async (_request: FastifyRequest, reply: FastifyReply) => {
@@ -19,6 +20,23 @@ export default async function routes(fastify: FastifyInstance) {
   };
 
   fastify.post(
+    "/generate/status",
+    { schema: generateBodyJsonschema },
+    async (
+      request: FastifyRequest<{
+        Body: { username: string };
+      }>,
+      reply: FastifyReply
+    ) => {
+      if (await generatedStats.has(request.body.username)) {
+        reply.send({ code: 200, message: "stats has been generated" });
+      } else {
+        reply.send({ code: 404, message: "stats has not been generated" });
+      }
+    }
+  );
+
+  fastify.post(
     "/generate/new",
     { schema: generateBodyJsonschema },
     async (
@@ -29,27 +47,6 @@ export default async function routes(fastify: FastifyInstance) {
     ) => {
       reply.send({ code: 200, message: "generating" });
       await getStats(request.body.username);
-    }
-  );
-
-  fastify.post(
-    "/generate/status",
-    { schema: generateBodyJsonschema },
-    async (
-      request: FastifyRequest<{
-        Body: { username: string };
-      }>,
-      reply: FastifyReply
-    ) => {
-      if (
-        await fileExists(
-          "src/temp_data/" + request.body.username + "_anime.json"
-        )
-      ) {
-        reply.send({ code: 200, message: "stats has been generated" });
-      } else {
-        reply.send({ code: 404, message: "stats has not been generated" });
-      }
     }
   );
 
