@@ -10,11 +10,11 @@ export default function StatSection() {
   const { stat } = router.query;
   const section: string = router.query.section as string;
 
-  const stats = useContext(StatsContext);
+  const { animes } = useContext(StatsContext);
 
   if (section !== undefined) {
     const statsSectionData: StatArray | undefined =
-      [...stats[stat as keyof StatArraysOnly]].find(
+      [...animes[stat as keyof StatArraysOnly]].find(
         (o: StatArray) => o.name.toLowerCase().replaceAll(" ", "_") === section
       ) ?? undefined;
 
@@ -23,7 +23,7 @@ export default function StatSection() {
         <AnimeCardsFilters
           key={router.asPath}
           data={statsSectionData}
-          allStats={stats}
+          allStats={animes}
         />
       );
     } else {

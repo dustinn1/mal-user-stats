@@ -47,7 +47,7 @@ export default function StatsAnimePage() {
     "count"
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const stats = useContext(StatsContext);
+  const { animes } = useContext(StatsContext);
 
   const width = useWindowWidth();
 
@@ -59,7 +59,7 @@ export default function StatsAnimePage() {
   if (isLoaded) {
     if (query !== undefined && validStats.some((v) => v === query)) {
       const pageInfo = statsPages.find((v) => v.id === query)!;
-      const statsData: StatArray[] = stats[query as keyof StatArraysOnly];
+      const statsData: StatArray[] = animes[query as keyof StatArraysOnly];
       const statsDataCards = [...statsData];
       const fuse = new Fuse(statsDataCards, {
         keys: ["name"],
@@ -146,7 +146,7 @@ export default function StatsAnimePage() {
   } else {
     return (
       <div className="flex h-48 items-center justify-center">
-        <LoadingIndicator />;
+        <LoadingIndicator />
       </div>
     );
   }

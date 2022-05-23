@@ -49,14 +49,14 @@ export default function Layout({ children }: Props) {
     } else {
       return (
         <div className="flex h-48 items-center justify-center">
-          <LoadingIndicator />;
+          <LoadingIndicator />
         </div>
       );
     }
   } else {
     return (
       <div className="flex h-48 items-center justify-center">
-        <LoadingIndicator />;
+        <LoadingIndicator />
       </div>
     );
   }

@@ -20,7 +20,8 @@ type Props = {
 export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
-  const allAnimes: { [k: string]: Anime } = useContext(StatsContext).animes;
+  const allAnimes: { [k: string]: Anime } =
+    useContext(StatsContext).anime.animes;
   const width = useWindowWidth();
 
   const listParentRef = useRef<HTMLDivElement>(null);

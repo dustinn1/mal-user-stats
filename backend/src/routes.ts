@@ -61,13 +61,13 @@ export default async function routes(fastify: FastifyInstance) {
     ) => {
       if (
         await fileExists(
-          "src/temp_data/" + request.body.username + "_anime.json"
+          `src/temp_data/${request.body.username}_${request.body.type}.json`
         )
       ) {
         reply.send(
           JSON.parse(
             readFileSync(
-              "src/temp_data/" + request.body.username + "_anime.json",
+              `src/temp_data/${request.body.username}_${request.body.type}.json`,
               "utf-8"
             )
           )

@@ -45,16 +45,31 @@ export default function FetchData({ username }: { username: string }) {
           await sleep(5000);
         }
       }
-      setMessage("Fetching generated stats...");
-      const stats = await axios.post("http://localhost:8000/generate/fetch", {
+      setMessage("Fetching generated stats... (1/2)");
+      const animeStats = await axios.post(
+        "http://localhost:8000/generate/fetch",
+        {
+          username: username,
+          type: "anime",
+        }
+      );
+      await db.animeStats.add({
         username: username,
+        data: animeStats.data,
+      });
+      setMessage("Fetching generated stats... (2/2)");
+      const userInfo = await axios.post(
+        "http://localhost:8000/generate/fetch",
+        {
+          username: username,
+          type: "user",
+        }
+      );
+      await db.userInfo.add({
+        username: username,
+        data: userInfo.data,
       });
       setMessage("Stats fetched");
-      await db.stats.add({
-        username: username,
-        type: "anime",
-        data: stats.data,
-      });
       return router.push(`/stats/${username}/anime/overview`);
     };
     fetchData().catch(() =>
