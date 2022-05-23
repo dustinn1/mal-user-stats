@@ -1,20 +1,28 @@
 import Dexie, { Table } from "dexie";
 import { AnimeStats } from "./interfaces/stats";
+import { userInfo } from "./interfaces/userInfo";
 
-export interface Stats {
+export interface UserDb {
   id?: number;
   username: string;
-  type: string;
+  data: userInfo;
+}
+
+export interface AnimeDb {
+  id?: number;
+  username: string;
   data: AnimeStats;
 }
 
 export class StatsDexie extends Dexie {
-  stats!: Table<Stats>;
+  userInfo!: Table<UserDb>;
+  animeStats!: Table<AnimeDb>;
 
   constructor() {
     super("statsDatabase");
     this.version(1).stores({
-      stats: "++id, [username+type]",
+      userInfo: "++id, username",
+      animeStats: "++id, username",
     });
   }
 }

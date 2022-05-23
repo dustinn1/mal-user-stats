@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { userInfo } from "../interfaces/userInfo";
 import { AnimeStats } from "../interfaces/stats";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -9,32 +10,46 @@ type ContextProps = {
   username: string;
 };
 
-export const StatsContext = createContext<AnimeStats>({} as AnimeStats);
+type StatsContext = { user: userInfo; animes: AnimeStats };
+
+export const StatsContext = createContext<StatsContext>({
+  user: {} as userInfo,
+  animes: {} as AnimeStats,
+});
 
 export const StatsContextProvider = ({ children, username }: ContextProps) => {
   const [loaded, setLoaded] = useState(false);
 
-  const stats = useLiveQuery(async () => {
-    return await db.stats
-      .where("[username+type]")
-      .equals([username, "anime"])
-      .toArray();
+  const userInfo = useLiveQuery(async () => {
+    return await db.userInfo.where("username").equals(username).toArray();
+  });
+  const animeStats = useLiveQuery(async () => {
+    return await db.animeStats.where("username").equals(username).toArray();
   });
 
-  useEffect(() => setLoaded(stats !== undefined), [stats]);
+  useEffect(
+    () => setLoaded(userInfo !== undefined && animeStats !== undefined),
+    [userInfo, animeStats]
+  );
 
   if (!loaded) {
     return (
       <div className="flex h-48 items-center justify-center">
-        <LoadingIndicator />;
+        <LoadingIndicator />
       </div>
     );
   }
 
   return (
     <>
-      {loaded && stats !== undefined && stats.length > 0 ? (
-        <StatsContext.Provider value={stats[0].data}>
+      {loaded &&
+      animeStats !== undefined &&
+      animeStats.length > 0 &&
+      userInfo !== undefined &&
+      userInfo.length > 0 ? (
+        <StatsContext.Provider
+          value={{ user: userInfo[0].data, animes: animeStats[0].data }}
+        >
           {children}
         </StatsContext.Provider>
       ) : (

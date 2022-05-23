@@ -29,10 +29,10 @@ function compare(prop: string) {
 }
 
 export default function StatsAnimeOverview() {
-  const stats = useContext(StatsContext);
+  const { animes } = useContext(StatsContext);
   const animesInfos = getAnimesInfo(
-    Object.keys(stats.animes).map(Number),
-    stats.animes
+    Object.keys(animes.animes).map(Number),
+    animes.animes
   );
   const filtersContext = useListFilter(animesInfos);
 
@@ -47,17 +47,17 @@ export default function StatsAnimeOverview() {
           </div>
           <div className="mx-4 flex py-2 text-center">
             <span className="w-1/5">
-              <strong>{stats.overview.total_anime}</strong>
+              <strong>{animes.overview.total_anime}</strong>
               <br /> Animes
             </span>
             <span className="w-1/5">
-              <strong>{stats.overview.episodes_watched}</strong>
+              <strong>{animes.overview.episodes_watched}</strong>
               <br /> Episodes
             </span>
             <span className="w-1/5">
               <strong>
-                {stats.overview.time_watched > 0
-                  ? prettyMs(stats.overview.time_watched * 1000, {
+                {animes.overview.time_watched > 0
+                  ? prettyMs(animes.overview.time_watched * 1000, {
                       verbose: true,
                       unitCount: width >= 768 ? 3 : 2,
                     })
@@ -66,17 +66,17 @@ export default function StatsAnimeOverview() {
               <br /> Watched
             </span>
             <span className="w-1/5">
-              <strong>{stats.overview.mean_score}</strong>
+              <strong>{animes.overview.mean_score}</strong>
               <br /> Average Score
             </span>
             <span className="w-1/5">
-              <strong>{stats.overview.standard_deviation}</strong>
+              <strong>{animes.overview.standard_deviation}</strong>
               <br /> Standard Deviation
             </span>
           </div>
         </div>
         <FilterContext.Provider value={filtersContext}>
-          <FilterContainer stats={stats} />
+          <FilterContainer stats={animes} />
         </FilterContext.Provider>
         <CardsContainer
           data={filtersContext.filteredList.sort(compare(filtersContext.sort))}
@@ -86,7 +86,7 @@ export default function StatsAnimeOverview() {
   } else {
     return (
       <div className="flex h-48 items-center justify-center">
-        <LoadingIndicator />;
+        <LoadingIndicator />
       </div>
     );
   }
