@@ -3,13 +3,11 @@ import { AnimeStats } from "./interfaces/stats";
 import { userInfo } from "./interfaces/userInfo";
 
 export interface UserDb {
-  id?: number;
   username: string;
   data: userInfo;
 }
 
 export interface AnimeDb {
-  id?: number;
   username: string;
   data: AnimeStats;
 }
@@ -21,8 +19,8 @@ export class StatsDexie extends Dexie {
   constructor() {
     super("statsDatabase");
     this.version(1).stores({
-      userInfo: "++id, username",
-      animeStats: "++id, username",
+      userInfo: "username",
+      animeStats: "username",
     });
   }
 }

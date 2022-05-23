@@ -53,7 +53,7 @@ export default function FetchData({ username }: { username: string }) {
           type: "anime",
         }
       );
-      await db.animeStats.add({
+      await db.animeStats.put({
         username: username,
         data: animeStats.data,
       });
@@ -65,7 +65,7 @@ export default function FetchData({ username }: { username: string }) {
           type: "user",
         }
       );
-      await db.userInfo.add({
+      await db.userInfo.put({
         username: username,
         data: userInfo.data,
       });

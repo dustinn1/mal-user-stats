@@ -3,14 +3,17 @@ import { StatsContext } from "../../contexts/StatsContext";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Modal from "../Modal";
+import { useRouter } from "next/router";
 
 dayjs.extend(relativeTime);
 
 export default function StatsHeader() {
   const { user } = useContext(StatsContext);
+  const router = useRouter();
+
   return (
     <header className="h-68 my-3 mx-3 flex flex-wrap items-center justify-between rounded-3xl bg-gray-200 py-3 px-5 text-gray-900 sm:h-52 xl:mx-auto xl:h-44 xl:px-14">
       <div className="flex w-full flex-wrap items-center justify-center lg:w-auto">
@@ -32,7 +35,20 @@ export default function StatsHeader() {
           <FontAwesomeIcon icon={faClock} className="mr-1.5" />
           Last Updated: {dayjs(user.generated_on).fromNow()}
         </span>
-        <Button text="Update Stats" icon={faArrowsRotate} size="lg" />
+        <Modal
+          title="Update Stats"
+          description="Are you sure you want to update your stats? Your current stats will be overriden."
+          button={{ text: "Update Stats", icon: faArrowsRotate }}
+          buttonOnClick={() =>
+            router.push(
+              {
+                pathname: "/generate",
+                query: { username: "triplezko" },
+              },
+              router.asPath
+            )
+          }
+        />
       </div>
     </header>
   );

@@ -1,23 +1,23 @@
-import { db } from "../db";
-import mock from "../data/mock/animeStats.json";
-
+import axios from "axios";
 export default function Home() {
-  async function addFriend() {
-    try {
-      await db.stats.add({
-        username: "triplezko",
-        type: "anime",
-        data: mock,
+  function makeRequest() {
+    axios
+      .get("https://example.com/some-path")
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response.status);
+        }
       });
-    } catch (error) {
-      console.error(error);
-    }
   }
+  makeRequest();
 
   return (
     <>
       <h1>Home</h1>
-      <button onClick={addFriend}>Add</button>
     </>
   );
 }
