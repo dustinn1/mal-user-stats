@@ -10,14 +10,17 @@ type Props = {
     text: string;
     icon: IconDefinition;
   };
-  buttonOnClick?: () => void;
+  actionButton: {
+    text: string;
+    onClick: () => void;
+  };
 };
 
 export default function Modal({
   title,
   description,
   button,
-  buttonOnClick,
+  actionButton,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -69,7 +72,12 @@ export default function Modal({
                     <p className="text-gray-500">{description}</p>
                   </div>
                   <div className="mt-4 flex justify-end">
-                    <Button text="Update" size="sm" onClick={buttonOnClick} />
+                    <Button
+                      text={actionButton.text}
+                      icon={button.icon}
+                      size="sm"
+                      onClick={actionButton.onClick}
+                    />
                     <Button
                       text="Close"
                       size="sm"

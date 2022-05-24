@@ -2,7 +2,11 @@ import { useContext } from "react";
 import { StatsContext } from "../../contexts/StatsContext";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faArrowsRotate,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -11,6 +15,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Modal from "../Modal";
 import { useRouter } from "next/router";
 import Tippy from "@tippyjs/react";
+import { db } from "../../db";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -50,20 +55,37 @@ export default function StatsHeader() {
             Last Updated: {dayjs(user.generated_on).fromNow()}
           </span>
         </Tippy>
-        <Modal
-          title="Update Stats"
-          description="Are you sure you want to update your stats? Your current stats will be overriden."
-          button={{ text: "Update Stats", icon: faArrowsRotate }}
-          buttonOnClick={() =>
-            router.push(
-              {
-                pathname: "/generate",
-                query: { username: "triplezko" },
+        <div className="grid grid-cols-2">
+          <Modal
+            title="Update Stats"
+            description="Are you sure you want to update this user's stats? These current stats will be overriden."
+            button={{ text: "Update Stats", icon: faArrowsRotate }}
+            actionButton={{
+              text: "Update",
+              onClick: () =>
+                router.push(
+                  {
+                    pathname: "/generate",
+                    query: { username: "triplezko" },
+                  },
+                  router.asPath
+                ),
+            }}
+          />
+          <Modal
+            title="Delete Stats"
+            description="Are you sure you want to delete this user's stats? You will have to regenerate to view them again."
+            button={{ text: "Delete Stats", icon: faTrashCan }}
+            actionButton={{
+              text: "Delete",
+              onClick: () => {
+                router.push("/");
+                db.userInfo.delete(user.username);
+                db.animeStats.delete(user.username);
               },
-              router.asPath
-            )
-          }
-        />
+            }}
+          />
+        </div>
       </div>
     </header>
   );
