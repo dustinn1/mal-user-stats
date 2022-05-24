@@ -1,7 +1,6 @@
 import { Chart, CategoryScale, LinearScale, BarElement } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import secondsToHours from "date-fns/secondsToHours";
 
 type Props = {
   width: number | string;
@@ -40,11 +39,11 @@ export default function BarChart({ width, height, data, keys }: Props) {
             size: 14,
           },
           padding: 10,
-          callback: function (value: number | string) {
+          /* callback: function (value: number | string) {
             return keys.y === "time_watched"
               ? `${secondsToHours(value as number)} hrs`
               : value;
-          },
+          }, */
         },
       },
     },
@@ -61,9 +60,9 @@ export default function BarChart({ width, height, data, keys }: Props) {
         align: "end" as const,
         anchor: "end" as const,
         offset: 8,
-        formatter: function (value: number) {
+        /* formatter: function (value: number) {
           return keys.y === "time_watched" ? secondsToHours(value) : value;
-        },
+        }, */
       },
     },
   };

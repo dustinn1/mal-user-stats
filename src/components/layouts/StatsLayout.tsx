@@ -41,7 +41,7 @@ export default function Layout({ children }: Props) {
               setCurrentCategory={setCategory}
             />
             <div className="flex h-screen">
-              <div className="w-full bg-white px-3 pt-5">{children}</div>
+              <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
             </div>
           </StatsContextProvider>
         </>

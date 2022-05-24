@@ -1,7 +1,6 @@
 import { Chart, ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import secondsToHours from "date-fns/secondsToHours";
 
 type Props = {
   width: number | string;
@@ -39,11 +38,11 @@ export default function PieChart({ width, height, data, keys }: Props) {
         anchor: "end" as const,
         offset: 8,
         //display: "auto" as const,
-        formatter: function (value: number) {
+        /* formatter: function (value: number) {
           return keys.y === "time_watched"
             ? `${secondsToHours(value)} hrs`
             : value;
-        },
+        }, */
       },
     },
   };

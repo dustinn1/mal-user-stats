@@ -21,7 +21,7 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
   )!;
 
   return (
-    <div className="mx-3 grid grid-cols-2 gap-3 lg:mx-auto lg:flex ">
+    <div className="grid grid-cols-2 gap-3 px-3 lg:flex xl:px-0">
       <Menu as="div" className="relative inline-block">
         <Menu.Button className="w-full">
           <Tab

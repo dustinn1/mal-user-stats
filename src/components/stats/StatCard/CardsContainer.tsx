@@ -3,6 +3,7 @@ import { useVirtual } from "react-virtual";
 import StatCard from ".";
 import { StatArray } from "../../../interfaces/stats";
 import { classNames } from "../../../utils/classNames";
+import { useWindowWidth } from "@react-hook/window-size";
 
 type Props = {
   data: StatArray[];
@@ -35,11 +36,16 @@ export default function StatCardsContainer({
     overscan: 3,
   });
 
+  const width = useWindowWidth();
+
   return (
     <div ref={parentRef}>
       <div
         style={{
-          height: `${rowVirtualizer.totalSize / (isGrid ? 3 : 1)}px`,
+          height: `${
+            rowVirtualizer.totalSize / (isGrid ? 3 : 1) +
+            (width > 768 ? 200 : 50)
+          }px`,
           width: "100%",
           position: "relative",
         }}

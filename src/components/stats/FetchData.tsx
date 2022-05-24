@@ -25,13 +25,11 @@ export default function FetchData({ username }: { username: string }) {
       if (initialStatus.data.code === 404) {
         let generated = false;
         setMessage("Generating stats...");
-        console.log(
-          await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/new`,
-            {
-              username: username,
-            }
-          )
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/new`,
+          {
+            username: username,
+          }
         );
         while (!generated) {
           const status = await axios.post(
@@ -40,7 +38,6 @@ export default function FetchData({ username }: { username: string }) {
               username: username,
             }
           );
-          console.log(status.data);
           if (status.data.code === 200) {
             generated = true;
             break;

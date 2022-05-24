@@ -33,7 +33,9 @@ export default function StatCardsContainer({ data }: Props) {
     <div ref={parentRef}>
       <div
         style={{
-          height: `${rowVirtualizer.totalSize / split}px`,
+          height: `${
+            rowVirtualizer.totalSize / split + (width > 768 ? 200 : 50)
+          }px`,
           width: "100%",
           position: "relative",
         }}

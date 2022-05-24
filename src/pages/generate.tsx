@@ -9,8 +9,6 @@ export default function Generate() {
   const [value, setValue] = useState((username as string) ?? "");
   const [show, setShow] = useState((username as string) !== undefined);
 
-  console.log(username);
-
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
     setValue(event.currentTarget.value);
   };
@@ -25,14 +23,18 @@ export default function Generate() {
   return (
     <>
       {!show ? (
-        <>
-          <p>Generate</p>
+        <div className="mt-5">
+          <h1 className="text-3xl font-bold">Generate Stats</h1>
+          <p className="mb-3 mt-2">
+            Enter the username of the MyAnimeList profile
+          </p>
           <form onSubmit={handleSubmit}>
             <div className="flex">
               <input
                 type="text"
                 value={value}
                 onChange={handleChange}
+                placeholder="MyAnimeList username"
                 minLength={2}
                 maxLength={16}
                 className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors lg:h-auto"
@@ -44,7 +46,7 @@ export default function Generate() {
               />
             </div>
           </form>
-        </>
+        </div>
       ) : (
         <FetchData username={value} />
       )}
