@@ -2,7 +2,6 @@ import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
-import { useRouter } from "next/router";
 
 type Props = {
   title: string;

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Anime } from "../../../interfaces/stats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import Tippy from "@tippyjs/react";
 
 type Props = {
   anime: Anime;
@@ -50,12 +51,14 @@ export default function AnimeCard({ anime }: Props) {
         </div>
         <div className="max-h-56 w-2/3 overflow-y-scroll py-1.5 px-2">
           <div className="border-b border-gray-600 pb-0.5">
-            <h1
-              className="text-lg font-bold leading-none line-clamp-2"
-              title={anime.title}
-            >
-              {anime.title}
-            </h1>
+            <Tippy content={<span>{anime.title}</span>}>
+              <h1
+                className="text-lg font-bold leading-none line-clamp-2"
+                title={anime.title}
+              >
+                {anime.title}
+              </h1>
+            </Tippy>
             <span className="mt-0 text-sm">
               <Link href={`/stats/triplezko/anime/statuses/${anime.status.id}`}>
                 <a className="text-blue-500 hover:text-blue-600 hover:underline">

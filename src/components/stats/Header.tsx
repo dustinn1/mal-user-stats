@@ -4,10 +4,17 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Modal from "../Modal";
 import { useRouter } from "next/router";
+import Tippy from "@tippyjs/react";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 
 export default function StatsHeader() {
@@ -31,10 +38,18 @@ export default function StatsHeader() {
         </h1>
       </div>
       <div className="flex w-full flex-grow-0 flex-col gap-3 text-center lg:w-auto">
-        <span className="text-lg">
-          <FontAwesomeIcon icon={faClock} className="mr-1.5" />
-          Last Updated: {dayjs(user.generated_on).fromNow()}
-        </span>
+        <Tippy
+          content={
+            <span>
+              {dayjs(user.generated_on).tz(dayjs.tz.guess()).format("LLL")}
+            </span>
+          }
+        >
+          <span className="text-lg">
+            <FontAwesomeIcon icon={faClock} className="mr-1.5" />
+            Last Updated: {dayjs(user.generated_on).fromNow()}
+          </span>
+        </Tippy>
         <Modal
           title="Update Stats"
           description="Are you sure you want to update your stats? Your current stats will be overriden."

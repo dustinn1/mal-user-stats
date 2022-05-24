@@ -6,6 +6,7 @@ import AppLayout from "../components/layouts/AppLayout";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import "tippy.js/dist/tippy.css";
 config.autoAddCss = false;
 
 type NextPageWithLayout = NextPage & {

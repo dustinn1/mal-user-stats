@@ -21,7 +21,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
   const allAnimes: { [k: string]: Anime } =
-    useContext(StatsContext).anime.animes;
+    useContext(StatsContext).animes.animes;
   const width = useWindowWidth();
 
   const listParentRef = useRef<HTMLDivElement>(null);

@@ -17,7 +17,7 @@ export default function FetchData({ username }: { username: string }) {
   useEffect(() => {
     const fetchData = async () => {
       const initialStatus = await axios.post(
-        "http://localhost:8000/generate/status",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/status`,
         {
           username: username,
         }
@@ -26,13 +26,16 @@ export default function FetchData({ username }: { username: string }) {
         let generated = false;
         setMessage("Generating stats...");
         console.log(
-          await axios.post("http://localhost:8000/generate/new", {
-            username: username,
-          })
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/new`,
+            {
+              username: username,
+            }
+          )
         );
         while (!generated) {
           const status = await axios.post(
-            "http://localhost:8000/generate/status",
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/status`,
             {
               username: username,
             }
@@ -47,7 +50,7 @@ export default function FetchData({ username }: { username: string }) {
       }
       setMessage("Fetching generated stats... (1/2)");
       const animeStats = await axios.post(
-        "http://localhost:8000/generate/fetch",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/fetch`,
         {
           username: username,
           type: "anime",
@@ -59,7 +62,7 @@ export default function FetchData({ username }: { username: string }) {
       });
       setMessage("Fetching generated stats... (2/2)");
       const userInfo = await axios.post(
-        "http://localhost:8000/generate/fetch",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/fetch`,
         {
           username: username,
           type: "user",
