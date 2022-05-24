@@ -1,12 +1,12 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { StatArray } from "../../interfaces/animeStats";
+import type { AnimeStatArray } from "../../interfaces/animeStats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function scoresStats(animeList: AnimeListObject[]): StatArray[] {
-  const stats: StatArray[] = [];
+export function scoresStats(animeList: AnimeListObject[]): AnimeStatArray[] {
+  const stats: AnimeStatArray[] = [];
   for (let i = 0; i <= 10; i++) {
-    const scoreStat: StatArray = {
+    const scoreStat: AnimeStatArray = {
       id: i,
       name: i.toString(),
       count: 0,

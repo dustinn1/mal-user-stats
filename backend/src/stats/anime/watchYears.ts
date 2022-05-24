@@ -1,12 +1,14 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { StatArray } from "../../interfaces/animeStats";
+import type { AnimeStatArray } from "../../interfaces/animeStats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function watchYearsStats(animeList: AnimeListObject[]): StatArray[] {
-  const stats: StatArray[] = [];
+export function watchYearsStats(
+  animeList: AnimeListObject[]
+): AnimeStatArray[] {
+  const stats: AnimeStatArray[] = [];
   // get all watch years in list
   let watchYearsList: number[] = [];
   animeList.map((anime) => {
@@ -17,7 +19,7 @@ export function watchYearsStats(animeList: AnimeListObject[]): StatArray[] {
   });
   watchYearsList = sortedUniq(sortBy(watchYearsList));
   for (const watchYear of watchYearsList) {
-    const watchYearStat: StatArray = {
+    const watchYearStat: AnimeStatArray = {
       id: watchYear,
       name: watchYear.toString(),
       count: 0,

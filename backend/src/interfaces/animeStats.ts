@@ -6,18 +6,18 @@ export interface AnimeStats {
     mean_score: number;
     standard_deviation: number;
   };
-  episodes_counts: StatArray[];
-  formats: StatArray[];
-  release_years: StatArray[];
-  scores: StatArray[];
-  statuses: StatArray[];
-  watch_years: StatArray[];
-  genres: StatArray[];
-  studios: StatArray[];
+  episodes_counts: AnimeStatArray[];
+  formats: AnimeStatArray[];
+  release_years: AnimeStatArray[];
+  scores: AnimeStatArray[];
+  statuses: AnimeStatArray[];
+  watch_years: AnimeStatArray[];
+  genres: AnimeStatArray[];
+  studios: AnimeStatArray[];
   animes: { [k: string]: Anime };
 }
 
-export interface StatArray {
+export interface AnimeStatArray {
   id: string | number;
   name: string;
   count: number;

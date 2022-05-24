@@ -1,12 +1,12 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { StatArray } from "../../interfaces/animeStats";
+import type { AnimeStatArray } from "../../interfaces/animeStats";
 import sortBy from "lodash/sortBy";
 import sortedUniqBy from "lodash/sortedUniqBy";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function studiosStats(animeList: AnimeListObject[]): StatArray[] {
-  const stats: StatArray[] = [];
+export function studiosStats(animeList: AnimeListObject[]): AnimeStatArray[] {
+  const stats: AnimeStatArray[] = [];
   // get all unique studios in list
   let studiosList: { id: number; name: string }[] = [];
   animeList.map((anime) => {
@@ -28,7 +28,7 @@ export function studiosStats(animeList: AnimeListObject[]): StatArray[] {
     }
   );
   for (const studio of studiosList) {
-    const studioStat: StatArray = {
+    const studioStat: AnimeStatArray = {
       id: studio.id,
       name: studio.name,
       count: 0,

@@ -1,12 +1,14 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { StatArray } from "../../interfaces/animeStats";
+import type { AnimeStatArray } from "../../interfaces/animeStats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function releaseYearsStats(animeList: AnimeListObject[]): StatArray[] {
-  const stats: StatArray[] = [];
+export function releaseYearsStats(
+  animeList: AnimeListObject[]
+): AnimeStatArray[] {
+  const stats: AnimeStatArray[] = [];
   // get all release years in list
   let releaseYearsList: number[] = [];
   animeList.map((anime) => {
@@ -20,7 +22,7 @@ export function releaseYearsStats(animeList: AnimeListObject[]): StatArray[] {
   });
   releaseYearsList = sortedUniq(sortBy(releaseYearsList));
   for (const releaseYear of releaseYearsList) {
-    const releaseYearStat: StatArray = {
+    const releaseYearStat: AnimeStatArray = {
       id: releaseYear,
       name: releaseYear.toString(),
       count: 0,
