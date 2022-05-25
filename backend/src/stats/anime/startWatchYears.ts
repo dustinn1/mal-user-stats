@@ -5,23 +5,23 @@ import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function watchYearsStats(
+export function startWatchYearsStats(
   animeList: AnimeListObject[]
 ): AnimeStatArray[] {
   const stats: AnimeStatArray[] = [];
-  // get all watch years in list
-  let watchYearsList: number[] = [];
+  // get all start watch years in list
+  let startWatchYearsList: number[] = [];
   animeList.map((anime) => {
     if (anime.list_status.start_date)
-      watchYearsList.push(
+      startWatchYearsList.push(
         parseInt(anime.list_status.start_date.split("-")[0] as string)
       );
   });
-  watchYearsList = sortedUniq(sortBy(watchYearsList));
-  for (const watchYear of watchYearsList) {
-    const watchYearStat: AnimeStatArray = {
-      id: watchYear,
-      name: watchYear.toString(),
+  startWatchYearsList = sortedUniq(sortBy(startWatchYearsList));
+  for (const startWatchYear of startWatchYearsList) {
+    const startWatchYearstat: AnimeStatArray = {
+      id: startWatchYear,
+      name: startWatchYear.toString(),
       count: 0,
       time_watched: 0,
       mean_score: 0,
@@ -31,15 +31,15 @@ export function watchYearsStats(
       (anime) =>
         anime.list_status.start_date &&
         parseInt(anime.list_status.start_date.split("-")[0] as string) ===
-          watchYear
+          startWatchYear
     );
     if (animes.length === 0) {
       continue;
     }
     // count
-    watchYearStat.count = animes.length;
+    startWatchYearstat.count = animes.length;
     // time watched
-    watchYearStat.time_watched = animes.reduce(
+    startWatchYearstat.time_watched = animes.reduce(
       (val, anime) => val + anime.list_status.time_watched,
       0
     );
@@ -50,12 +50,12 @@ export function watchYearsStats(
         watchedFiltered.length,
       2
     );
-    if (!Number.isNaN(meanScore)) watchYearStat.mean_score = meanScore;
-    // all animes with watch year
+    if (!Number.isNaN(meanScore)) startWatchYearstat.mean_score = meanScore;
+    // all animes with start watch year
     orderBy(animes, "node.title", "asc").map((anime) =>
-      watchYearStat.animes.push(anime.node.id)
+      startWatchYearstat.animes.push(anime.node.id)
     );
-    stats.push(watchYearStat);
+    stats.push(startWatchYearstat);
   }
   return stats;
 }

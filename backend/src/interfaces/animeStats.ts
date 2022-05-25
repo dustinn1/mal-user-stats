@@ -11,7 +11,7 @@ export interface AnimeStats {
   release_years: AnimeStatArray[];
   scores: AnimeStatArray[];
   statuses: AnimeStatArray[];
-  watch_years: AnimeStatArray[];
+  start_watch_years: AnimeStatArray[];
   genres: AnimeStatArray[];
   studios: AnimeStatArray[];
   animes: { [k: string]: Anime };
