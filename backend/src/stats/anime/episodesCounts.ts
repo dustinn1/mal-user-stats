@@ -1,26 +1,24 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { AnimeStatArray } from "../../interfaces/animeStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function episodesCountsStats(
-  animeList: AnimeListObject[]
-): AnimeStatArray[] {
-  const stats: AnimeStatArray[] = [];
+export function episodesCountsStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all episode counts in list
   const episodesCountsList: number[] = sortedUniq(
     sortBy(animeList.map((anime) => anime.node.num_episodes))
   );
   for (const episodeCount of episodesCountsList) {
-    const episodeCountStat: AnimeStatArray = {
+    const episodeCountStat: StatArray = {
       id: episodeCount,
       name: episodeCount.toString(),
       count: 0,
-      time_watched: 0,
+      length: 0,
       mean_score: 0,
-      animes: [],
+      titles: [],
     };
     const animes = animeList.filter(
       (anime) => anime.node.num_episodes === episodeCount
@@ -31,8 +29,8 @@ export function episodesCountsStats(
     // count
     episodeCountStat.count = animes.length;
     // time watched
-    episodeCountStat.time_watched = animes.reduce(
-      (val, anime) => val + anime.list_status.time_watched,
+    episodeCountStat.length = animes.reduce(
+      (val, anime) => val + anime.list_status.length,
       0
     );
     // mean score
@@ -45,7 +43,7 @@ export function episodesCountsStats(
     if (!Number.isNaN(meanScore)) episodeCountStat.mean_score = meanScore;
     // all animes with episode count
     orderBy(animes, "node.title", "asc").map((anime) =>
-      episodeCountStat.animes.push(anime.node.id)
+      episodeCountStat.titles.push(anime.node.id)
     );
     stats.push(episodeCountStat);
   }

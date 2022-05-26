@@ -6,14 +6,15 @@ import { classNames } from "../../../utils/classNames";
 import { useWindowWidth } from "@react-hook/window-size";
 
 type Props = {
+  type: "anime" | "manga";
   data: StatArray[];
-  sort: "count" | "time_watched" | "mean_score";
+  sort: "count" | "length" | "mean_score";
   isGrid: boolean;
   isSearching: boolean;
 };
 
 function compare(prop: string) {
-  if (prop === "count" || prop === "time_watched" || prop === "mean_score") {
+  if (prop === "count" || prop === "length" || prop === "mean_score") {
     return function (a: StatArray, b: StatArray) {
       return b[prop] - a[prop];
     };
@@ -21,6 +22,7 @@ function compare(prop: string) {
 }
 
 export default function StatCardsContainer({
+  type,
   data,
   sort,
   isGrid,
@@ -72,6 +74,7 @@ export default function StatCardsContainer({
               if (stats[index] !== undefined) {
                 return (
                   <StatCard
+                    type={type}
                     key={stats[index].id}
                     statArray={stats[index]}
                     sort={sort}

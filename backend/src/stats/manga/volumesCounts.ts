@@ -1,26 +1,24 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function volumesCountsStats(
-  mangaList: MangaListObject[]
-): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function volumesCountsStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all volume counts in list
   const volumesCountsList: number[] = sortedUniq(
     sortBy(mangaList.map((manga) => manga.node.num_volumes))
   );
   for (const volumeCount of volumesCountsList) {
-    const volumeCountStat: MangaStatArray = {
+    const volumeCountStat: StatArray = {
       id: volumeCount,
       name: volumeCount.toString(),
       count: 0,
-      chapters_read: 0,
+      length: 0,
       mean_score: 0,
-      mangas: [],
+      titles: [],
     };
     const mangas = mangaList.filter(
       (manga) => manga.node.num_volumes === volumeCount
@@ -31,8 +29,8 @@ export function volumesCountsStats(
     // count
     volumeCountStat.count = mangas.length;
     // chapters read
-    volumeCountStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    volumeCountStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -45,7 +43,7 @@ export function volumesCountsStats(
     if (!Number.isNaN(meanScore)) volumeCountStat.mean_score = meanScore;
     // all mangas with volume count
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      volumeCountStat.mangas.push(manga.node.id)
+      volumeCountStat.titles.push(manga.node.id)
     );
     stats.push(volumeCountStat);
   }

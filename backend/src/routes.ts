@@ -3,8 +3,6 @@ import { readFileSync } from "fs";
 import { getStats } from "./stats";
 import { fileExists } from "./utils/fileExists";
 import { generatedStats } from "./db";
-import { fetchFullList } from "./stats/fetch";
-import { generateMangaStats } from "./stats/manga";
 
 export default async function routes(fastify: FastifyInstance) {
   fastify.get("*", async (_request: FastifyRequest, reply: FastifyReply) => {
@@ -77,21 +75,6 @@ export default async function routes(fastify: FastifyInstance) {
       } else {
         reply.send("stats has not been generated");
       }
-    }
-  );
-
-  fastify.post(
-    "/manga",
-    { schema: generateBodyJsonschema },
-    async (
-      request: FastifyRequest<{
-        Body: { username: string };
-      }>,
-      reply: FastifyReply
-    ) => {
-      return reply.send(
-        generateMangaStats(await fetchFullList(request.body.username, "manga"))
-      );
     }
   );
 }

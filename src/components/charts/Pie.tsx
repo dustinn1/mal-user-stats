@@ -39,7 +39,7 @@ export default function PieChart({ width, height, data, keys }: Props) {
         offset: 8,
         //display: "auto" as const,
         /* formatter: function (value: number) {
-          return keys.y === "time_watched"
+          return keys.y === "length"
             ? `${secondsToHours(value)} hrs`
             : value;
         }, */

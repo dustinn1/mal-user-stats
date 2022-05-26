@@ -1,14 +1,12 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function startYearsStats(
-  mangaList: MangaListObject[]
-): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function startYearsStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all start years in list
   let startYearsList: number[] = [];
   mangaList.map((manga) => {
@@ -19,13 +17,13 @@ export function startYearsStats(
   });
   startYearsList = sortedUniq(sortBy(startYearsList));
   for (const startYear of startYearsList) {
-    const startYearStat: MangaStatArray = {
+    const startYearStat: StatArray = {
       id: startYear,
       name: startYear.toString(),
       count: 0,
-      chapters_read: 0,
+      length: 0,
       mean_score: 0,
-      mangas: [],
+      titles: [],
     };
     const mangas = mangaList.filter(
       (manga) =>
@@ -39,8 +37,8 @@ export function startYearsStats(
     // count
     startYearStat.count = mangas.length;
     // chapters read
-    startYearStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    startYearStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -53,7 +51,7 @@ export function startYearsStats(
     if (!Number.isNaN(meanScore)) startYearStat.mean_score = meanScore;
     // all mangas with start year
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      startYearStat.mangas.push(manga.node.id)
+      startYearStat.titles.push(manga.node.id)
     );
     stats.push(startYearStat);
   }

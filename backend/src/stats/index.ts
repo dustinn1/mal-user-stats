@@ -1,7 +1,8 @@
 import { fetchFullList } from "./fetch";
 import { generateAnimeStats } from "./anime";
+import { generateMangaStats } from "./manga";
 import { getUserInfo } from "./user";
-import type { AnimeStats } from "../interfaces/animeStats";
+import type { AnimeStats } from "../interfaces/stats";
 import { writeFileSync } from "fs";
 import { currentlyGenerating, generatedStats } from "../db";
 
@@ -18,6 +19,13 @@ export async function getStats(username: string): Promise<AnimeStats | null> {
         "src/temp_data/" + username + "_anime.json",
         JSON.stringify(
           generateAnimeStats(await fetchFullList(username, "anime"))
+        ),
+        "utf8"
+      );
+      writeFileSync(
+        "src/temp_data/" + username + "_manga.json",
+        JSON.stringify(
+          generateMangaStats(await fetchFullList(username, "manga"))
         ),
         "utf8"
       );

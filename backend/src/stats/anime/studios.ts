@@ -1,12 +1,12 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { AnimeStatArray } from "../../interfaces/animeStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniqBy from "lodash/sortedUniqBy";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function studiosStats(animeList: AnimeListObject[]): AnimeStatArray[] {
-  const stats: AnimeStatArray[] = [];
+export function studiosStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all unique studios in list
   let studiosList: { id: number; name: string }[] = [];
   animeList.map((anime) => {
@@ -28,13 +28,13 @@ export function studiosStats(animeList: AnimeListObject[]): AnimeStatArray[] {
     }
   );
   for (const studio of studiosList) {
-    const studioStat: AnimeStatArray = {
+    const studioStat: StatArray = {
       id: studio.id,
       name: studio.name,
       count: 0,
       mean_score: 0,
-      time_watched: 0,
-      animes: [],
+      length: 0,
+      titles: [],
     };
     const animes = animeList.filter(
       (anime) =>
@@ -50,8 +50,8 @@ export function studiosStats(animeList: AnimeListObject[]): AnimeStatArray[] {
     // count
     studioStat.count = animes.length;
     // time watched
-    studioStat.time_watched = animes.reduce(
-      (val, anime) => val + anime.list_status.time_watched,
+    studioStat.length = animes.reduce(
+      (val, anime) => val + anime.list_status.length,
       0
     );
     // mean score
@@ -64,7 +64,7 @@ export function studiosStats(animeList: AnimeListObject[]): AnimeStatArray[] {
     if (!Number.isNaN(meanScore)) studioStat.mean_score = meanScore;
     // all animes in studio
     orderBy(animes, "node.title", "asc").map((anime) =>
-      studioStat.animes.push(anime.node.id)
+      studioStat.titles.push(anime.node.id)
     );
     stats.push(studioStat);
   }

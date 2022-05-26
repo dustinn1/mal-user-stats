@@ -71,7 +71,7 @@ export default function AnimeCard({ anime }: Props) {
                   {anime.score}
                 </a>
               </Link>{" "}
-              {anime.watch_year && "/ Watched in "}
+              {anime.watch_year && "/ Started Watching in "}
               {anime.watch_year && (
                 <Link
                   href={`/stats/triplezko/anime/watch_years/${anime.watch_year}`}

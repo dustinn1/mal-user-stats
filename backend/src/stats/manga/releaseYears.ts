@@ -1,14 +1,12 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function releaseYearsStats(
-  mangaList: MangaListObject[]
-): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function releaseYearsStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all release years in list
   let releaseYearsList: number[] = [];
   mangaList.map((manga) => {
@@ -20,13 +18,13 @@ export function releaseYearsStats(
   });
   releaseYearsList = sortedUniq(sortBy(releaseYearsList));
   for (const releaseYear of releaseYearsList) {
-    const releaseYearStat: MangaStatArray = {
+    const releaseYearStat: StatArray = {
       id: releaseYear,
       name: releaseYear.toString(),
       count: 0,
-      chapters_read: 0,
+      length: 0,
       mean_score: 0,
-      mangas: [],
+      titles: [],
     };
     const mangas = mangaList.filter(
       (manga) =>
@@ -39,8 +37,8 @@ export function releaseYearsStats(
     // count
     releaseYearStat.count = mangas.length;
     // chapters read
-    releaseYearStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    releaseYearStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -53,7 +51,7 @@ export function releaseYearsStats(
     if (!Number.isNaN(meanScore)) releaseYearStat.mean_score = meanScore;
     // all animes with release year
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      releaseYearStat.mangas.push(manga.node.id)
+      releaseYearStat.titles.push(manga.node.id)
     );
     stats.push(releaseYearStat);
   }

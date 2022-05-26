@@ -8,13 +8,13 @@ import {
   faDivide,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import { StatArray } from "../../interfaces/stats";
+import { AnimeStatArray } from "../../interfaces/stats";
 
 type Props = {
   width?: number | string;
   height?: number | string;
   type: "line" | "bar" | "pie";
-  data: StatArray[];
+  data: AnimeStatArray[];
   xKey: string;
   name: string;
 };
@@ -67,11 +67,11 @@ export default function ChartContainer({
               active={ykey === "count"}
             />
             <Button
-              onClick={() => setYKey("time_watched")}
+              onClick={() => setYKey("length")}
               size="sm"
               icon={faClock}
               text="Time Watched"
-              active={ykey === "time_watched"}
+              active={ykey === "length"}
             />
             <Button
               onClick={() => setYKey("mean_score")}

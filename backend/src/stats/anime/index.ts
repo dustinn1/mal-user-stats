@@ -7,9 +7,9 @@ import { releaseYearsStats } from "./releaseYears";
 import { scoresStats } from "./scores";
 import { statusesStats } from "./statuses";
 import { studiosStats } from "./studios";
-import { startWatchYearsStats } from "./startWatchYears";
+import { watchYearsStats } from "./watchYears";
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { AnimeStats } from "../../interfaces/animeStats";
+import type { AnimeStats } from "../../interfaces/stats";
 
 export function generateAnimeStats(animelist: AnimeListObject[]): AnimeStats {
   return {
@@ -19,7 +19,7 @@ export function generateAnimeStats(animelist: AnimeListObject[]): AnimeStats {
     release_years: releaseYearsStats(animelist),
     scores: scoresStats(animelist),
     statuses: statusesStats(animelist),
-    start_watch_years: startWatchYearsStats(animelist),
+    watch_years: watchYearsStats(animelist),
     genres: genresStats(animelist),
     studios: studiosStats(animelist),
     animes: Object.fromEntries(allAnimes(animelist)),

@@ -1,5 +1,5 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { AnimeStatArray } from "../../interfaces/animeStats";
+import type { StatArray } from "../../interfaces/stats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
@@ -26,16 +26,16 @@ const statuses = [
   },
 ];
 
-export function statusesStats(animeList: AnimeListObject[]): AnimeStatArray[] {
-  const stats: AnimeStatArray[] = [];
+export function statusesStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   for (const status of statuses) {
-    const statusStat: AnimeStatArray = {
+    const statusStat: StatArray = {
       id: status.id,
       name: status.name,
       count: 0,
-      time_watched: 0,
+      length: 0,
       mean_score: 0,
-      animes: [],
+      titles: [],
     };
     const animes = animeList.filter(
       (anime) => anime.list_status.status == status.id
@@ -46,8 +46,8 @@ export function statusesStats(animeList: AnimeListObject[]): AnimeStatArray[] {
     // count
     statusStat.count = animes.length;
     // time watched
-    statusStat.time_watched = animes.reduce(
-      (val, anime) => val + anime.list_status.time_watched,
+    statusStat.length = animes.reduce(
+      (val, anime) => val + anime.list_status.length,
       0
     );
     // mean score
@@ -60,7 +60,7 @@ export function statusesStats(animeList: AnimeListObject[]): AnimeStatArray[] {
     if (!Number.isNaN(meanScore)) statusStat.mean_score = meanScore;
     // all animes with status
     orderBy(animes, "node.title", "asc").map((anime) =>
-      statusStat.animes.push(anime.node.id)
+      statusStat.titles.push(anime.node.id)
     );
     stats.push(statusStat);
   }

@@ -1,14 +1,12 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { AnimeStatArray } from "../../interfaces/animeStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function startWatchYearsStats(
-  animeList: AnimeListObject[]
-): AnimeStatArray[] {
-  const stats: AnimeStatArray[] = [];
+export function watchYearsStats(animeList: AnimeListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all start watch years in list
   let startWatchYearsList: number[] = [];
   animeList.map((anime) => {
@@ -19,13 +17,13 @@ export function startWatchYearsStats(
   });
   startWatchYearsList = sortedUniq(sortBy(startWatchYearsList));
   for (const startWatchYear of startWatchYearsList) {
-    const startWatchYearstat: AnimeStatArray = {
+    const startWatchYearstat: StatArray = {
       id: startWatchYear,
       name: startWatchYear.toString(),
       count: 0,
-      time_watched: 0,
+      length: 0,
       mean_score: 0,
-      animes: [],
+      titles: [],
     };
     const animes = animeList.filter(
       (anime) =>
@@ -39,8 +37,8 @@ export function startWatchYearsStats(
     // count
     startWatchYearstat.count = animes.length;
     // time watched
-    startWatchYearstat.time_watched = animes.reduce(
-      (val, anime) => val + anime.list_status.time_watched,
+    startWatchYearstat.length = animes.reduce(
+      (val, anime) => val + anime.list_status.length,
       0
     );
     // mean score
@@ -53,7 +51,7 @@ export function startWatchYearsStats(
     if (!Number.isNaN(meanScore)) startWatchYearstat.mean_score = meanScore;
     // all animes with start watch year
     orderBy(animes, "node.title", "asc").map((anime) =>
-      startWatchYearstat.animes.push(anime.node.id)
+      startWatchYearstat.titles.push(anime.node.id)
     );
     stats.push(startWatchYearstat);
   }

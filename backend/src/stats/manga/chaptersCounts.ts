@@ -1,26 +1,24 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function chaptersCountsStats(
-  mangaList: MangaListObject[]
-): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function chaptersCountsStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all chapter counts in list
   const chaptersCountsList: number[] = sortedUniq(
     sortBy(mangaList.map((manga) => manga.node.num_chapters))
   );
   for (const chapterCount of chaptersCountsList) {
-    const chapterCountStat: MangaStatArray = {
+    const chapterCountStat: StatArray = {
       id: chapterCount,
       name: chapterCount.toString(),
       count: 0,
-      chapters_read: 0,
+      length: 0,
       mean_score: 0,
-      mangas: [],
+      titles: [],
     };
     const mangas = mangaList.filter(
       (manga) => manga.node.num_chapters === chapterCount
@@ -31,8 +29,8 @@ export function chaptersCountsStats(
     // count
     chapterCountStat.count = mangas.length;
     // chapters read
-    chapterCountStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    chapterCountStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -45,7 +43,7 @@ export function chaptersCountsStats(
     if (!Number.isNaN(meanScore)) chapterCountStat.mean_score = meanScore;
     // all mangas with chapter count
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      chapterCountStat.mangas.push(manga.node.id)
+      chapterCountStat.titles.push(manga.node.id)
     );
     stats.push(chapterCountStat);
   }

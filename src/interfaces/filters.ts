@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Anime } from "./stats";
+import { Manga } from "./mangaStats";
 
 export type Filter = {
   category: FilterCategories;
@@ -29,7 +30,7 @@ export type FilterInputValues = {
 };
 
 export type FilterHookExports = {
-  filteredList: Anime[];
+  filteredList: (Anime | Manga)[];
   addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
   removeFilter(
     category: FilterCategories,

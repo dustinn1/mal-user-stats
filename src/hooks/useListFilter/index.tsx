@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Anime } from "../../interfaces/stats";
+import { Manga } from "../../interfaces/mangaStats";
 import {
   Filter,
   FilterCategories,
@@ -10,7 +11,9 @@ import {
 import { filterList } from "./filterList";
 import { getMin, getMax } from "./minMax";
 
-export function useListFilter(initialList: Anime[]): FilterHookExports {
+export function useListFilter(
+  initialList: (Anime | Manga)[]
+): FilterHookExports {
   const [filteredList, setFilteredList] = useState(initialList);
   const [filters, setFilters] = useState<Filter[]>([]);
   const [sort, setSort] = useState("title");

@@ -55,7 +55,7 @@ export interface AnimeListObject {
     start_date?: string;
     finish_date?: string;
     num_times_rewatched: number;
-    time_watched: number;
+    length: number;
   };
 }
 
@@ -108,7 +108,7 @@ export interface MangaListObject {
     status: "watching" | "completed" | "on_hold" | "dropped" | "plan_to_watch";
     score: number;
     num_volumes_read: number;
-    num_chapters_read: number;
+    num_length: number;
     is_rereading: boolean;
     updated_at: string;
     start_date?: string;

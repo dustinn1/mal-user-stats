@@ -1,18 +1,18 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function scoresStats(mangaList: MangaListObject[]): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function scoresStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   for (let i = 0; i <= 10; i++) {
-    const scoreStat: MangaStatArray = {
+    const scoreStat: StatArray = {
       id: i,
       name: i.toString(),
       count: 0,
-      chapters_read: 0,
+      length: 0,
       mean_score: 0,
-      mangas: [],
+      titles: [],
     };
     const mangas = mangaList.filter((manga) => manga.list_status.score === i);
     if (mangas.length === 0) {
@@ -21,8 +21,8 @@ export function scoresStats(mangaList: MangaListObject[]): MangaStatArray[] {
     // count
     scoreStat.count = mangas.length;
     // chapters read
-    scoreStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    scoreStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -35,7 +35,7 @@ export function scoresStats(mangaList: MangaListObject[]): MangaStatArray[] {
     if (!Number.isNaN(meanScore)) scoreStat.mean_score = meanScore;
     // all animes with score
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      scoreStat.mangas.push(manga.node.id)
+      scoreStat.titles.push(manga.node.id)
     );
     stats.push(scoreStat);
   }

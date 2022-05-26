@@ -5,15 +5,15 @@ import FilterContainer from "../../../../components/stats/Filters/Container";
 import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
 import { useListFilter } from "../../../../hooks/useListFilter";
-import { Anime } from "../../../../interfaces/stats";
-import { getAnimesInfo } from "../../../../utils/getAnimesInfo";
+import { Anime, Manga } from "../../../../interfaces/stats";
+import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
 import prettyMs from "pretty-ms";
 import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 function compare(prop: string) {
   if (prop === "title") {
-    return function (a: Anime, b: Anime) {
+    return function (a: Anime | Manga, b: Anime | Manga) {
       return a[prop].localeCompare(b[prop]);
     };
   } else if (
@@ -30,7 +30,7 @@ function compare(prop: string) {
 
 export default function StatsAnimeOverview() {
   const { animes } = useContext(StatsContext);
-  const animesInfos = getAnimesInfo(
+  const animesInfos = getTitlesInfo(
     Object.keys(animes.animes).map(Number),
     animes.animes
   );
@@ -56,8 +56,8 @@ export default function StatsAnimeOverview() {
             </span>
             <span className="w-1/5">
               <strong>
-                {animes.overview.time_watched > 0
-                  ? prettyMs(animes.overview.time_watched * 1000, {
+                {animes.overview.length > 0
+                  ? prettyMs(animes.overview.length * 1000, {
                       verbose: true,
                       unitCount: width >= 768 ? 3 : 2,
                     })

@@ -1,5 +1,5 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
@@ -42,16 +42,16 @@ const formats = [
   },
 ];
 
-export function formatsStats(mangaList: MangaListObject[]): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function formatsStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   for (const format of formats) {
-    const formatStat: MangaStatArray = {
+    const formatStat: StatArray = {
       id: format.id,
       name: format.name,
       count: 0,
-      chapters_read: 0,
+      length: 0,
       mean_score: 0,
-      mangas: [],
+      titles: [],
     };
     const mangas = mangaList.filter(
       (manga) => manga.node.media_type == format.id
@@ -62,8 +62,8 @@ export function formatsStats(mangaList: MangaListObject[]): MangaStatArray[] {
     // count
     formatStat.count = mangas.length;
     // chapters read
-    formatStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    formatStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -76,7 +76,7 @@ export function formatsStats(mangaList: MangaListObject[]): MangaStatArray[] {
     if (!Number.isNaN(meanScore)) formatStat.mean_score = meanScore;
     // all mangas with format
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      formatStat.mangas.push(manga.node.id)
+      formatStat.titles.push(manga.node.id)
     );
     stats.push(formatStat);
   }

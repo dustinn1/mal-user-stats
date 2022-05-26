@@ -50,18 +50,18 @@ export async function fetchFullList<T extends "anime" | "manga">(
           ? title.node.alternative_titles.ja
           : title.node.title;
       if (type === "anime") {
-        title.list_status.time_watched =
+        title.list_status.length =
           (title.list_status.num_times_rewatched +
             (title.list_status.is_rewatching ? 1 : 0)) *
             (title.node.num_episodes * title.node.average_episode_duration) +
           title.list_status.num_episodes_watched *
             title.node.average_episode_duration;
       } else if (type === "manga") {
-        title.list_status.num_chapters_read =
+        title.list_status.num_length =
           (title.list_status.num_times_reread +
             (title.list_status.is_rereading ? 1 : 0)) *
             title.node.num_chapters +
-          title.list_status.num_chapters_read;
+          title.list_status.num_length;
       }
       list.push(title);
     }

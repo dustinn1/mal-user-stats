@@ -1,5 +1,4 @@
 export interface StatArray {
-  animes: any;
   id: string | number;
   name: string;
   count: number;
@@ -66,7 +65,7 @@ export interface Manga {
   authors: {
     name: string;
     role: string;
-  };
+  }[];
   chapters_count: number;
   volumes_count: number;
   format: { id: string; name: string };
@@ -75,11 +74,3 @@ export interface Manga {
   score: number;
   status: { id: string; name: string };
 }
-
-export type Animes = { [k: string]: Anime };
-
-export type AnimeStatArraysOnly = Omit<AnimeStats, "overview" | "animes">;
-
-export type Mangas = { [k: string]: Manga };
-
-export type MangaStatArraysOnly = Omit<MangaStats, "overview" | "mangas">;

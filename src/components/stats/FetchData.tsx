@@ -45,7 +45,7 @@ export default function FetchData({ username }: { username: string }) {
           await sleep(5000);
         }
       }
-      setMessage("Fetching generated stats... (1/2)");
+      setMessage("Fetching generated stats... (1/3)");
       const animeStats = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/fetch`,
         {
@@ -57,7 +57,19 @@ export default function FetchData({ username }: { username: string }) {
         username: username,
         data: animeStats.data,
       });
-      setMessage("Fetching generated stats... (2/2)");
+      setMessage("Fetching generated stats... (2/3)");
+      const mangaStats = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/fetch`,
+        {
+          username: username,
+          type: "manga",
+        }
+      );
+      await db.mangaStats.put({
+        username: username,
+        data: mangaStats.data,
+      });
+      setMessage("Fetching generated stats... (3/3)");
       const userInfo = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/fetch`,
         {

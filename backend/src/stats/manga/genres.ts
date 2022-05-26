@@ -1,12 +1,12 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStatArray } from "../../interfaces/mangaStats";
+import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniqBy from "lodash/sortedUniqBy";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function genresStats(mangaList: MangaListObject[]): MangaStatArray[] {
-  const stats: MangaStatArray[] = [];
+export function genresStats(mangaList: MangaListObject[]): StatArray[] {
+  const stats: StatArray[] = [];
   // get all unique genres in list
   let genresList: { id: number; name: string }[] = [];
   mangaList.map((manga) => {
@@ -28,13 +28,13 @@ export function genresStats(mangaList: MangaListObject[]): MangaStatArray[] {
     }
   );
   for (const genre of genresList) {
-    const genreStat: MangaStatArray = {
+    const genreStat: StatArray = {
       id: genre.id,
       name: genre.name,
       count: 0,
       mean_score: 0,
-      chapters_read: 0,
-      mangas: [],
+      length: 0,
+      titles: [],
     };
     const mangas = mangaList.filter(
       (manga) =>
@@ -50,8 +50,8 @@ export function genresStats(mangaList: MangaListObject[]): MangaStatArray[] {
     // count
     genreStat.count = mangas.length;
     // chapters read
-    genreStat.chapters_read = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_chapters_read,
+    genreStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
@@ -64,7 +64,7 @@ export function genresStats(mangaList: MangaListObject[]): MangaStatArray[] {
     if (!Number.isNaN(meanScore)) genreStat.mean_score = meanScore;
     // all mangas in genre
     orderBy(mangas, "node.title", "asc").map((manga) =>
-      genreStat.mangas.push(manga.node.id)
+      genreStat.titles.push(manga.node.id)
     );
     stats.push(genreStat);
   }

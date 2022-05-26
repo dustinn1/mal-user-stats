@@ -7,8 +7,9 @@ import { chaptersCountsStats } from "./chaptersCounts";
 import { volumesCountsStats } from "./volumesCounts";
 import { startYearsStats } from "./startYears";
 import { releaseYearsStats } from "./releaseYears";
+import { allMangas } from "./allMangas";
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { MangaStats } from "../../interfaces/mangaStats";
+import type { MangaStats } from "../../interfaces/stats";
 
 export function generateMangaStats(mangalist: MangaListObject[]): MangaStats {
   return {
@@ -21,5 +22,6 @@ export function generateMangaStats(mangalist: MangaListObject[]): MangaStats {
     start_years: startYearsStats(mangalist),
     genres: genresStats(mangalist),
     authors: authorsStats(mangalist),
+    mangas: Object.fromEntries(allMangas(mangalist)),
   };
 }

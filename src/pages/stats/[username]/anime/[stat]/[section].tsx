@@ -1,6 +1,9 @@
 import { useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
-import { StatArray, StatArraysOnly } from "../../../../../interfaces/stats";
+import {
+  AnimeStatArray,
+  StatArraysOnly,
+} from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import AnimeCardsFilters from "../../../../../components/stats/AnimeCardsFilters";
@@ -13,9 +16,10 @@ export default function StatSection() {
   const { animes } = useContext(StatsContext);
 
   if (section !== undefined) {
-    const statsSectionData: StatArray | undefined =
+    const statsSectionData: AnimeStatArray | undefined =
       [...animes[stat as keyof StatArraysOnly]].find(
-        (o: StatArray) => o.name.toLowerCase().replaceAll(" ", "_") === section
+        (o: AnimeStatArray) =>
+          o.name.toLowerCase().replaceAll(" ", "_") === section
       ) ?? undefined;
 
     if (statsSectionData) {

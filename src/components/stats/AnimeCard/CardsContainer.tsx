@@ -2,10 +2,11 @@ import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
 import AnimeCard from ".";
 import { Anime } from "../../../interfaces/stats";
+import { Manga } from "../../../interfaces/mangaStats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 
 type Props = {
-  data: Anime[];
+  data: (Anime | Manga)[];
 };
 
 export default function StatCardsContainer({ data }: Props) {

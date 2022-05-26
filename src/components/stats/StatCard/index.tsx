@@ -2,8 +2,8 @@ import { useMemo, useRef, useCallback, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import type { Anime, StatArray } from "../../../interfaces/stats";
-import { getAnimesInfo } from "../../../utils/getAnimesInfo";
+import type { StatArray } from "../../../interfaces/stats";
+import { getTitlesInfo } from "../../../utils/getTitlesInfo";
 import { useVirtual } from "react-virtual";
 import { StatsContext } from "../../../contexts/StatsContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
@@ -11,23 +11,31 @@ import { classNames } from "../../../utils/classNames";
 import prettyMs from "pretty-ms";
 
 type Props = {
+  type: "anime" | "manga";
   statArray: StatArray;
-  sort: "count" | "time_watched" | "mean_score";
+  sort: "count" | "length" | "mean_score";
   rank: number;
   isGrid: boolean;
 };
 
-export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
+export default function StatCard({
+  type,
+  statArray,
+  sort,
+  rank,
+  isGrid,
+}: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
-  const allAnimes: { [k: string]: Anime } =
-    useContext(StatsContext).animes.animes;
+  const stats = useContext(StatsContext);
+  const allTitles =
+    type === "anime" ? stats.animes.animes : stats.mangas.mangas;
   const width = useWindowWidth();
 
   const listParentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
     horizontal: true,
-    size: statArray.animes.length,
+    size: statArray.titles.length,
     parentRef: listParentRef,
     estimateSize: useCallback(() => 90, []),
     paddingStart: 16,
@@ -35,7 +43,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
   });
 
   const CoversList = useMemo(() => {
-    const animesInfo = getAnimesInfo(statArray.animes, allAnimes);
+    const titlesInfo = getTitlesInfo(statArray.titles, allTitles);
     return (
       <div
         style={{
@@ -57,8 +65,8 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
             }}
           >
             <Image
-              src={`https://cdn.myanimelist.net/images/anime/${
-                animesInfo[virtualRow.index].image_url_id
+              src={`https://cdn.myanimelist.net/images/${type}/${
+                titlesInfo[virtualRow.index].image_url_id
               }l.webp`}
               alt="image"
               height={"120"}
@@ -72,10 +80,11 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
       </div>
     );
   }, [
-    allAnimes,
+    allTitles,
     rowVirtualizer.totalSize,
     rowVirtualizer.virtualItems,
-    statArray.animes,
+    statArray.titles,
+    type,
   ]);
 
   return (
@@ -88,7 +97,7 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
           # {rank}
         </div>
         <Link
-          href={`/stats/${username}/anime/${stat}/${statArray.name
+          href={`/stats/${username}/${type}/${stat}/${statArray.name
             .toLowerCase()
             .replaceAll(" ", "_")}`}
         >
@@ -115,17 +124,15 @@ export default function StatCard({ statArray, sort, rank, isGrid }: Props) {
             <strong>{statArray.count}</strong> Animes
           </p>
         )}
-        {((!isGrid && width >= 768) || sort === "time_watched") && (
+        {((!isGrid && width >= 768) || sort === "length") && (
           <p
             className={
-              !isGrid && sort === "time_watched"
-                ? "border-b-2 border-black"
-                : ""
+              !isGrid && sort === "length" ? "border-b-2 border-black" : ""
             }
           >
             <strong>
-              {statArray.time_watched > 0
-                ? prettyMs(statArray.time_watched * 1000, {
+              {statArray.length > 0
+                ? prettyMs(statArray.length * 1000, {
                     verbose: true,
                     unitCount: width >= 640 ? 3 : 2,
                   })
