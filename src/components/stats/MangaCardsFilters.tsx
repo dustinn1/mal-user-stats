@@ -1,11 +1,10 @@
 import { getTitlesInfo } from "../../utils/getTitlesInfo";
 import CardsContainer from "./TitleCards/CardsContainer";
-import { useListFilter } from "../../hooks/useListFilter";
+import { useListFilter } from "../../hooks/useListFilter/manga";
 import { StatArray, MangaStats, Manga } from "../../interfaces/stats";
-import FilterContainer from "./Filters/Container";
+import MangaFilterContainer from "./Filters/MangaContainer";
 import { FilterContext } from "../../contexts/FilterContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
-import prettyMs from "pretty-ms";
 
 type Props = {
   data: StatArray;
@@ -30,8 +29,8 @@ function compare(prop: string) {
 }
 
 export default function MangaCardsFilters({ data, allStats }: Props) {
-  const animesInfos = getTitlesInfo(data.titles, allStats.mangas);
-  const filtersContext = useListFilter(animesInfos);
+  const mangaInfos = getTitlesInfo(data.titles, allStats.mangas);
+  const filtersContext = useListFilter(mangaInfos as Manga[]);
 
   const width = useWindowWidth();
 
@@ -57,7 +56,7 @@ export default function MangaCardsFilters({ data, allStats }: Props) {
         </div>
       </div>
       <FilterContext.Provider value={filtersContext}>
-        <FilterContainer stats={allStats} />
+        <MangaFilterContainer stats={allStats} />
       </FilterContext.Provider>
       <CardsContainer
         mangas={filtersContext.filteredList.sort(compare(filtersContext.sort))}

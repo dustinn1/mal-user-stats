@@ -16,7 +16,7 @@ export default function Layout({ children }: Props) {
   const username: string = router.query.username as string;
 
   const [currentCategory, setCurrentCategory] = useState<"anime" | "manga">(
-    "anime"
+    router.asPath.split("/")[3] as "anime" | "manga"
   );
   const setCategory = (category: "anime" | "manga") => {
     setCurrentCategory(category);

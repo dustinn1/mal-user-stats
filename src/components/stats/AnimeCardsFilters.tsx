@@ -1,8 +1,8 @@
 import { getTitlesInfo } from "../../utils/getTitlesInfo";
 import CardsContainer from "./TitleCards/CardsContainer";
-import { useListFilter } from "../../hooks/useListFilter";
+import { useListFilter } from "../../hooks/useListFilter/anime";
 import { StatArray, AnimeStats, Anime } from "../../interfaces/stats";
-import FilterContainer from "./Filters/Container";
+import FilterContainer from "./Filters/AnimeContainer";
 import { FilterContext } from "../../contexts/FilterContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import prettyMs from "pretty-ms";
@@ -31,7 +31,7 @@ function compare(prop: string) {
 
 export default function AnimeCardsFilters({ data, allStats }: Props) {
   const animesInfos = getTitlesInfo(data.titles, allStats.animes);
-  const filtersContext = useListFilter(animesInfos);
+  const filtersContext = useListFilter(animesInfos as Anime[]);
 
   const width = useWindowWidth();
 

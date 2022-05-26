@@ -63,10 +63,7 @@ export interface Manga {
   title_ja: string;
   image_url_id: string;
   genres: string[];
-  authors: {
-    name: string;
-    role: string;
-  }[];
+  authors: string[];
   chapters_count: number;
   volumes_count: number;
   format: { id: string; name: string };

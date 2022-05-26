@@ -1,19 +1,15 @@
 import Fuse from "fuse.js";
-import { Filter } from "../../interfaces/filters";
-import { Anime } from "../../interfaces/stats";
-import { Manga } from "../../interfaces/mangaStats";
+import { Filter } from "../../../interfaces/filters";
+import { Manga } from "../../../interfaces/stats";
 
-export function filterList(
-  titles: (Anime | Manga)[],
-  filters: Filter[]
-): (Anime | Manga)[] {
+export function filterList(titles: Manga[], filters: Filter[]): Manga[] {
   let filteredList = titles;
   for (const filter of filters) {
     if (filter.category !== "search") {
       filteredList = filteredList.filter((title) => {
-        if (filter.category === "genres") {
+        if (filter.category === "genres" || filter.category === "authors") {
           if (filter.type === "exclude") {
-            return !title[filter.category].includes(filter.value);
+            return !title[filter.category!].includes(filter.value);
           }
           if (filter.type === "include") {
             return title[filter.category].includes(filter.value);
@@ -36,7 +32,7 @@ export function filterList(
         if (
           filter.category === "score" ||
           filter.category === "release_year" ||
-          filter.category === "watch_year"
+          filter.category === "start_year"
         ) {
           const range = filter.value.split(",");
           return (

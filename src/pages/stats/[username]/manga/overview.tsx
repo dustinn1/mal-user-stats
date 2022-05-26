@@ -1,14 +1,13 @@
 import { useContext, ReactElement } from "react";
 import StatsLayout from "../../../../components/layouts/StatsLayout";
 import CardsContainer from "../../../../components/stats/TitleCards/CardsContainer";
-import FilterContainer from "../../../../components/stats/Filters/Container";
+import MangaFilterContainer from "../../../../components/stats/Filters/MangaContainer";
 import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
-import { useListFilter } from "../../../../hooks/useListFilter";
+import { useListFilter } from "../../../../hooks/useListFilter/manga";
 import { Manga } from "../../../../interfaces/stats";
 import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
-import prettyMs from "pretty-ms";
 import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 function compare(prop: string) {
@@ -34,7 +33,7 @@ export default function StatsMangaOverview() {
     Object.keys(mangas.mangas).map(Number),
     mangas.mangas
   );
-  const filtersContext = useListFilter(mangasInfos);
+  const filtersContext = useListFilter(mangasInfos as Manga[]);
 
   const width = useWindowWidth();
 
@@ -76,7 +75,7 @@ export default function StatsMangaOverview() {
           </div> */}
         </div>
         <FilterContext.Provider value={filtersContext}>
-          <FilterContainer stats={mangas} />
+          <MangaFilterContainer stats={mangas} />
         </FilterContext.Provider>
         <CardsContainer
           mangas={filtersContext.filteredList.sort(

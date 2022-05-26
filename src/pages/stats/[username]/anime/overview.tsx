@@ -1,11 +1,11 @@
 import { useContext, ReactElement } from "react";
 import StatsLayout from "../../../../components/layouts/StatsLayout";
 import CardsContainer from "../../../../components/stats/TitleCards/CardsContainer";
-import FilterContainer from "../../../../components/stats/Filters/Container";
+import AnimeFilterContainer from "../../../../components/stats/Filters/AnimeContainer";
 import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
-import { useListFilter } from "../../../../hooks/useListFilter";
-import { Anime, Manga } from "../../../../interfaces/stats";
+import { useListFilter } from "../../../../hooks/useListFilter/anime";
+import { Anime } from "../../../../interfaces/stats";
 import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
 import prettyMs from "pretty-ms";
@@ -13,7 +13,7 @@ import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 function compare(prop: string) {
   if (prop === "title") {
-    return function (a: Anime | Manga, b: Anime | Manga) {
+    return function (a: Anime, b: Anime) {
       return a[prop].localeCompare(b[prop]);
     };
   } else if (
@@ -34,7 +34,7 @@ export default function StatsAnimeOverview() {
     Object.keys(animes.animes).map(Number),
     animes.animes
   );
-  const filtersContext = useListFilter(animesInfos);
+  const filtersContext = useListFilter(animesInfos as Anime[]);
 
   const width = useWindowWidth();
 
@@ -76,7 +76,7 @@ export default function StatsAnimeOverview() {
           </div>
         </div>
         <FilterContext.Provider value={filtersContext}>
-          <FilterContainer stats={animes} />
+          <AnimeFilterContainer stats={animes} />
         </FilterContext.Provider>
         <CardsContainer
           animes={filtersContext.filteredList.sort(

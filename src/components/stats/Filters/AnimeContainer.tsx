@@ -10,17 +10,17 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
-import { AnimeStats, MangaStats } from "../../../interfaces/stats";
+import { AnimeStats } from "../../../interfaces/stats";
 import FilterRange from "./FilterRange";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
 import FilterInput from "./FilterInput";
 
 type Props = {
-  stats: AnimeStats | MangaStats;
+  stats: AnimeStats;
 };
 
-export default function FilterContainer({ stats }: Props) {
+export default function AnimeFilterContainer({ stats }: Props) {
   const filter = useContext(FilterContext);
 
   return (

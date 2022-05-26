@@ -90,13 +90,13 @@ export default function MangaCard({ manga }: Props) {
                 {manga.authors.map((author, i) => [
                   i > 0 && ", ",
                   <Link
-                    href={`/stats/triplezko/manga/authors/${author.name
+                    href={`/stats/triplezko/manga/authors/${author
                       .toLowerCase()
                       .replaceAll(" ", "_")}`}
-                    key={author.name}
+                    key={author}
                   >
                     <a className="text-blue-500 hover:text-blue-600 hover:underline">
-                      {author.name} ({author.role})
+                      {author}
                     </a>
                   </Link>,
                 ])}

@@ -52,12 +52,9 @@ export function allMangas(mangaList: MangaListObject[]): Map<number, Manga> {
         ? item.node.genres.map((genre) => genre.name)
         : [],
       authors: item.node.authors
-        ? item.node.authors.map((author) => {
-            return {
-              name: author.node.first_name + " " + author.node.last_name,
-              role: author.role,
-            };
-          })
+        ? item.node.authors.map(
+            (author) => author.node.first_name + " " + author.node.last_name
+          )
         : [],
       chapters_count: item.node.num_chapters,
       volumes_count: item.node.num_volumes,
