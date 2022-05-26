@@ -66,12 +66,12 @@ export interface Manga {
   authors: {
     name: string;
     role: string;
-  };
+  }[];
   chapters_count: number;
   volumes_count: number;
   format: { id: string; name: string };
   release_year: number | undefined;
-  watch_year: number | undefined;
+  start_year: number | undefined;
   score: number;
   status: { id: string; name: string };
 }

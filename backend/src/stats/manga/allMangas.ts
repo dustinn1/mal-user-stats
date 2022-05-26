@@ -3,35 +3,45 @@ import type { Manga } from "../../interfaces/stats";
 import upperCase from "lodash/upperCase";
 import capitalize from "lodash/capitalize";
 
-/* function capitalizeFormat(
-  format: "unknown" | "tv" | "ova" | "movie" | "special" | "ona" | "music"
+function capitalizeFormat(
+  format:
+    | "unknown"
+    | "manga"
+    | "light_novel"
+    | "novel"
+    | "one_shot"
+    | "doujinshi"
+    | "manhwa"
+    | "manhua"
+    | "oel"
 ) {
   switch (format) {
-    case "tv":
-    case "ova":
-    case "ona":
+    case "oel":
       return upperCase(format);
-    case "movie":
-    case "special":
-    case "music":
+    case "manga":
+    case "novel":
+    case "doujinshi":
+    case "manhwa":
+    case "manhua":
       return capitalize(format);
+    case "light_novel":
+    case "one_shot":
+      return capitalize(format.replaceAll("_", " "));
     default:
       return "Unknown";
   }
-} */
+}
 
 export function allMangas(mangaList: MangaListObject[]): Map<number, Manga> {
   const mangas: Map<number, Manga> = new Map();
   mangaList.map((item: MangaListObject) => {
-    /* function getReleaseYear(): number | undefined {
-      if (item.node.start_season) {
-        return item.node.start_season.year;
-      } else if (item.node.start_date) {
+    function getReleaseYear(): number | undefined {
+      if (item.node.start_date) {
         return parseInt(item.node.start_date.split("-")[0] as string);
       } else {
         return undefined;
       }
-    } */
+    }
     mangas.set(item.node.id, {
       id: item.node.id,
       title: item.node.title,
@@ -53,10 +63,10 @@ export function allMangas(mangaList: MangaListObject[]): Map<number, Manga> {
       volumes_count: item.node.num_volumes,
       format: {
         id: item.node.media_type,
-        name: item.node.media_type,
+        name: capitalizeFormat(item.node.media_type),
       },
-      release_year: 2000,
-      watch_year: item.list_status.start_date
+      release_year: getReleaseYear(),
+      start_year: item.list_status.start_date
         ? parseInt(item.list_status.start_date.split("-")[0] as string)
         : undefined,
       score: item.list_status.score,

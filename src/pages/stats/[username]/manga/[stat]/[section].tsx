@@ -2,31 +2,31 @@ import { useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
 import {
   StatArray,
-  AnimeStatArraysOnly,
+  MangaStatArraysOnly,
 } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
-import AnimeCardsFilters from "../../../../../components/stats/AnimeCardsFilters";
+import MangaCardsFilters from "../../../../../components/stats/MangaCardsFilters";
 
 export default function StatSection() {
   const router = useRouter();
   const { stat } = router.query;
   const section: string = router.query.section as string;
 
-  const { animes } = useContext(StatsContext);
+  const { mangas } = useContext(StatsContext);
 
   if (section !== undefined) {
     const statsSectionData: StatArray | undefined =
-      [...animes[stat as keyof AnimeStatArraysOnly]].find(
+      [...mangas[stat as keyof MangaStatArraysOnly]].find(
         (o: StatArray) => o.name.toLowerCase().replaceAll(" ", "_") === section
       ) ?? undefined;
 
     if (statsSectionData) {
       return (
-        <AnimeCardsFilters
+        <MangaCardsFilters
           key={router.asPath}
           data={statsSectionData}
-          allStats={animes}
+          allStats={mangas}
         />
       );
     } else {

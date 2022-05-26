@@ -121,7 +121,8 @@ export default function StatCard({
               !isGrid && sort === "count" ? "border-b-2 border-black" : ""
             }
           >
-            <strong>{statArray.count}</strong> Animes
+            <strong>{statArray.count}</strong>{" "}
+            {type === "anime" ? "Animes" : "Mangas"}
           </p>
         )}
         {((!isGrid && width >= 768) || sort === "length") && (
@@ -130,15 +131,26 @@ export default function StatCard({
               !isGrid && sort === "length" ? "border-b-2 border-black" : ""
             }
           >
-            <strong>
-              {statArray.length > 0
-                ? prettyMs(statArray.length * 1000, {
-                    verbose: true,
-                    unitCount: width >= 640 ? 3 : 2,
-                  })
-                : "No time"}
-            </strong>{" "}
-            Watched
+            {type === "anime" ? (
+              <>
+                <strong>
+                  {statArray.length > 0
+                    ? prettyMs(statArray.length * 1000, {
+                        verbose: true,
+                        unitCount: width >= 640 ? 3 : 2,
+                      })
+                    : "No time"}
+                </strong>{" "}
+                Watched
+              </>
+            ) : (
+              <>
+                <strong>
+                  {statArray.length > 0 ? statArray.length : "No chapters"}
+                </strong>{" "}
+                Read
+              </>
+            )}
           </p>
         )}
         {((!isGrid && width >= 768) || sort === "mean_score") && (
