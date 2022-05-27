@@ -48,7 +48,7 @@ export default function LineChart({ width, height, data, keys }: Props) {
           },
           padding: 20,
           /* callback: function (value: number | string) {
-            return keys.y === "time_watched"
+            return keys.y === "length"
               ? `${secondsToHours(value as number)} hrs`
               : value;
           }, */
@@ -69,7 +69,7 @@ export default function LineChart({ width, height, data, keys }: Props) {
         anchor: "end" as const,
         offset: 8,
         /* formatter: function (value: number) {
-          return keys.y === "time_watched" ? secondsToHours(value) : value;
+          return keys.y === "length" ? secondsToHours(value) : value;
         }, */
       },
     },

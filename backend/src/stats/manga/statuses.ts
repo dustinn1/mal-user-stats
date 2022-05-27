@@ -1,4 +1,4 @@
-import type { AnimeListObject } from "../../interfaces/fetchList";
+import type { MangaListObject } from "../../interfaces/fetchList";
 import type { StatArray } from "../../interfaces/stats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
@@ -26,7 +26,7 @@ const statuses = [
   },
 ];
 
-export function statusesStats(animeList: AnimeListObject[]): StatArray[] {
+export function statusesStats(mangaList: MangaListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   for (const status of statuses) {
     const statusStat: StatArray = {
@@ -37,30 +37,30 @@ export function statusesStats(animeList: AnimeListObject[]): StatArray[] {
       mean_score: 0,
       titles: [],
     };
-    const animes = animeList.filter(
-      (anime) => anime.list_status.status == status.id
+    const mangas = mangaList.filter(
+      (manga) => manga.list_status.status == status.id
     );
-    if (animes.length === 0) {
+    if (mangas.length === 0) {
       continue;
     }
     // count
-    statusStat.count = animes.length;
-    // time watched
-    statusStat.length = animes.reduce(
-      (val, anime) => val + anime.list_status.length,
+    statusStat.count = mangas.length;
+    // chapters read
+    statusStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
-    const watchedFiltered = animes.filter((anime) => anime.list_status.score);
+    const watchedFiltered = mangas.filter((manga) => manga.list_status.score);
     const meanScore = round(
-      watchedFiltered.reduce((val, anime) => val + anime.list_status.score, 0) /
+      watchedFiltered.reduce((val, manga) => val + manga.list_status.score, 0) /
         watchedFiltered.length,
       2
     );
     if (!Number.isNaN(meanScore)) statusStat.mean_score = meanScore;
-    // all animes with status
-    orderBy(animes, "node.title", "asc").map((anime) =>
-      statusStat.titles.push(anime.node.id)
+    // all mangas with status
+    orderBy(mangas, "node.title", "asc").map((manga) =>
+      statusStat.titles.push(manga.node.id)
     );
     stats.push(statusStat);
   }

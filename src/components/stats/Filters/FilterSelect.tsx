@@ -1,14 +1,14 @@
 import { useContext, useRef, useCallback } from "react";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { StatArray } from "../../../interfaces/stats";
+import { AnimeStatArray } from "../../../interfaces/stats";
 import { FilterContext } from "../../../contexts/FilterContext";
 import { FilterCategories } from "../../../interfaces/filters";
 import { classNames } from "../../../utils/classNames";
 import { useVirtual } from "react-virtual";
 
 type animes = {
-  data: StatArray[];
+  data: AnimeStatArray[];
   name: FilterCategories;
 };
 
@@ -25,7 +25,7 @@ export default function FilterSelect({ data, name }: animes) {
 
   const dataSort = data.sort((a, b) => a.name.localeCompare(b.name));
 
-  function SelectRow({ stat }: { stat: StatArray }) {
+  function SelectRow({ stat }: { stat: AnimeStatArray }) {
     const matchedFilter = filter.filters.find(
       (filter) => filter.category === name && filter.value === stat.name
     );

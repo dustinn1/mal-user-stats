@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
 //import dynamic from "next/dynamic";
 import type {
-  AnimeStatArraysOnly,
+  MangaStatArraysOnly,
   StatArray,
 } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
@@ -24,28 +24,29 @@ import LoadingIndicator from "../../../../../components/LoadingIndicator";
 //import ChartContainer from "../../../../../components/stats/ChartContainer";
 
 const validStats = [
-  "episodes_counts",
+  "chapters_counts",
+  "volumes_counts",
   "formats",
   "genres",
+  "authors",
   "release_years",
+  "start_years",
   "scores",
   "statuses",
-  "studios",
-  "watch_years",
 ];
 
 /* const ChartContainer = dynamic(
   () => import("../../../../../components/stats/ChartContainer")
 ); */
 
-export default function StatsAnimePage() {
+export default function StatsMangaPage() {
   const router = useRouter();
   const query: string = router.query.stat as string;
   const [isLoaded, setIsLoaded] = useState(false);
   const [isGrid, setIsGrid] = useState(true);
   const [sort, setSort] = useState<"count" | "length" | "mean_score">("count");
   const [searchQuery, setSearchQuery] = useState("");
-  const { animes } = useContext(StatsContext);
+  const { mangas } = useContext(StatsContext);
 
   const width = useWindowWidth();
 
@@ -57,7 +58,7 @@ export default function StatsAnimePage() {
   if (isLoaded) {
     if (query !== undefined && validStats.some((v) => v === query)) {
       const pageInfo = statsPages.find((v) => v.id === query)!;
-      const statsData: StatArray[] = animes[query as keyof AnimeStatArraysOnly];
+      const statsData: StatArray[] = mangas[query as keyof MangaStatArraysOnly];
       const statsDataCards = [...statsData];
       const fuse = new Fuse(statsDataCards, {
         keys: ["name"],
@@ -127,7 +128,7 @@ export default function StatsAnimePage() {
             </div>
           </div>
           <StatCardsContainer
-            type="anime"
+            type="manga"
             data={
               searchQuery !== ""
                 ? fuse.search(searchQuery).map((e) => e.item)
@@ -153,6 +154,6 @@ export default function StatsAnimePage() {
   }
 }
 
-StatsAnimePage.getLayout = function getLayout(page: ReactElement) {
+StatsMangaPage.getLayout = function getLayout(page: ReactElement) {
   return <StatsLayout>{page}</StatsLayout>;
 };

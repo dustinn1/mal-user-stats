@@ -1,5 +1,5 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { StatArray } from "../../interfaces/animeStats";
+import type { StatArray } from "../../interfaces/stats";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
@@ -41,9 +41,9 @@ export function formatsStats(animeList: AnimeListObject[]): StatArray[] {
       id: format.id,
       name: format.name,
       count: 0,
-      time_watched: 0,
+      length: 0,
       mean_score: 0,
-      animes: [],
+      titles: [],
     };
     const animes = animeList.filter(
       (anime) => anime.node.media_type == format.id
@@ -54,8 +54,8 @@ export function formatsStats(animeList: AnimeListObject[]): StatArray[] {
     // count
     formatStat.count = animes.length;
     // time watched
-    formatStat.time_watched = animes.reduce(
-      (val, anime) => val + anime.list_status.time_watched,
+    formatStat.length = animes.reduce(
+      (val, anime) => val + anime.list_status.length,
       0
     );
     // mean score
@@ -68,7 +68,7 @@ export function formatsStats(animeList: AnimeListObject[]): StatArray[] {
     if (!Number.isNaN(meanScore)) formatStat.mean_score = meanScore;
     // all animes with format
     orderBy(animes, "node.title", "asc").map((anime) =>
-      formatStat.animes.push(anime.node.id)
+      formatStat.titles.push(anime.node.id)
     );
     stats.push(formatStat);
   }

@@ -20,7 +20,7 @@ type Props = {
   stats: AnimeStats;
 };
 
-export default function FilterContainer({ stats }: Props) {
+export default function AnimeFilterContainer({ stats }: Props) {
   const filter = useContext(FilterContext);
 
   return (
@@ -88,7 +88,7 @@ export default function FilterContainer({ stats }: Props) {
           >
             <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
               <FilterSelect data={stats.genres} name="genres" />
-              <FilterSelect data={stats.studios} name="studios" />
+              {/* <FilterSelect data={stats.studios} name="studios" /> */}
               <FilterSelect data={stats.statuses} name="status" />
               <FilterSelect data={stats.formats} name="format" />
               <FilterRange name="score" />

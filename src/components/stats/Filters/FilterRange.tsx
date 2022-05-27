@@ -3,7 +3,14 @@ import { FilterContext } from "../../../contexts/FilterContext";
 import { Range, getTrackBackground } from "react-range";
 
 type Props = {
-  name: "score" | "episodes_count" | "release_year" | "watch_year";
+  name:
+    | "score"
+    | "episodes_count"
+    | "release_year"
+    | "watch_year"
+    | "chapters_count"
+    | "volumes_count"
+    | "start_year";
 };
 
 export default memo(function FilterRange({ name }: Props) {

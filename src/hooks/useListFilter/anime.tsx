@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Anime } from "../../interfaces/stats";
 import {
   Filter,
-  FilterCategories,
+  FilterCategoriesAnime,
   FilterHookExports,
   FilterTypes,
-  FilterInputValues,
+  FilterInputValuesAnime,
 } from "../../interfaces/filters";
-import { filterList } from "./filterList";
+import { filterList } from "./fitlerList/anime";
 import { getMin, getMax } from "./minMax";
 
-export function useListFilter(initialList: Anime[]): FilterHookExports {
+export function useListFilter(
+  initialList: Anime[]
+): FilterHookExports<"anime"> {
   const [filteredList, setFilteredList] = useState(initialList);
-  const [filters, setFilters] = useState<Filter[]>([]);
+  const [filters, setFilters] = useState<Filter<"anime">[]>([]);
   const [sort, setSort] = useState("title");
 
-  const InputValuesEmpty: FilterInputValues = {
+  const InputValuesEmpty: FilterInputValuesAnime = {
     search: "",
     score: [0, 10],
     episodes_count: [0, 10],
@@ -36,15 +38,15 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
   };
 
   const [inputValues, setInputValues] =
-    useState<FilterInputValues>(InputValuesEmpty);
+    useState<FilterInputValuesAnime>(InputValuesEmpty);
 
   function addFilter(
-    category: FilterCategories,
+    category: FilterCategoriesAnime,
     type: FilterTypes,
     value: string
   ) {
     let index: number;
-    let updatedFilter: Filter[] = filters;
+    let updatedFilter: Filter<"anime">[] = filters;
     if (type === "range" || type === "search") {
       index = filters.findIndex((filter) => filter.category === category);
     } else {
@@ -65,7 +67,7 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
   }
 
   function removeFilter(
-    category: FilterCategories,
+    category: FilterCategoriesAnime,
     type?: FilterTypes,
     value?: string
   ) {
@@ -106,7 +108,10 @@ export function useListFilter(initialList: Anime[]): FilterHookExports {
     setInputValues(InputValuesEmpty);
   }
 
-  function updateInputValues(category: keyof FilterInputValues, value: string) {
+  function updateInputValues(
+    category: keyof FilterInputValuesAnime,
+    value: string
+  ) {
     const newValues = inputValues;
     newValues[category] = category === "search" ? value : JSON.parse(value);
     setInputValues(newValues);

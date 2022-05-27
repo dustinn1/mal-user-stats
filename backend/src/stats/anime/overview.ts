@@ -4,7 +4,7 @@ import round from "lodash/round";
 interface OverviewObject {
   total_anime: number;
   episodes_watched: number;
-  time_watched: number;
+  length: number;
   mean_score: number;
   standard_deviation: number;
 }
@@ -17,10 +17,7 @@ export function overviewStats(animeList: AnimeListObject[]): OverviewObject {
       (val, anime) => val + anime.list_status.num_episodes_watched,
       0
     ),
-    time_watched: animeList.reduce(
-      (val, anime) => val + anime.list_status.time_watched,
-      0
-    ),
+    length: animeList.reduce((val, anime) => val + anime.list_status.length, 0),
     mean_score: round(
       animesWithScores.reduce(
         (val, anime) => val + anime.list_status.score,

@@ -81,8 +81,9 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
               <Tab
                 name={tab}
                 active={
+                  router.asPath.split("/")[3] === currentCategory &&
                   router.asPath.split("/")[4] ===
-                  tab.toLowerCase().replaceAll(" ", "_")
+                    tab.toLowerCase().replaceAll(" ", "_")
                 }
               />
             </a>

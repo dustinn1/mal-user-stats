@@ -1,17 +1,19 @@
 import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
-import AnimeCard from ".";
-import { Anime } from "../../../interfaces/stats";
+import AnimeCard from "./Anime";
+import MangaCard from "./Manga";
+import { Anime, Manga } from "../../../interfaces/stats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 
 type Props = {
-  data: Anime[];
+  animes?: Anime[];
+  mangas?: Manga[];
 };
 
-export default function StatCardsContainer({ data }: Props) {
+export default function StatCardsContainer({ animes, mangas }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
-    size: data.length,
+    size: animes ? animes.length : mangas!.length,
     estimateSize: useCallback(() => 240, []),
     parentRef,
     windowRef: useRef(window),
@@ -53,13 +55,24 @@ export default function StatCardsContainer({ data }: Props) {
             }}
           >
             {[...Array(split)].map((_, i) => {
-              if (data[split * virtualRow.index + i] !== undefined) {
-                return (
-                  <AnimeCard
-                    anime={data[split * virtualRow.index + i]}
-                    key={i}
-                  />
-                );
+              if (animes) {
+                if (animes[split * virtualRow.index + i] !== undefined) {
+                  return (
+                    <AnimeCard
+                      anime={animes[split * virtualRow.index + i]}
+                      key={i}
+                    />
+                  );
+                }
+              } else if (mangas) {
+                if (mangas[split * virtualRow.index + i] !== undefined) {
+                  return (
+                    <MangaCard
+                      manga={mangas[split * virtualRow.index + i]}
+                      key={i}
+                    />
+                  );
+                }
               }
             })}
           </div>

@@ -1,19 +1,19 @@
 import axios from "axios";
 import { setTimeout } from "timers/promises";
-import type { AnimeListObject } from "../interfaces/fetchList";
+import type { FetchType } from "../interfaces/fetchList";
 
 const api_fields: { anime: string; manga: string } = {
   anime:
     "list_status{finish_date,num_times_rewatched},alternative_titles,start_date,end_date,mean,genres,media_type,status,num_episodes,start_season,broadcast,source,average_episode_duration,studios",
   manga:
-    "alternative_titles,start_date,end_date,mean,genres,media_type,my_list_status{num_times_reread},num_volumes,num_chapters",
+    "list_status{finish_date,num_times_reread},alternative_titles,start_date,end_date,mean,genres,media_type,status,num_volumes,num_chapters,authors{first_name,last_name}",
 };
 
-export async function fetchFullList(
+export async function fetchFullList<T extends "anime" | "manga">(
   username: string,
-  type: "anime" | "manga"
-): Promise<AnimeListObject[]> {
-  const list: AnimeListObject[] = [];
+  type: T
+): Promise<FetchType<T>> {
+  const list: FetchType<T> = [];
   let isEnd = false;
   let offset = 0;
   do {
@@ -50,18 +50,18 @@ export async function fetchFullList(
           ? title.node.alternative_titles.ja
           : title.node.title;
       if (type === "anime") {
-        title.list_status.time_watched =
+        title.list_status.length =
           (title.list_status.num_times_rewatched +
             (title.list_status.is_rewatching ? 1 : 0)) *
             (title.node.num_episodes * title.node.average_episode_duration) +
           title.list_status.num_episodes_watched *
             title.node.average_episode_duration;
-      } else {
-        title.list_status.chapters_read =
-          (title.node.my_list_status.num_times_reread +
-            (title.node.my_list_status.is_rereading ? 1 : 0)) *
+      } else if (type === "manga") {
+        title.list_status.num_length =
+          (title.list_status.num_times_reread +
+            (title.list_status.is_rereading ? 1 : 0)) *
             title.node.num_chapters +
-          title.node.my_list_status.num_chapters_read;
+          title.list_status.num_length;
       }
       list.push(title);
     }

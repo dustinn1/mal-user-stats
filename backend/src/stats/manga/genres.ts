@@ -1,17 +1,17 @@
-import type { AnimeListObject } from "../../interfaces/fetchList";
+import type { MangaListObject } from "../../interfaces/fetchList";
 import type { StatArray } from "../../interfaces/stats";
 import sortBy from "lodash/sortBy";
 import sortedUniqBy from "lodash/sortedUniqBy";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function genresStats(animeList: AnimeListObject[]): StatArray[] {
+export function genresStats(mangaList: MangaListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all unique genres in list
   let genresList: { id: number; name: string }[] = [];
-  animeList.map((anime) => {
-    if (anime.node.genres) {
-      anime.node.genres.map((genre) =>
+  mangaList.map((manga) => {
+    if (manga.node.genres) {
+      manga.node.genres.map((genre) =>
         genresList.push({
           id: genre.id,
           name: genre.name,
@@ -36,35 +36,35 @@ export function genresStats(animeList: AnimeListObject[]): StatArray[] {
       length: 0,
       titles: [],
     };
-    const animes = animeList.filter(
-      (anime) =>
-        anime.node.genres &&
-        anime.node.genres.some(
-          (animeGenre) =>
-            animeGenre.id === genre.id && animeGenre.name === genre.name
+    const mangas = mangaList.filter(
+      (manga) =>
+        manga.node.genres &&
+        manga.node.genres.some(
+          (mangaGenre) =>
+            mangaGenre.id === genre.id && mangaGenre.name === genre.name
         )
     );
-    if (animes.length === 0) {
+    if (mangas.length === 0) {
       continue;
     }
     // count
-    genreStat.count = animes.length;
-    // time watched
-    genreStat.length = animes.reduce(
-      (val, anime) => val + anime.list_status.length,
+    genreStat.count = mangas.length;
+    // chapters read
+    genreStat.length = mangas.reduce(
+      (val, manga) => val + manga.list_status.num_length,
       0
     );
     // mean score
-    const watchedFiltered = animes.filter((anime) => anime.list_status.score);
+    const watchedFiltered = mangas.filter((manga) => manga.list_status.score);
     const meanScore = round(
-      watchedFiltered.reduce((val, anime) => val + anime.list_status.score, 0) /
+      watchedFiltered.reduce((val, manga) => val + manga.list_status.score, 0) /
         watchedFiltered.length,
       2
     );
     if (!Number.isNaN(meanScore)) genreStat.mean_score = meanScore;
-    // all animes in genre
-    orderBy(animes, "node.title", "asc").map((anime) =>
-      genreStat.titles.push(anime.node.id)
+    // all mangas in genre
+    orderBy(mangas, "node.title", "asc").map((manga) =>
+      genreStat.titles.push(manga.node.id)
     );
     stats.push(genreStat);
   }

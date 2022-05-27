@@ -1,30 +1,30 @@
 import Fuse from "fuse.js";
-import { Filter } from "../../interfaces/filters";
-import { Anime } from "../../interfaces/stats";
+import { Filter } from "../../../interfaces/filters";
+import { Manga } from "../../../interfaces/stats";
 
-export function filterList(animes: Anime[], filters: Filter[]): Anime[] {
-  let filteredList = animes;
+export function filterList(titles: Manga[], filters: Filter[]): Manga[] {
+  let filteredList = titles;
   for (const filter of filters) {
     if (filter.category !== "search") {
-      filteredList = filteredList.filter((anime) => {
-        if (filter.category === "genres" || filter.category === "studios") {
+      filteredList = filteredList.filter((title) => {
+        if (filter.category === "genres" || filter.category === "authors") {
           if (filter.type === "exclude") {
-            return !anime[filter.category].includes(filter.value);
+            return !title[filter.category!].includes(filter.value);
           }
           if (filter.type === "include") {
-            return anime[filter.category].includes(filter.value);
+            return title[filter.category].includes(filter.value);
           }
         }
         if (filter.category === "format" || filter.category === "status") {
           if (filter.type === "exclude") {
             return !(
-              anime[filter.category].name.toLowerCase() ===
+              title[filter.category].name.toLowerCase() ===
               filter.value.toLowerCase()
             );
           }
           if (filter.type === "include") {
             return (
-              anime[filter.category].name.toLowerCase() ===
+              title[filter.category].name.toLowerCase() ===
               filter.value.toLowerCase()
             );
           }
@@ -32,12 +32,12 @@ export function filterList(animes: Anime[], filters: Filter[]): Anime[] {
         if (
           filter.category === "score" ||
           filter.category === "release_year" ||
-          filter.category === "watch_year"
+          filter.category === "start_year"
         ) {
           const range = filter.value.split(",");
           return (
-            (anime[filter.category] ?? -1) >= parseInt(range[0]) &&
-            (anime[filter.category] ?? -1) <= parseInt(range[1])
+            (title[filter.category] ?? -1) >= parseInt(range[0]) &&
+            (title[filter.category] ?? -1) <= parseInt(range[1])
           );
         }
         return false;
