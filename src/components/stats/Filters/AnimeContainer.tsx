@@ -10,14 +10,13 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
-import { AnimeStats } from "../../../interfaces/stats";
-import FilterRange from "./FilterRange";
+import { Stats } from "../../../interfaces/stats";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
 import FilterInput from "./FilterInput";
 
 type Props = {
-  stats: AnimeStats;
+  stats: Stats;
 };
 
 export default function AnimeFilterContainer({ stats }: Props) {
@@ -88,13 +87,9 @@ export default function AnimeFilterContainer({ stats }: Props) {
           >
             <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
               <FilterSelect data={stats.genres} name="genres" />
-              {/* <FilterSelect data={stats.studios} name="studios" /> */}
+              <FilterSelect data={stats.creators} name="creators" />
               <FilterSelect data={stats.statuses} name="status" />
               <FilterSelect data={stats.formats} name="format" />
-              <FilterRange name="score" />
-              <FilterRange name="episodes_count" />
-              <FilterRange name="release_year" />
-              <FilterRange name="watch_year" />
             </Disclosure.Panel>
           </Transition>
           <FilterTags />

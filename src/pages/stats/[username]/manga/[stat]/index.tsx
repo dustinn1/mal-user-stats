@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
 //import dynamic from "next/dynamic";
 import type {
-  MangaStatArraysOnly,
+  StatArraysOnly,
   StatArray,
 } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
@@ -58,7 +58,7 @@ export default function StatsMangaPage() {
   if (isLoaded) {
     if (query !== undefined && validStats.some((v) => v === query)) {
       const pageInfo = statsPages.find((v) => v.id === query)!;
-      const statsData: StatArray[] = mangas[query as keyof MangaStatArraysOnly];
+      const statsData: StatArray[] = mangas[query as keyof StatArraysOnly];
       const statsDataCards = [...statsData];
       const fuse = new Fuse(statsDataCards, {
         keys: ["name"],

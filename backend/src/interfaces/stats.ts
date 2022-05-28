@@ -6,7 +6,15 @@ export interface StatArray {
   length: number;
   titles: number[];
 }
-interface CommonStats {
+export interface Stats {
+  overview: {
+    total_anime: number;
+    watched_readed: number;
+    length: number;
+    mean_score: number;
+    standard_deviation: number;
+  };
+  counts: StatArray[];
   genres: StatArray[];
   creators: StatArray[];
   formats: StatArray[];
@@ -14,28 +22,15 @@ interface CommonStats {
   release_years: StatArray[];
   start_years: StatArray[];
   scores: StatArray[];
+  titles: { [k: string]: AnimeManga };
 }
 
-export interface AnimeStats extends CommonStats {
-  overview: {
-    total_anime: number;
-    episodes_watched: number;
-    length: number;
-    mean_score: number;
-    standard_deviation: number;
-  };
-  episodes_counts: StatArray[];
-  animes: { [k: string]: Anime };
-}
-
-export interface MangaStats extends CommonStats {
-  chapters_counts: StatArray[];
-  volumes_counts: StatArray[];
-  release_years: StatArray[];
-  mangas: { [k: string]: Manga };
-}
-
-export interface CommonAnimeMangaStats {
+export interface AnimeManga {
+  id: number;
+  title: string;
+  title_en: string;
+  title_ja: string;
+  image_url_id: string;
   genres: string[];
   creators: string[];
   format: { id: string; name: string };
@@ -44,21 +39,4 @@ export interface CommonAnimeMangaStats {
   start_year: number | undefined;
   score: number;
   count: number;
-}
-
-export interface Anime extends CommonAnimeMangaStats {
-  id: number;
-  title: string;
-  title_en: string;
-  title_ja: string;
-  image_url_id: string;
-}
-
-export interface Manga extends CommonAnimeMangaStats {
-  id: number;
-  title: string;
-  title_en: string;
-  title_ja: string;
-  image_url_id: string;
-  volumes_count: number;
 }

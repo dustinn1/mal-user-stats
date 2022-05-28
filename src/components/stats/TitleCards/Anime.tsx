@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Anime } from "../../../interfaces/stats";
+import { AnimeManga } from "../../../interfaces/stats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 
 type Props = {
-  anime: Anime;
+  anime: AnimeManga;
 };
 
 export default function AnimeCard({ anime }: Props) {
@@ -29,13 +29,11 @@ export default function AnimeCard({ anime }: Props) {
             </Link>{" "}
             /{" "}
             <Link
-              href={`/stats/triplezko/anime/episodes_counts/${anime.episodes_count}`}
+              href={`/stats/triplezko/anime/episodes_counts/${anime.count}`}
             >
               <a className="underline hover:text-gray-200">
-                {anime.episodes_count}{" "}
-                {anime.episodes_count > 1 || anime.episodes_count === 0
-                  ? "eps"
-                  : "ep"}
+                {anime.count}{" "}
+                {anime.count > 1 || anime.count === 0 ? "eps" : "ep"}
               </a>
             </Link>
           </div>
@@ -71,13 +69,13 @@ export default function AnimeCard({ anime }: Props) {
                   {anime.score}
                 </a>
               </Link>{" "}
-              {anime.watch_year && "/ Started Watching in "}
-              {anime.watch_year && (
+              {anime.start_year && "/ Started Watching in "}
+              {anime.start_year && (
                 <Link
-                  href={`/stats/triplezko/anime/watch_years/${anime.watch_year}`}
+                  href={`/stats/triplezko/anime/watch_years/${anime.start_year}`}
                 >
                   <a className="text-blue-500 hover:text-blue-600 hover:underline">
-                    {anime.watch_year}
+                    {anime.start_year}
                   </a>
                 </Link>
               )}
@@ -87,7 +85,7 @@ export default function AnimeCard({ anime }: Props) {
             <div className="py-1">
               <div>
                 <span>Studios: </span>
-                {anime.studios.map((studio, i) => [
+                {anime.creators.map((studio, i) => [
                   i > 0 && ", ",
                   <Link
                     href={`/stats/triplezko/anime/studios/${studio

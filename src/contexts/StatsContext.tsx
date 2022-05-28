@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { userInfo } from "../interfaces/userInfo";
-import { AnimeStats, MangaStats } from "../interfaces/stats";
+import { Stats } from "../interfaces/stats";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -10,12 +10,12 @@ type ContextProps = {
   username: string;
 };
 
-type StatsContext = { user: userInfo; animes: AnimeStats; mangas: MangaStats };
+type StatsContext = { user: userInfo; animes: Stats; mangas: Stats };
 
 export const StatsContext = createContext<StatsContext>({
   user: {} as userInfo,
-  animes: {} as AnimeStats,
-  mangas: {} as MangaStats,
+  animes: {} as Stats,
+  mangas: {} as Stats,
 });
 
 export const StatsContextProvider = ({ children, username }: ContextProps) => {

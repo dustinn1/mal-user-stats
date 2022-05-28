@@ -4,24 +4,24 @@ import CardsContainer from "../../../../components/stats/TitleCards/CardsContain
 import MangaFilterContainer from "../../../../components/stats/Filters/MangaContainer";
 import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
-import { useListFilter } from "../../../../hooks/useListFilter/manga";
-import { Manga } from "../../../../interfaces/stats";
+import { useListFilter } from "../../../../hooks/useListFilter";
+import { AnimeManga } from "../../../../interfaces/stats";
 import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
 import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 function compare(prop: string) {
   if (prop === "title") {
-    return function (a: Manga, b: Manga) {
+    return function (a: AnimeManga, b: AnimeManga) {
       return a[prop].localeCompare(b[prop]);
     };
   } else if (
     prop === "score" ||
-    prop === "chapters_count" ||
+    prop === "count" ||
     prop === "release_year" ||
     prop === "start_year"
   ) {
-    return function (a: Manga, b: Manga) {
+    return function (a: AnimeManga, b: AnimeManga) {
       return b[prop]! - a[prop]!;
     };
   }
@@ -30,10 +30,10 @@ function compare(prop: string) {
 export default function StatsMangaOverview() {
   const { mangas } = useContext(StatsContext);
   const mangasInfos = getTitlesInfo(
-    Object.keys(mangas.mangas).map(Number),
-    mangas.mangas
+    Object.keys(mangas.titles).map(Number),
+    mangas.titles
   );
-  const filtersContext = useListFilter(mangasInfos as Manga[]);
+  const filtersContext = useListFilter(mangasInfos as AnimeManga[]);
 
   const width = useWindowWidth();
 
@@ -78,7 +78,7 @@ export default function StatsMangaOverview() {
           <MangaFilterContainer stats={mangas} />
         </FilterContext.Provider>
         <CardsContainer
-          mangas={filtersContext.filteredList.sort(
+          titles={filtersContext.filteredList.sort(
             compare(filtersContext.sort)
           )}
         />

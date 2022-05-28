@@ -4,8 +4,8 @@ import CardsContainer from "../../../../components/stats/TitleCards/CardsContain
 import AnimeFilterContainer from "../../../../components/stats/Filters/AnimeContainer";
 import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
-import { useListFilter } from "../../../../hooks/useListFilter/anime";
-import { Anime } from "../../../../interfaces/stats";
+import { useListFilter } from "../../../../hooks/useListFilter";
+import { AnimeManga } from "../../../../interfaces/stats";
 import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
 import prettyMs from "pretty-ms";
@@ -13,16 +13,16 @@ import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 function compare(prop: string) {
   if (prop === "title") {
-    return function (a: Anime, b: Anime) {
+    return function (a: AnimeManga, b: AnimeManga) {
       return a[prop].localeCompare(b[prop]);
     };
   } else if (
     prop === "score" ||
-    prop === "episodes_count" ||
+    prop === "count" ||
     prop === "release_year" ||
-    prop === "watch_year"
+    prop === "start_year"
   ) {
-    return function (a: Anime, b: Anime) {
+    return function (a: AnimeManga, b: AnimeManga) {
       return b[prop]! - a[prop]!;
     };
   }
@@ -31,10 +31,10 @@ function compare(prop: string) {
 export default function StatsAnimeOverview() {
   const { animes } = useContext(StatsContext);
   const animesInfos = getTitlesInfo(
-    Object.keys(animes.animes).map(Number),
-    animes.animes
+    Object.keys(animes.titles).map(Number),
+    animes.titles
   );
-  const filtersContext = useListFilter(animesInfos as Anime[]);
+  const filtersContext = useListFilter(animesInfos as AnimeManga[]);
 
   const width = useWindowWidth();
 
@@ -51,7 +51,7 @@ export default function StatsAnimeOverview() {
               <br /> Animes
             </span>
             <span className="w-1/5">
-              <strong>{animes.overview.episodes_watched}</strong>
+              <strong>{animes.overview.watched_readed}</strong>
               <br /> Episodes
             </span>
             <span className="w-1/5">
@@ -79,7 +79,7 @@ export default function StatsAnimeOverview() {
           <AnimeFilterContainer stats={animes} />
         </FilterContext.Provider>
         <CardsContainer
-          animes={filtersContext.filteredList.sort(
+          titles={filtersContext.filteredList.sort(
             compare(filtersContext.sort)
           )}
         />

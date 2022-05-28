@@ -8,13 +8,13 @@ import {
   faDivide,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import { AnimeStatArray } from "../../interfaces/stats";
+import { StatArray } from "../../interfaces/stats";
 
 type Props = {
   width?: number | string;
   height?: number | string;
   type: "line" | "bar" | "pie";
-  data: AnimeStatArray[];
+  data: StatArray[];
   xKey: string;
   name: string;
 };

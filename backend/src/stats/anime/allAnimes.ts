@@ -1,5 +1,5 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { Anime } from "../../interfaces/stats";
+import type { AnimeManga } from "../../interfaces/stats";
 import upperCase from "lodash/upperCase";
 import capitalize from "lodash/capitalize";
 
@@ -20,8 +20,10 @@ function capitalizeFormat(
   }
 }
 
-export function allAnimes(animeList: AnimeListObject[]): Map<number, Anime> {
-  const animes: Map<number, Anime> = new Map();
+export function allAnimes(
+  animeList: AnimeListObject[]
+): Map<number, AnimeManga> {
+  const animes: Map<number, AnimeManga> = new Map();
   animeList.map((item: AnimeListObject) => {
     function getReleaseYear(): number | undefined {
       if (item.node.start_season) {

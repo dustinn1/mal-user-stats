@@ -3,7 +3,7 @@ import round from "lodash/round";
 
 interface OverviewObject {
   total_anime: number;
-  episodes_watched: number;
+  watched_readed: number;
   length: number;
   mean_score: number;
   standard_deviation: number;
@@ -13,7 +13,7 @@ export function overviewStats(animeList: AnimeListObject[]): OverviewObject {
   const animesWithScores = animeList.filter((anime) => anime.list_status.score);
   return {
     total_anime: animeList.length,
-    episodes_watched: animeList.reduce(
+    watched_readed: animeList.reduce(
       (val, anime) => val + anime.list_status.num_episodes_watched,
       0
     ),

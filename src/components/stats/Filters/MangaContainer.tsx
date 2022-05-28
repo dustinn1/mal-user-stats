@@ -10,14 +10,13 @@ import {
   faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
-import { MangaStats } from "../../../interfaces/stats";
-import FilterRange from "./FilterRange";
+import { Stats } from "../../../interfaces/stats";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
 import FilterInput from "./FilterInput";
 
 type Props = {
-  stats: MangaStats;
+  stats: Stats;
 };
 
 export default function MangaFilterContainer({ stats }: Props) {
@@ -95,14 +94,9 @@ export default function MangaFilterContainer({ stats }: Props) {
           >
             <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
               <FilterSelect data={stats.genres} name="genres" />
-              <FilterSelect data={stats.authors} name="authors" />
+              <FilterSelect data={stats.creators} name="creators" />
               <FilterSelect data={stats.statuses} name="status" />
               <FilterSelect data={stats.formats} name="format" />
-              <FilterRange name="score" />
-              <FilterRange name="chapters_count" />
-              <FilterRange name="volumes_count" />
-              <FilterRange name="release_year" />
-              <FilterRange name="start_year" />
             </Disclosure.Panel>
           </Transition>
           <FilterTags />

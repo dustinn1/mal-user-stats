@@ -29,7 +29,7 @@ export default function StatCard({
   const { username, stat } = router.query;
   const stats = useContext(StatsContext);
   const allTitles =
-    type === "anime" ? stats.animes.animes : stats.mangas.mangas;
+    type === "anime" ? stats.animes.titles : stats.mangas.titles;
   const width = useWindowWidth();
 
   const listParentRef = useRef<HTMLDivElement>(null);

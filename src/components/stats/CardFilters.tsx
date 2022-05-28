@@ -1,7 +1,7 @@
 import { getTitlesInfo } from "../../utils/getTitlesInfo";
 import CardsContainer from "./TitleCards/CardsContainer";
-import { useListFilter } from "../../hooks/useListFilter/anime";
-import { StatArray, AnimeStats, Anime } from "../../interfaces/stats";
+import { useListFilter } from "../../hooks/useListFilter";
+import { StatArray, Stats, AnimeManga } from "../../interfaces/stats";
 import FilterContainer from "./Filters/AnimeContainer";
 import { FilterContext } from "../../contexts/FilterContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
@@ -9,29 +9,29 @@ import prettyMs from "pretty-ms";
 
 type Props = {
   data: StatArray;
-  allStats: AnimeStats;
+  allStats: Stats;
 };
 
 function compare(prop: string) {
   if (prop === "title") {
-    return function (a: Anime, b: Anime) {
+    return function (a: AnimeManga, b: AnimeManga) {
       return a[prop].localeCompare(b[prop]);
     };
   } else if (
     prop === "score" ||
-    prop === "episodes_count" ||
+    prop === "count" ||
     prop === "release_year" ||
-    prop === "watch_year"
+    prop === "start_year"
   ) {
-    return function (a: Anime, b: Anime) {
+    return function (a: AnimeManga, b: AnimeManga) {
       return b[prop]! - a[prop]!;
     };
   }
 }
 
 export default function AnimeCardsFilters({ data, allStats }: Props) {
-  const animesInfos = getTitlesInfo(data.titles, allStats.animes);
-  const filtersContext = useListFilter(animesInfos as Anime[]);
+  const animesInfos = getTitlesInfo(data.titles, allStats.titles);
+  const filtersContext = useListFilter(animesInfos as AnimeManga[]);
 
   const width = useWindowWidth();
 
@@ -67,7 +67,7 @@ export default function AnimeCardsFilters({ data, allStats }: Props) {
         <FilterContainer stats={allStats} />
       </FilterContext.Provider>
       <CardsContainer
-        animes={filtersContext.filteredList.sort(compare(filtersContext.sort))}
+        titles={filtersContext.filteredList.sort(compare(filtersContext.sort))}
       />
     </>
   );
