@@ -1,4 +1,4 @@
-import { authorsStats } from "./authors";
+import { creatorsStats } from "./creators";
 import { formatsStats } from "./formats";
 import { genresStats } from "./genres";
 import { scoresStats } from "./scores";
@@ -21,7 +21,7 @@ export function generateMangaStats(mangalist: MangaListObject[]): MangaStats {
     statuses: statusesStats(mangalist),
     start_years: startYearsStats(mangalist),
     genres: genresStats(mangalist),
-    authors: authorsStats(mangalist),
+    creators: creatorsStats(mangalist),
     mangas: Object.fromEntries(allMangas(mangalist)),
   };
 }

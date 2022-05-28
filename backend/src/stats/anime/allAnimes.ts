@@ -41,16 +41,16 @@ export function allAnimes(animeList: AnimeListObject[]): Map<number, Anime> {
       genres: item.node.genres
         ? item.node.genres.map((genre) => genre.name)
         : [],
-      studios: item.node.studios
+      creators: item.node.studios
         ? item.node.studios.map((studio) => studio.name)
         : [],
-      episodes_count: item.node.num_episodes,
+      count: item.node.num_episodes,
       format: {
         id: item.node.media_type,
         name: capitalizeFormat(item.node.media_type),
       },
       release_year: getReleaseYear(),
-      watch_year: item.list_status.start_date
+      start_year: item.list_status.start_date
         ? parseInt(item.list_status.start_date.split("-")[0] as string)
         : undefined,
       score: item.list_status.score,

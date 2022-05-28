@@ -5,7 +5,7 @@ import sortedUniq from "lodash/sortedUniq";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function watchYearsStats(animeList: AnimeListObject[]): StatArray[] {
+export function startYearsStats(animeList: AnimeListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all start watch years in list
   let startWatchYearsList: number[] = [];

@@ -6,8 +6,17 @@ export interface StatArray {
   length: number;
   titles: number[];
 }
+interface CommonStats {
+  genres: StatArray[];
+  creators: StatArray[];
+  formats: StatArray[];
+  statuses: StatArray[];
+  release_years: StatArray[];
+  start_years: StatArray[];
+  scores: StatArray[];
+}
 
-export interface AnimeStats {
+export interface AnimeStats extends CommonStats {
   overview: {
     total_anime: number;
     episodes_watched: number;
@@ -16,58 +25,40 @@ export interface AnimeStats {
     standard_deviation: number;
   };
   episodes_counts: StatArray[];
-  formats: StatArray[];
-  release_years: StatArray[];
-  scores: StatArray[];
-  statuses: StatArray[];
-  watch_years: StatArray[];
-  genres: StatArray[];
-  studios: StatArray[];
   animes: { [k: string]: Anime };
 }
 
-export interface Anime {
-  id: number;
-  title: string;
-  title_en: string;
-  title_ja: string;
-  image_url_id: string;
-  genres: string[];
-  studios: string[];
-  episodes_count: number;
-  format: { id: string; name: string };
-  release_year: number | undefined;
-  watch_year: number | undefined;
-  score: number;
-  status: { id: string; name: string };
-}
-
-export interface MangaStats {
+export interface MangaStats extends CommonStats {
   chapters_counts: StatArray[];
   volumes_counts: StatArray[];
-  formats: StatArray[];
   release_years: StatArray[];
-  scores: StatArray[];
-  statuses: StatArray[];
-  start_years: StatArray[];
-  genres: StatArray[];
-  authors: StatArray[];
   mangas: { [k: string]: Manga };
 }
 
-export interface Manga {
+export interface CommonAnimeMangaStats {
+  genres: string[];
+  creators: string[];
+  format: { id: string; name: string };
+  status: { id: string; name: string };
+  release_year: number | undefined;
+  start_year: number | undefined;
+  score: number;
+  count: number;
+}
+
+export interface Anime extends CommonAnimeMangaStats {
   id: number;
   title: string;
   title_en: string;
   title_ja: string;
   image_url_id: string;
-  genres: string[];
-  authors: string[];
-  chapters_count: number;
+}
+
+export interface Manga extends CommonAnimeMangaStats {
+  id: number;
+  title: string;
+  title_en: string;
+  title_ja: string;
+  image_url_id: string;
   volumes_count: number;
-  format: { id: string; name: string };
-  release_year: number | undefined;
-  start_year: number | undefined;
-  score: number;
-  status: { id: string; name: string };
 }
