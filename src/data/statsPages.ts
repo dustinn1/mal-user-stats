@@ -1,6 +1,15 @@
+import { Stats } from "../interfaces/stats";
+
 type pageInfo = {
-  id: string;
-  name: string;
+  id: {
+    anime: string;
+    manga: string;
+  };
+  name: {
+    anime: string;
+    manga: string;
+  };
+  key: keyof Stats;
   chart: {
     type: "line" | "bar" | "pie";
   };
@@ -8,57 +17,113 @@ type pageInfo = {
 
 export const statsPages: pageInfo[] = [
   {
-    id: "episodes_counts",
-    name: "Episodes Counts",
+    id: {
+      anime: "episodes_counts",
+      manga: "chapters_counts",
+    },
+    name: {
+      anime: "Episodes Counts",
+      manga: "Chapters Counts",
+    },
+    key: "counts",
     chart: {
       type: "bar",
     },
   },
   {
-    id: "formats",
-    name: "Formats",
+    id: {
+      anime: "genres",
+      manga: "genres",
+    },
+    name: {
+      anime: "Genres",
+      manga: "Genres",
+    },
+    key: "genres",
     chart: {
       type: "bar",
     },
   },
   {
-    id: "release_years",
-    name: "Release Years",
+    id: {
+      anime: "studios",
+      manga: "authors",
+    },
+    name: {
+      anime: "Studios",
+      manga: "Authors",
+    },
+    key: "creators",
+    chart: {
+      type: "bar",
+    },
+  },
+  {
+    id: {
+      anime: "formats",
+      manga: "formats",
+    },
+    name: {
+      anime: "Formats",
+      manga: "Formats",
+    },
+    key: "formats",
+    chart: {
+      type: "bar",
+    },
+  },
+  {
+    id: {
+      anime: "statuses",
+      manga: "statuses",
+    },
+    name: {
+      anime: "Statuses",
+      manga: "Statuses",
+    },
+    key: "statuses",
+    chart: {
+      type: "bar",
+    },
+  },
+  {
+    id: {
+      anime: "release_years",
+      manga: "release_years",
+    },
+    name: {
+      anime: "Release Years",
+      manga: "Release Years",
+    },
+    key: "release_years",
     chart: {
       type: "line",
     },
   },
   {
-    id: "scores",
-    name: "Scores",
-    chart: {
-      type: "bar",
+    id: {
+      anime: "start_years",
+      manga: "start_years",
     },
-  },
-  {
-    id: "statuses",
-    name: "Statuses",
-    chart: {
-      type: "bar",
+    name: {
+      anime: "Start Years",
+      manga: "Start Years",
     },
-  },
-  {
-    id: "watch_years",
-    name: "Watch Years",
+    key: "start_years",
     chart: {
       type: "line",
     },
   },
   {
-    id: "genres",
-    name: "Genres",
-    chart: {
-      type: "bar",
+    id: {
+      anime: "scores",
+      manga: "scores",
     },
-  },
-  {
-    id: "studios",
-    name: "Studios",
+    name: {
+      anime: "Scores",
+      manga: "Scores",
+    },
+    key: "scores",
     chart: {
       type: "bar",
     },

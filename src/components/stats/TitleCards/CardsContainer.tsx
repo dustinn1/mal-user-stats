@@ -6,10 +6,11 @@ import { AnimeManga } from "../../../interfaces/stats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 
 type Props = {
+  type: "anime" | "manga";
   titles: AnimeManga[];
 };
 
-export default function StatCardsContainer({ titles }: Props) {
+export default function StatCardsContainer({ type, titles }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
     size: titles.length,
@@ -55,9 +56,14 @@ export default function StatCardsContainer({ titles }: Props) {
           >
             {[...Array(split)].map((_, i) => {
               if (titles[split * virtualRow.index + i] !== undefined) {
-                return (
+                return type === "anime" ? (
                   <AnimeCard
                     anime={titles[split * virtualRow.index + i]}
+                    key={i}
+                  />
+                ) : (
+                  <MangaCard
+                    manga={titles[split * virtualRow.index + i]}
                     key={i}
                   />
                 );

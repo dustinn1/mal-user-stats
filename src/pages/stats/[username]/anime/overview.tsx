@@ -79,6 +79,7 @@ export default function StatsAnimeOverview() {
           <AnimeFilterContainer stats={animes} />
         </FilterContext.Provider>
         <CardsContainer
+          type="anime"
           titles={filtersContext.filteredList.sort(
             compare(filtersContext.sort)
           )}

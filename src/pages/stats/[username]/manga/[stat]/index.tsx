@@ -23,18 +23,6 @@ import { useWindowWidth } from "@react-hook/window-size/throttled";
 import LoadingIndicator from "../../../../../components/LoadingIndicator";
 //import ChartContainer from "../../../../../components/stats/ChartContainer";
 
-const validStats = [
-  "chapters_counts",
-  "volumes_counts",
-  "formats",
-  "genres",
-  "authors",
-  "release_years",
-  "start_years",
-  "scores",
-  "statuses",
-];
-
 /* const ChartContainer = dynamic(
   () => import("../../../../../components/stats/ChartContainer")
 ); */
@@ -56,9 +44,13 @@ export default function StatsMangaPage() {
   }, [router.isReady]);
 
   if (isLoaded) {
-    if (query !== undefined && validStats.some((v) => v === query)) {
-      const pageInfo = statsPages.find((v) => v.id === query)!;
-      const statsData: StatArray[] = mangas[query as keyof StatArraysOnly];
+    if (query !== undefined && statsPages.some((v) => v.id.manga === query)) {
+      const pageInfo = statsPages.find((v) => v.id.manga === query)!;
+      const statsData: StatArray[] =
+        mangas[
+          statsPages.find((v) => v.id.manga === query)
+            ?.key as keyof StatArraysOnly
+        ];
       const statsDataCards = [...statsData];
       const fuse = new Fuse(statsDataCards, {
         keys: ["name"],

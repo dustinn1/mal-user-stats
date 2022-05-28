@@ -11,7 +11,7 @@ export const statsTabs = [
       "Genres",
       "Studios",
       "Release Years",
-      "Watch Years",
+      "Start Years",
       "Scores",
       "Statuses",
     ],
@@ -22,7 +22,6 @@ export const statsTabs = [
     tabs: [
       "Overview",
       "Chapters Counts",
-      "Volumes Counts",
       "Formats",
       "Genres",
       "Authors",

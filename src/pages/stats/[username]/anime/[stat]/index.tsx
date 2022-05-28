@@ -23,17 +23,6 @@ import { useWindowWidth } from "@react-hook/window-size/throttled";
 import LoadingIndicator from "../../../../../components/LoadingIndicator";
 //import ChartContainer from "../../../../../components/stats/ChartContainer";
 
-const validStats = [
-  "episodes_counts",
-  "formats",
-  "genres",
-  "release_years",
-  "scores",
-  "statuses",
-  "studios",
-  "watch_years",
-];
-
 /* const ChartContainer = dynamic(
   () => import("../../../../../components/stats/ChartContainer")
 ); */
@@ -55,9 +44,13 @@ export default function StatsAnimePage() {
   }, [router.isReady]);
 
   if (isLoaded) {
-    if (query !== undefined && validStats.some((v) => v === query)) {
-      const pageInfo = statsPages.find((v) => v.id === query)!;
-      const statsData: StatArray[] = animes[query as keyof StatArraysOnly];
+    if (query !== undefined && statsPages.some((v) => v.id.anime === query)) {
+      const pageInfo = statsPages.find((v) => v.id.anime === query);
+      const statsData: StatArray[] =
+        animes[
+          statsPages.find((v) => v.id.anime === query)
+            ?.key as keyof StatArraysOnly
+        ];
       const statsDataCards = [...statsData];
       const fuse = new Fuse(statsDataCards, {
         keys: ["name"],

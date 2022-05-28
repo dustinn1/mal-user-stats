@@ -78,6 +78,7 @@ export default function StatsMangaOverview() {
           <MangaFilterContainer stats={mangas} />
         </FilterContext.Provider>
         <CardsContainer
+          type="manga"
           titles={filtersContext.filteredList.sort(
             compare(filtersContext.sort)
           )}

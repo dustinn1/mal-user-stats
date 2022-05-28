@@ -8,6 +8,7 @@ import { useWindowWidth } from "@react-hook/window-size/throttled";
 import prettyMs from "pretty-ms";
 
 type Props = {
+  type: "anime" | "manga";
   data: StatArray;
   allStats: Stats;
 };
@@ -29,9 +30,9 @@ function compare(prop: string) {
   }
 }
 
-export default function AnimeCardsFilters({ data, allStats }: Props) {
+export default function AnimeCardsFilters({ type, data, allStats }: Props) {
   const animesInfos = getTitlesInfo(data.titles, allStats.titles);
-  const filtersContext = useListFilter(animesInfos as AnimeManga[]);
+  const filtersContext = useListFilter(animesInfos);
 
   const width = useWindowWidth();
 
@@ -67,6 +68,7 @@ export default function AnimeCardsFilters({ data, allStats }: Props) {
         <FilterContainer stats={allStats} />
       </FilterContext.Provider>
       <CardsContainer
+        type={type}
         titles={filtersContext.filteredList.sort(compare(filtersContext.sort))}
       />
     </>

@@ -4,6 +4,7 @@ import { StatArray, StatArraysOnly } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import CardsFilters from "../../../../../components/stats/CardFilters";
+import { statsPages } from "../../../../../data/statsPages";
 
 export default function StatSection() {
   const router = useRouter();
@@ -14,13 +15,19 @@ export default function StatSection() {
 
   if (section !== undefined) {
     const statsSectionData: StatArray | undefined =
-      [...animes[stat as keyof StatArraysOnly]].find(
+      [
+        ...animes[
+          statsPages.find((v) => v.id.anime === stat)
+            ?.key as keyof StatArraysOnly
+        ],
+      ].find(
         (o: StatArray) => o.name.toLowerCase().replaceAll(" ", "_") === section
       ) ?? undefined;
 
     if (statsSectionData) {
       return (
         <CardsFilters
+          type="anime"
           key={router.asPath}
           data={statsSectionData}
           allStats={animes}
