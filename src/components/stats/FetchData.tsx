@@ -29,7 +29,8 @@ export default function FetchData({ username }: { username: string }) {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/generate/new`,
           {
             username: username,
-          }
+          },
+          { timeout: 10000 }
         );
         while (!generated) {
           const status = await axios.post(

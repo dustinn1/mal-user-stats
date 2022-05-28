@@ -4,9 +4,10 @@ import { Range, getTrackBackground } from "react-range";
 
 type Props = {
   name: "score" | "count" | "release_year" | "start_year";
+  displayName?: string;
 };
 
-export default function FilterRange({ name }: Props) {
+export default function FilterRange({ name, displayName }: Props) {
   const { ranges, setRanges, initialRanges, removeFilter, addFilter } =
     useContext(FilterContext);
 
@@ -21,7 +22,7 @@ export default function FilterRange({ name }: Props) {
     <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5">
       <div className="mb-2.5 flex justify-between">
         <span className="font-bold capitalize">
-          {name.replaceAll("_", " ")}
+          {displayName ?? name.replaceAll("_", " ")}
         </span>
         <span className="flex items-center">
           {minMax.toString() !== values.toString() && (
@@ -48,7 +49,7 @@ export default function FilterRange({ name }: Props) {
         }}
         onFinalChange={(values) => {
           setRanges({ [name]: values });
-          if (values.toString() === [0, 10].toString()) {
+          if (values.toString() === minMax.toString()) {
             removeFilter(name);
           } else {
             addFilter(name, "range", values.toString());

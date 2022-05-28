@@ -44,35 +44,24 @@ export default function StatsMangaOverview() {
           <div className="mx-4 flex items-center justify-center font-bold">
             <span className="text-3xl">Overview</span>
           </div>
-          {/* <div className="mx-4 flex py-2 text-center">
-            <span className="w-1/5">
-              <strong>{animes.overview.to}</strong>
-              <br /> Animes
+          <div className="mx-4 flex py-2 text-center">
+            <span className="w-1/4">
+              <strong>{mangas.overview.total}</strong>
+              <br /> Mangas
             </span>
-            <span className="w-1/5">
-              <strong>{animes.overview.episodes_watched}</strong>
-              <br /> Episodes
+            <span className="w-1/4">
+              <strong>{mangas.overview.watched_readed}</strong>
+              <br /> Chapters Read
             </span>
-            <span className="w-1/5">
-              <strong>
-                {animes.overview.length > 0
-                  ? prettyMs(animes.overview.length * 1000, {
-                      verbose: true,
-                      unitCount: width >= 768 ? 3 : 2,
-                    })
-                  : "No time"}
-              </strong>
-              <br /> Watched
-            </span>
-            <span className="w-1/5">
-              <strong>{animes.overview.mean_score}</strong>
+            <span className="w-1/4">
+              <strong>{mangas.overview.mean_score}</strong>
               <br /> Average Score
             </span>
-            <span className="w-1/5">
-              <strong>{animes.overview.standard_deviation}</strong>
+            <span className="w-1/4">
+              <strong>{mangas.overview.standard_deviation}</strong>
               <br /> Standard Deviation
             </span>
-          </div> */}
+          </div>
         </div>
         <FilterContext.Provider value={filtersContext}>
           <MangaFilterContainer stats={mangas} />

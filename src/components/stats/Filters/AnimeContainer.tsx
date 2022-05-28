@@ -56,11 +56,11 @@ export default function AnimeFilterContainer({ stats }: Props) {
                 active={sort === "score"}
               />
               <Button
-                onClick={() => setSort("episodes_count")}
+                onClick={() => setSort("count")}
                 size="sm"
                 icon={faTv}
                 text="Episodes Count"
-                active={sort === "episodes_count"}
+                active={sort === "count"}
               />
               <Button
                 onClick={() => setSort("release_year")}
@@ -70,11 +70,11 @@ export default function AnimeFilterContainer({ stats }: Props) {
                 active={sort === "release_year"}
               />
               <Button
-                onClick={() => setSort("watch_year")}
+                onClick={() => setSort("start_year")}
                 size="sm"
                 icon={faCalendar}
-                text="Watch Year"
-                active={sort === "watch_year"}
+                text="Start Year"
+                active={sort === "start_year"}
               />
             </div>
           </div>
@@ -88,13 +88,25 @@ export default function AnimeFilterContainer({ stats }: Props) {
           >
             <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
               <FilterSelect data={stats.genres} name="genres" />
-              <FilterSelect data={stats.creators} name="creators" />
-              <FilterSelect data={stats.statuses} name="status" />
-              <FilterSelect data={stats.formats} name="format" />
-              <FilterRange name="score" />
-              <FilterRange name="count" />
-              <FilterRange name="release_year" />
-              <FilterRange name="start_year" />
+              <FilterSelect
+                data={stats.creators}
+                name="creators"
+                displayName="studios"
+              />
+              <FilterSelect
+                data={stats.statuses}
+                name="status"
+                displayName="statuses"
+              />
+              <FilterSelect
+                data={stats.formats}
+                name="format"
+                displayName="formats"
+              />
+              <FilterRange name="score" displayName="scores" />
+              <FilterRange name="count" displayName="episodes counts" />
+              <FilterRange name="release_year" displayName="release years" />
+              <FilterRange name="start_year" displayName="start years" />
             </Disclosure.Panel>
           </Transition>
           <FilterTags />

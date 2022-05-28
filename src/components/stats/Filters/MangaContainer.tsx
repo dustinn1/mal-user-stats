@@ -14,6 +14,7 @@ import { Stats } from "../../../interfaces/stats";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
 import FilterInput from "./FilterInput";
+import FilterRange from "./FilterRange";
 
 type Props = {
   stats: Stats;
@@ -55,11 +56,11 @@ export default function MangaFilterContainer({ stats }: Props) {
                 active={sort === "score"}
               />
               <Button
-                onClick={() => setSort("chapters_count")}
+                onClick={() => setSort("count")}
                 size="sm"
                 icon={faBook}
                 text="Chapters Count"
-                active={sort === "chapters_count"}
+                active={sort === "count"}
               />
               <Button
                 onClick={() => setSort("release_year")}
@@ -87,9 +88,25 @@ export default function MangaFilterContainer({ stats }: Props) {
           >
             <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
               <FilterSelect data={stats.genres} name="genres" />
-              <FilterSelect data={stats.creators} name="creators" />
-              <FilterSelect data={stats.statuses} name="status" />
-              <FilterSelect data={stats.formats} name="format" />
+              <FilterSelect
+                data={stats.creators}
+                name="creators"
+                displayName="authors"
+              />
+              <FilterSelect
+                data={stats.statuses}
+                name="status"
+                displayName="statuses"
+              />
+              <FilterSelect
+                data={stats.formats}
+                name="format"
+                displayName="formats"
+              />
+              <FilterRange name="score" displayName="scores" />
+              <FilterRange name="count" displayName="chapters count" />
+              <FilterRange name="release_year" displayName="release years" />
+              <FilterRange name="start_year" displayName="start years" />
             </Disclosure.Panel>
           </Transition>
           <FilterTags />

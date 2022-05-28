@@ -2,7 +2,8 @@ import { getTitlesInfo } from "../../utils/getTitlesInfo";
 import CardsContainer from "./TitleCards/CardsContainer";
 import { useListFilter } from "../../hooks/useListFilter";
 import { StatArray, Stats, AnimeManga } from "../../interfaces/stats";
-import FilterContainer from "./Filters/AnimeContainer";
+import AnimeFilterContainer from "./Filters/AnimeContainer";
+import MangaFilterContainer from "./Filters/MangaContainer";
 import { FilterContext } from "../../contexts/FilterContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import prettyMs from "pretty-ms";
@@ -30,7 +31,7 @@ function compare(prop: string) {
   }
 }
 
-export default function AnimeCardsFilters({ type, data, allStats }: Props) {
+export default function CardsFilters({ type, data, allStats }: Props) {
   const animesInfos = getTitlesInfo(data.titles, allStats.titles);
   const filtersContext = useListFilter(animesInfos);
 
@@ -40,7 +41,7 @@ export default function AnimeCardsFilters({ type, data, allStats }: Props) {
     <>
       <div className="mb-3 w-full rounded-lg bg-gray-100 pt-3">
         <div className="mx-4 flex items-center justify-center font-bold">
-          <span className="text-3xl">{data.name}</span>
+          <span className="text-center text-3xl">{data.name}</span>
         </div>
         <div className="mx-4 flex py-2 text-center">
           <span className="w-1/3">
@@ -49,14 +50,18 @@ export default function AnimeCardsFilters({ type, data, allStats }: Props) {
           </span>
           <span className="w-1/3">
             <strong>
-              {data.length > 0
-                ? prettyMs(data.length * 1000, {
-                    verbose: true,
-                    unitCount: width >= 768 ? 3 : 2,
-                  })
-                : "No time"}
+              {type === "anime"
+                ? data.length > 0
+                  ? prettyMs(data.length * 1000, {
+                      verbose: true,
+                      unitCount: width >= 768 ? 3 : 2,
+                    })
+                  : "No time"
+                : data.length > 0
+                ? `${data.length} chapters`
+                : "No chapters"}
             </strong>
-            <br /> Watched
+            <br /> {type === "anime" ? "Watched" : "Read"}
           </span>
           <span className="w-1/3">
             <strong>{data.mean_score}</strong>
@@ -65,7 +70,11 @@ export default function AnimeCardsFilters({ type, data, allStats }: Props) {
         </div>
       </div>
       <FilterContext.Provider value={filtersContext}>
-        <FilterContainer stats={allStats} />
+        {type === "anime" ? (
+          <AnimeFilterContainer stats={allStats} />
+        ) : (
+          <MangaFilterContainer stats={allStats} />
+        )}
       </FilterContext.Provider>
       <CardsContainer
         type={type}

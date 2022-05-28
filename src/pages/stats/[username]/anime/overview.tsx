@@ -47,12 +47,12 @@ export default function StatsAnimeOverview() {
           </div>
           <div className="mx-4 flex py-2 text-center">
             <span className="w-1/5">
-              <strong>{animes.overview.total_anime}</strong>
+              <strong>{animes.overview.total}</strong>
               <br /> Animes
             </span>
             <span className="w-1/5">
               <strong>{animes.overview.watched_readed}</strong>
-              <br /> Episodes
+              <br /> Episodes Watched
             </span>
             <span className="w-1/5">
               <strong>

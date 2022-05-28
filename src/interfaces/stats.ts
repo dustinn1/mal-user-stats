@@ -8,7 +8,7 @@ export interface StatArray {
 }
 export interface Stats {
   overview: {
-    total_anime: number;
+    total: number;
     watched_readed: number;
     length: number;
     mean_score: number;

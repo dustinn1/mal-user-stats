@@ -10,9 +10,10 @@ import { useVirtual } from "react-virtual";
 type Props = {
   data: StatArray[];
   name: FilterCategories;
+  displayName?: string;
 };
 
-export default function FilterSelect({ data, name }: Props) {
+export default function FilterSelect({ data, name, displayName }: Props) {
   const { filters, removeFilter, addFilter } = useContext(FilterContext);
 
   const parentRef = useRef<HTMLDivElement>(null);
@@ -98,7 +99,7 @@ export default function FilterSelect({ data, name }: Props) {
   return (
     <div className="rounded-md bg-white">
       <div className="border-b border-black px-4 py-1 font-bold capitalize">
-        {name}
+        {displayName ?? name}
       </div>
       <div ref={parentRef} className="max-h-64 overflow-y-scroll px-4 py-1">
         <div
