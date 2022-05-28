@@ -30,7 +30,7 @@ export function chaptersCountsStats(mangaList: MangaListObject[]): StatArray[] {
     chapterCountStat.count = mangas.length;
     // chapters read
     chapterCountStat.length = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_length,
+      (val, manga) => val + manga.list_status.num_chapters_read,
       0
     );
     // mean score

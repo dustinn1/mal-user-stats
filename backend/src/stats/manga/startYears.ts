@@ -38,7 +38,7 @@ export function startYearsStats(mangaList: MangaListObject[]): StatArray[] {
     startYearStat.count = mangas.length;
     // chapters read
     startYearStat.length = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_length,
+      (val, manga) => val + manga.list_status.num_chapters_read,
       0
     );
     // mean score

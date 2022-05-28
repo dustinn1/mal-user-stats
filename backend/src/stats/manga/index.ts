@@ -9,16 +9,11 @@ import { releaseYearsStats } from "./releaseYears";
 import { allMangas } from "./allMangas";
 import type { MangaListObject } from "../../interfaces/fetchList";
 import type { Stats } from "../../interfaces/stats";
+import { overviewStats } from "./overview";
 
 export function generateMangaStats(mangalist: MangaListObject[]): Stats {
   return {
-    overview: {
-      total_anime: 0,
-      watched_readed: 0,
-      length: 0,
-      mean_score: 0,
-      standard_deviation: 0,
-    },
+    overview: overviewStats(mangalist),
     counts: chaptersCountsStats(mangalist),
     formats: formatsStats(mangalist),
     release_years: releaseYearsStats(mangalist),

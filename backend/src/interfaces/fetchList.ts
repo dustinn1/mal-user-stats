@@ -108,7 +108,7 @@ export interface MangaListObject {
     status: "watching" | "completed" | "on_hold" | "dropped" | "plan_to_watch";
     score: number;
     num_volumes_read: number;
-    num_length: number;
+    num_chapters_read: number;
     is_rereading: boolean;
     updated_at: string;
     start_date?: string;

@@ -22,7 +22,7 @@ export function scoresStats(mangaList: MangaListObject[]): StatArray[] {
     scoreStat.count = mangas.length;
     // chapters read
     scoreStat.length = mangas.reduce(
-      (val, manga) => val + manga.list_status.num_length,
+      (val, manga) => val + manga.list_status.num_chapters_read,
       0
     );
     // mean score
