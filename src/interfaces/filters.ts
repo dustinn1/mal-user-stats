@@ -20,6 +20,13 @@ export type FilterCategories =
 
 export type FilterTypes = "include" | "exclude" | "range" | "search";
 
+export type FilterRanges = {
+  score: number[];
+  count: number[];
+  release_year: number[];
+  start_year: number[];
+};
+
 export type FilterHookExports = {
   filteredList: AnimeManga[];
   addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
@@ -34,4 +41,7 @@ export type FilterHookExports = {
   setSearchInput: Dispatch<SetStateAction<string>>;
   sort: string;
   setSort: Dispatch<SetStateAction<string>>;
+  ranges: FilterRanges;
+  setRanges: Dispatch<Partial<FilterRanges>>;
+  initialRanges: FilterRanges;
 };

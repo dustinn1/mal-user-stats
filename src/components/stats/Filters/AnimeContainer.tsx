@@ -14,13 +14,14 @@ import { Stats } from "../../../interfaces/stats";
 import FilterTags from "./FilterTags";
 import { Disclosure, Transition } from "@headlessui/react";
 import FilterInput from "./FilterInput";
+import FilterRange from "./FilterRange";
 
 type Props = {
   stats: Stats;
 };
 
 export default function AnimeFilterContainer({ stats }: Props) {
-  const filter = useContext(FilterContext);
+  const { setSort, sort } = useContext(FilterContext);
 
   return (
     <Disclosure>
@@ -41,39 +42,39 @@ export default function AnimeFilterContainer({ stats }: Props) {
             </div>
             <div className="flex overflow-x-scroll">
               <Button
-                onClick={() => filter.setSort("title")}
+                onClick={() => setSort("title")}
                 size="sm"
                 icon={faArrowDownAZ}
                 text="Title"
-                active={filter.sort === "title"}
+                active={sort === "title"}
               />
               <Button
-                onClick={() => filter.setSort("score")}
+                onClick={() => setSort("score")}
                 size="sm"
                 icon={faArrowDown91}
                 text="Score"
-                active={filter.sort === "score"}
+                active={sort === "score"}
               />
               <Button
-                onClick={() => filter.setSort("episodes_count")}
+                onClick={() => setSort("episodes_count")}
                 size="sm"
                 icon={faTv}
                 text="Episodes Count"
-                active={filter.sort === "episodes_count"}
+                active={sort === "episodes_count"}
               />
               <Button
-                onClick={() => filter.setSort("release_year")}
+                onClick={() => setSort("release_year")}
                 size="sm"
                 icon={faCalendar}
                 text="Release Year"
-                active={filter.sort === "release_year"}
+                active={sort === "release_year"}
               />
               <Button
-                onClick={() => filter.setSort("watch_year")}
+                onClick={() => setSort("watch_year")}
                 size="sm"
                 icon={faCalendar}
                 text="Watch Year"
-                active={filter.sort === "watch_year"}
+                active={sort === "watch_year"}
               />
             </div>
           </div>
@@ -90,6 +91,10 @@ export default function AnimeFilterContainer({ stats }: Props) {
               <FilterSelect data={stats.creators} name="creators" />
               <FilterSelect data={stats.statuses} name="status" />
               <FilterSelect data={stats.formats} name="format" />
+              <FilterRange name="score" />
+              <FilterRange name="count" />
+              <FilterRange name="release_year" />
+              <FilterRange name="start_year" />
             </Disclosure.Panel>
           </Transition>
           <FilterTags />

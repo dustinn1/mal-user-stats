@@ -20,7 +20,7 @@ type Props = {
 };
 
 export default function MangaFilterContainer({ stats }: Props) {
-  const filter = useContext(FilterContext);
+  const { setSort, sort } = useContext(FilterContext);
 
   return (
     <Disclosure>
@@ -41,46 +41,39 @@ export default function MangaFilterContainer({ stats }: Props) {
             </div>
             <div className="flex overflow-x-scroll">
               <Button
-                onClick={() => filter.setSort("title")}
+                onClick={() => setSort("title")}
                 size="sm"
                 icon={faArrowDownAZ}
                 text="Title"
-                active={filter.sort === "title"}
+                active={sort === "title"}
               />
               <Button
-                onClick={() => filter.setSort("score")}
+                onClick={() => setSort("score")}
                 size="sm"
                 icon={faArrowDown91}
                 text="Score"
-                active={filter.sort === "score"}
+                active={sort === "score"}
               />
               <Button
-                onClick={() => filter.setSort("chapters_count")}
+                onClick={() => setSort("chapters_count")}
                 size="sm"
                 icon={faBook}
                 text="Chapters Count"
-                active={filter.sort === "chapters_count"}
+                active={sort === "chapters_count"}
               />
               <Button
-                onClick={() => filter.setSort("volumes_count")}
-                size="sm"
-                icon={faBook}
-                text="Volumes Count"
-                active={filter.sort === "volumes_count"}
-              />
-              <Button
-                onClick={() => filter.setSort("release_year")}
+                onClick={() => setSort("release_year")}
                 size="sm"
                 icon={faCalendar}
                 text="Release Year"
-                active={filter.sort === "release_year"}
+                active={sort === "release_year"}
               />
               <Button
-                onClick={() => filter.setSort("start_year")}
+                onClick={() => setSort("start_year")}
                 size="sm"
                 icon={faCalendar}
                 text="Start Year"
-                active={filter.sort === "start_year"}
+                active={sort === "start_year"}
               />
             </div>
           </div>

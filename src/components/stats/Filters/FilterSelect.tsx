@@ -7,13 +7,13 @@ import { FilterCategories } from "../../../interfaces/filters";
 import { classNames } from "../../../utils/classNames";
 import { useVirtual } from "react-virtual";
 
-type animes = {
+type Props = {
   data: StatArray[];
   name: FilterCategories;
 };
 
-export default function FilterSelect({ data, name }: animes) {
-  const filter = useContext(FilterContext);
+export default function FilterSelect({ data, name }: Props) {
+  const { filters, removeFilter, addFilter } = useContext(FilterContext);
 
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
@@ -26,7 +26,7 @@ export default function FilterSelect({ data, name }: animes) {
   const dataSort = data.sort((a, b) => a.name.localeCompare(b.name));
 
   function SelectRow({ stat }: { stat: StatArray }) {
-    const matchedFilter = filter.filters.find(
+    const matchedFilter = filters.find(
       (filter) => filter.category === name && filter.value === stat.name
     );
     return (
@@ -54,14 +54,14 @@ export default function FilterSelect({ data, name }: animes) {
             onClick={() => {
               if (matchedFilter && !(matchedFilter.type === "include")) {
                 if (matchedFilter.type === "exclude") {
-                  filter.removeFilter(name, "exclude", stat.name);
+                  removeFilter(name, "exclude", stat.name);
                 }
-                filter.addFilter(name, "include", stat.name);
+                addFilter(name, "include", stat.name);
               }
               if (matchedFilter && matchedFilter.type === "include") {
-                filter.removeFilter(name, "include", stat.name);
+                removeFilter(name, "include", stat.name);
               } else {
-                filter.addFilter(name, "include", stat.name);
+                addFilter(name, "include", stat.name);
               }
             }}
           >
@@ -77,14 +77,14 @@ export default function FilterSelect({ data, name }: animes) {
             onClick={() => {
               if (matchedFilter && !(matchedFilter.type === "exclude")) {
                 if (matchedFilter.type === "include") {
-                  filter.removeFilter(name, "include", stat.name);
+                  removeFilter(name, "include", stat.name);
                 }
-                filter.addFilter(name, "exclude", stat.name);
+                addFilter(name, "exclude", stat.name);
               }
               if (matchedFilter && matchedFilter.type === "exclude") {
-                filter.removeFilter(name, "exclude", stat.name);
+                removeFilter(name, "exclude", stat.name);
               } else {
-                filter.addFilter(name, "exclude", stat.name);
+                addFilter(name, "exclude", stat.name);
               }
             }}
           >
