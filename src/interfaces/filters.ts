@@ -1,77 +1,47 @@
 import { Dispatch, SetStateAction } from "react";
-import { Anime, Manga } from "./stats";
+import { AnimeManga } from "./stats";
 
-export type Filter<T extends "anime" | "manga"> = {
-  category: T extends "anime" ? FilterCategoriesAnime : FilterCategoriesManga;
+export type Filter = {
+  category: FilterCategories;
   type: FilterTypes;
   value: string;
 };
 
-export type FilterCategoriesAnime =
+export type FilterCategories =
   | "genres"
-  | "studios"
-  | "status"
+  | "creators"
   | "format"
-  | "score"
-  | "episodes_count"
-  | "release_year"
-  | "watch_year"
-  | "search";
-
-export type FilterCategoriesManga =
-  | "genres"
-  | "authors"
   | "status"
-  | "format"
-  | "score"
-  | "chapters_count"
-  | "volumes_count"
   | "release_year"
   | "start_year"
+  | "score"
+  | "count"
   | "search";
 
 export type FilterTypes = "include" | "exclude" | "range" | "search";
 
-export type FilterInputValuesAnime = {
-  search: string;
+export type FilterRanges = {
   score: number[];
-  episodes_count: number[];
-  release_year: number[];
-  watch_year: number[];
-};
-
-export type FilterInputValuesManga = {
-  search: string;
-  score: number[];
-  chapters_count: number[];
-  volumes_count: number[];
+  count: number[];
   release_year: number[];
   start_year: number[];
 };
 
-export type FilterHookExports<T extends "anime" | "manga"> = {
-  filteredList: T extends "anime" ? Anime[] : Manga[];
-  addFilter(
-    category: T extends "anime" ? FilterCategoriesAnime : FilterCategoriesManga,
-    type: FilterTypes,
-    value: string
-  ): void;
+export type FilterHookExports = {
+  filteredList: AnimeManga[];
+  addFilter(category: FilterCategories, type: FilterTypes, value: string): void;
   removeFilter(
-    category: T extends "anime" ? FilterCategoriesAnime : FilterCategoriesManga,
+    category: FilterCategories,
     type?: FilterTypes,
     value?: string
   ): void;
   clearFilters(): void;
-  filters: Filter<T>[];
-  inputValues: T extends "anime"
-    ? FilterInputValuesAnime
-    : FilterInputValuesManga;
-  updateInputValues(
-    category: keyof (T extends "anime"
-      ? FilterInputValuesAnime
-      : FilterInputValuesManga),
-    value: string
-  ): void;
+  filters: Filter[];
+  searchInput: string;
+  setSearchInput: Dispatch<SetStateAction<string>>;
   sort: string;
   setSort: Dispatch<SetStateAction<string>>;
+  ranges: FilterRanges;
+  setRanges: Dispatch<Partial<FilterRanges>>;
+  initialRanges: FilterRanges;
 };

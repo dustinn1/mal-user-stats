@@ -1,41 +1,39 @@
-import { useState } from "react";
-import { Manga } from "../../interfaces/stats";
+import { Reducer, useReducer, useState } from "react";
+import { AnimeManga } from "../../interfaces/stats";
 import {
   Filter,
-  FilterCategoriesManga,
+  FilterCategories,
   FilterHookExports,
   FilterTypes,
-  FilterInputValuesManga,
+  FilterRanges,
 } from "../../interfaces/filters";
-import { filterList } from "./fitlerList/manga";
-import { getMin, getMax } from "./minMax";
+import { filterList } from "./filterList";
+import { getRange } from "../../utils/getRange";
 
-export function useListFilter(
-  initialList: Manga[]
-): FilterHookExports<"manga"> {
+export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
   const [filteredList, setFilteredList] = useState(initialList);
-  const [filters, setFilters] = useState<Filter<"manga">[]>([]);
+  const [filters, setFilters] = useState<Filter[]>([]);
   const [sort, setSort] = useState("title");
+  const [searchInput, setSearchInput] = useState("");
 
-  const InputValuesEmpty: FilterInputValuesManga = {
-    search: "",
+  const initialRanges: FilterRanges = {
     score: [0, 10],
-    chapters_count: [0, 10],
-    volumes_count: [0, 10],
-    release_year: [0, 10],
-    start_year: [0, 10],
+    count: getRange(initialList, "count"),
+    release_year: getRange(initialList, "release_year"),
+    start_year: getRange(initialList, "start_year"),
   };
 
-  const [inputValues, setInputValues] =
-    useState<FilterInputValuesManga>(InputValuesEmpty);
+  const [ranges, setRanges] = useReducer<
+    Reducer<FilterRanges, Partial<FilterRanges>>
+  >((state, newState) => ({ ...state, ...newState }), initialRanges);
 
   function addFilter(
-    category: FilterCategoriesManga,
+    category: FilterCategories,
     type: FilterTypes,
     value: string
   ) {
     let index: number;
-    let updatedFilter: Filter<"manga">[] = filters;
+    let updatedFilter: Filter[] = filters;
     if (type === "range" || type === "search") {
       index = filters.findIndex((filter) => filter.category === category);
     } else {
@@ -56,7 +54,7 @@ export function useListFilter(
   }
 
   function removeFilter(
-    category: FilterCategoriesManga,
+    category: FilterCategories,
     type?: FilterTypes,
     value?: string
   ) {
@@ -75,18 +73,11 @@ export function useListFilter(
     if (index > -1) {
       updatedFilter.splice(index, 1);
     }
-    if (
-      category === "search" ||
-      category === "score" ||
-      category === "chapters_count" ||
-      category === "volumes_count" ||
-      category === "release_year" ||
-      category === "start_year"
-    ) {
-      updateInputValues(
-        category,
-        category === "search" ? "" : JSON.stringify(InputValuesEmpty[category])
-      );
+    if (category === "search") {
+      setSearchInput("");
+    }
+    if (type === "range") {
+      setRanges({ [category]: [0, 10] });
     }
     setFilters(updatedFilter);
     setFilteredList(filterList(initialList, updatedFilter));
@@ -95,16 +86,7 @@ export function useListFilter(
   function clearFilters() {
     setFilters([]);
     setFilteredList(initialList);
-    setInputValues(InputValuesEmpty);
-  }
-
-  function updateInputValues(
-    category: keyof FilterInputValuesManga,
-    value: string
-  ) {
-    const newValues = inputValues;
-    newValues[category] = category === "search" ? value : JSON.parse(value);
-    setInputValues(newValues);
+    setRanges(initialRanges);
   }
 
   return {
@@ -113,9 +95,12 @@ export function useListFilter(
     removeFilter,
     clearFilters,
     filters,
-    inputValues,
-    updateInputValues,
+    searchInput,
+    setSearchInput,
     sort,
     setSort,
+    ranges,
+    setRanges,
+    initialRanges,
   };
 }

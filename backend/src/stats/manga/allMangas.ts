@@ -1,5 +1,5 @@
 import type { MangaListObject } from "../../interfaces/fetchList";
-import type { Manga } from "../../interfaces/stats";
+import type { AnimeManga } from "../../interfaces/stats";
 import upperCase from "lodash/upperCase";
 import capitalize from "lodash/capitalize";
 
@@ -32,8 +32,10 @@ function capitalizeFormat(
   }
 }
 
-export function allMangas(mangaList: MangaListObject[]): Map<number, Manga> {
-  const mangas: Map<number, Manga> = new Map();
+export function allMangas(
+  mangaList: MangaListObject[]
+): Map<number, AnimeManga> {
+  const mangas: Map<number, AnimeManga> = new Map();
   mangaList.map((item: MangaListObject) => {
     function getReleaseYear(): number | undefined {
       if (item.node.start_date) {
@@ -51,13 +53,12 @@ export function allMangas(mangaList: MangaListObject[]): Map<number, Manga> {
       genres: item.node.genres
         ? item.node.genres.map((genre) => genre.name)
         : [],
-      authors: item.node.authors
+      creators: item.node.authors
         ? item.node.authors.map(
             (author) => author.node.first_name + " " + author.node.last_name
           )
         : [],
-      chapters_count: item.node.num_chapters,
-      volumes_count: item.node.num_volumes,
+      count: item.node.num_chapters,
       format: {
         id: item.node.media_type,
         name: capitalizeFormat(item.node.media_type),

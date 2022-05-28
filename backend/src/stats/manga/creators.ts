@@ -5,7 +5,7 @@ import sortedUniqBy from "lodash/sortedUniqBy";
 import round from "lodash/round";
 import orderBy from "lodash/orderBy";
 
-export function authorsStats(mangaList: MangaListObject[]): StatArray[] {
+export function creatorsStats(mangaList: MangaListObject[]): StatArray[] {
   const stats: StatArray[] = [];
   // get all unique authors in list
   let authorsList: { id: number; name: string }[] = [];

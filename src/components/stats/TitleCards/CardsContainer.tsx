@@ -2,18 +2,18 @@ import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
 import AnimeCard from "./Anime";
 import MangaCard from "./Manga";
-import { Anime, Manga } from "../../../interfaces/stats";
+import { AnimeManga } from "../../../interfaces/stats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 
 type Props = {
-  animes?: Anime[];
-  mangas?: Manga[];
+  type: "anime" | "manga";
+  titles: AnimeManga[];
 };
 
-export default function StatCardsContainer({ animes, mangas }: Props) {
+export default function StatCardsContainer({ type, titles }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
-    size: animes ? animes.length : mangas!.length,
+    size: titles.length,
     estimateSize: useCallback(() => 240, []),
     parentRef,
     windowRef: useRef(window),
@@ -55,24 +55,18 @@ export default function StatCardsContainer({ animes, mangas }: Props) {
             }}
           >
             {[...Array(split)].map((_, i) => {
-              if (animes) {
-                if (animes[split * virtualRow.index + i] !== undefined) {
-                  return (
-                    <AnimeCard
-                      anime={animes[split * virtualRow.index + i]}
-                      key={i}
-                    />
-                  );
-                }
-              } else if (mangas) {
-                if (mangas[split * virtualRow.index + i] !== undefined) {
-                  return (
-                    <MangaCard
-                      manga={mangas[split * virtualRow.index + i]}
-                      key={i}
-                    />
-                  );
-                }
+              if (titles[split * virtualRow.index + i] !== undefined) {
+                return type === "anime" ? (
+                  <AnimeCard
+                    anime={titles[split * virtualRow.index + i]}
+                    key={i}
+                  />
+                ) : (
+                  <MangaCard
+                    manga={titles[split * virtualRow.index + i]}
+                    key={i}
+                  />
+                );
               }
             })}
           </div>

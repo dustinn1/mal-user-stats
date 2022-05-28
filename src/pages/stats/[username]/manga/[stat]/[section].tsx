@@ -1,12 +1,10 @@
 import { useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
-import {
-  StatArray,
-  MangaStatArraysOnly,
-} from "../../../../../interfaces/stats";
+import { StatArray, StatArraysOnly } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
-import MangaCardsFilters from "../../../../../components/stats/MangaCardsFilters";
+import CardFilters from "../../../../../components/stats/CardFilters";
+import { statsPages } from "../../../../../data/statsPages";
 
 export default function StatSection() {
   const router = useRouter();
@@ -17,13 +15,19 @@ export default function StatSection() {
 
   if (section !== undefined) {
     const statsSectionData: StatArray | undefined =
-      [...mangas[stat as keyof MangaStatArraysOnly]].find(
+      [
+        ...mangas[
+          statsPages.find((v) => v.id.manga === stat)
+            ?.key as keyof StatArraysOnly
+        ],
+      ].find(
         (o: StatArray) => o.name.toLowerCase().replaceAll(" ", "_") === section
       ) ?? undefined;
 
     if (statsSectionData) {
       return (
-        <MangaCardsFilters
+        <CardFilters
+          type="manga"
           key={router.asPath}
           data={statsSectionData}
           allStats={mangas}

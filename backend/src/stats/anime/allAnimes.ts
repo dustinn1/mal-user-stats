@@ -1,5 +1,5 @@
 import type { AnimeListObject } from "../../interfaces/fetchList";
-import type { Anime } from "../../interfaces/stats";
+import type { AnimeManga } from "../../interfaces/stats";
 import upperCase from "lodash/upperCase";
 import capitalize from "lodash/capitalize";
 
@@ -20,8 +20,10 @@ function capitalizeFormat(
   }
 }
 
-export function allAnimes(animeList: AnimeListObject[]): Map<number, Anime> {
-  const animes: Map<number, Anime> = new Map();
+export function allAnimes(
+  animeList: AnimeListObject[]
+): Map<number, AnimeManga> {
+  const animes: Map<number, AnimeManga> = new Map();
   animeList.map((item: AnimeListObject) => {
     function getReleaseYear(): number | undefined {
       if (item.node.start_season) {
@@ -41,16 +43,16 @@ export function allAnimes(animeList: AnimeListObject[]): Map<number, Anime> {
       genres: item.node.genres
         ? item.node.genres.map((genre) => genre.name)
         : [],
-      studios: item.node.studios
+      creators: item.node.studios
         ? item.node.studios.map((studio) => studio.name)
         : [],
-      episodes_count: item.node.num_episodes,
+      count: item.node.num_episodes,
       format: {
         id: item.node.media_type,
         name: capitalizeFormat(item.node.media_type),
       },
       release_year: getReleaseYear(),
-      watch_year: item.list_status.start_date
+      start_year: item.list_status.start_date
         ? parseInt(item.list_status.start_date.split("-")[0] as string)
         : undefined,
       score: item.list_status.score,

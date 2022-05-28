@@ -1,5 +1,5 @@
 import Dexie, { Table } from "dexie";
-import { AnimeStats, MangaStats } from "./interfaces/stats";
+import { Stats } from "./interfaces/stats";
 import { userInfo } from "./interfaces/userInfo";
 
 export interface UserDb {
@@ -9,12 +9,12 @@ export interface UserDb {
 
 export interface AnimeDb {
   username: string;
-  data: AnimeStats;
+  data: Stats;
 }
 
 export interface MangaDb {
   username: string;
-  data: MangaStats;
+  data: Stats;
 }
 
 export class StatsDexie extends Dexie {

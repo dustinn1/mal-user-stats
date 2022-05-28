@@ -16,7 +16,8 @@ type TagProps = {
 };
 
 export default function FilterTags() {
-  const filter = useContext(FilterContext);
+  const { removeFilter, filteredList, filters, clearFilters, setSearchInput } =
+    useContext(FilterContext);
 
   function Tag({ category, type, value }: TagProps) {
     return (
@@ -35,7 +36,7 @@ export default function FilterTags() {
           <FontAwesomeIcon
             icon={faXmark}
             className="cursor-pointer rounded-full bg-white px-1 py-0.5 text-xs text-gray-700"
-            onClick={() => filter.removeFilter(category, type, value)}
+            onClick={() => removeFilter(category, type, value)}
           />
         </div>
       </div>
@@ -44,13 +45,13 @@ export default function FilterTags() {
 
   return (
     <>
-      {filter.filters.length > 0 && (
+      {filters.length > 0 && (
         <div className="my-3.5 flex flex-wrap items-center gap-1.5">
           <span className="mr-2 text-lg font-bold">
             <FontAwesomeIcon icon={faFilter} className="mr-1" />{" "}
-            {filter.filteredList.length} Animes
+            {filteredList.length} Animes
           </span>
-          {filter.filters.map((filter) => (
+          {filters.map((filter) => (
             <Tag
               key={`${filter.category}_${filter.value}`}
               category={filter.category}
@@ -63,7 +64,10 @@ export default function FilterTags() {
             className={classNames(
               "group inline-flex h-7 cursor-pointer items-center rounded bg-gray-400 px-2 py-0.5 text-sm capitalize text-white"
             )}
-            onClick={() => filter.clearFilters()}
+            onClick={() => {
+              clearFilters();
+              setSearchInput("");
+            }}
           >
             <span className="mr-1 font-bold">Clear</span>
             <FontAwesomeIcon icon={faDeleteLeft} className="ml-1 mt-0.5" />

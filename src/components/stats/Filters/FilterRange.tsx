@@ -1,27 +1,21 @@
-import { useContext, useState, useEffect, memo } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FilterContext } from "../../../contexts/FilterContext";
 import { Range, getTrackBackground } from "react-range";
 
 type Props = {
-  name:
-    | "score"
-    | "episodes_count"
-    | "release_year"
-    | "watch_year"
-    | "chapters_count"
-    | "volumes_count"
-    | "start_year";
+  name: "score" | "count" | "release_year" | "start_year";
 };
 
-export default memo(function FilterRange({ name }: Props) {
-  const filter = useContext(FilterContext);
+export default function FilterRange({ name }: Props) {
+  const { ranges, setRanges, initialRanges, removeFilter, addFilter } =
+    useContext(FilterContext);
 
-  const [minMax] = useState(filter.inputValues[name]);
-  const [values, setValues] = useState(filter.inputValues[name]);
+  const [minMax] = useState(initialRanges[name]);
+  const [values, setValues] = useState(ranges[name]);
 
   useEffect(() => {
-    setValues(filter.inputValues[name]);
-  }, [filter.inputValues, name]);
+    setValues(ranges[name]);
+  }, [ranges, name]);
 
   return (
     <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5">
@@ -34,7 +28,8 @@ export default memo(function FilterRange({ name }: Props) {
             <span
               className="mr-2 cursor-pointer text-blue-500 hover:text-blue-600"
               onClick={() => {
-                filter.updateInputValues(name, JSON.stringify(minMax));
+                setRanges({ [name]: minMax });
+                removeFilter(name);
                 setValues(minMax);
               }}
             >
@@ -52,11 +47,11 @@ export default memo(function FilterRange({ name }: Props) {
           setValues(values);
         }}
         onFinalChange={(values) => {
-          filter.updateInputValues(name, JSON.stringify(values));
+          setRanges({ [name]: values });
           if (values.toString() === [0, 10].toString()) {
-            filter.removeFilter(name);
+            removeFilter(name);
           } else {
-            filter.addFilter(name, "range", values.toString());
+            addFilter(name, "range", values.toString());
           }
         }}
         renderTrack={({ props, children }) => (
@@ -96,4 +91,4 @@ export default memo(function FilterRange({ name }: Props) {
       />
     </div>
   );
-});
+}

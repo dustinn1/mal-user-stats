@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Manga } from "../../../interfaces/stats";
+import { AnimeManga } from "../../../interfaces/stats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 
 type Props = {
-  manga: Manga;
+  manga: AnimeManga;
 };
 
 export default function MangaCard({ manga }: Props) {
@@ -29,13 +29,11 @@ export default function MangaCard({ manga }: Props) {
             </Link>{" "}
             /{" "}
             <Link
-              href={`/stats/triplezko/manga/episodes_counts/${manga.chapters_count}`}
+              href={`/stats/triplezko/manga/episodes_counts/${manga.count}`}
             >
               <a className="underline hover:text-gray-200">
-                {manga.chapters_count}{" "}
-                {manga.chapters_count > 1 || manga.chapters_count === 0
-                  ? "chs"
-                  : "ch"}
+                {manga.count}{" "}
+                {manga.count > 1 || manga.count === 0 ? "chs" : "ch"}
               </a>
             </Link>
           </div>
@@ -87,7 +85,7 @@ export default function MangaCard({ manga }: Props) {
             <div className="py-1">
               <div>
                 <span>Authors: </span>
-                {manga.authors.map((author, i) => [
+                {manga.creators.map((author, i) => [
                   i > 0 && ", ",
                   <Link
                     href={`/stats/triplezko/manga/authors/${author

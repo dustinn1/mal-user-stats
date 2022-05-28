@@ -2,11 +2,11 @@ import { fetchFullList } from "./fetch";
 import { generateAnimeStats } from "./anime";
 import { generateMangaStats } from "./manga";
 import { getUserInfo } from "./user";
-import type { AnimeStats } from "../interfaces/stats";
+import type { Stats } from "../interfaces/stats";
 import { writeFileSync } from "fs";
 import { currentlyGenerating, generatedStats } from "../db";
 
-export async function getStats(username: string): Promise<AnimeStats | null> {
+export async function getStats(username: string): Promise<Stats | null> {
   try {
     if (!currentlyGenerating.has(username)) {
       currentlyGenerating.add(username);

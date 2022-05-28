@@ -1,5 +1,4 @@
 export interface StatArray {
-  animes: any;
   id: string | number;
   name: string;
   count: number;
@@ -7,76 +6,41 @@ export interface StatArray {
   length: number;
   titles: number[];
 }
-
-export interface AnimeStats {
+export interface Stats {
   overview: {
     total_anime: number;
-    episodes_watched: number;
+    watched_readed: number;
     length: number;
     mean_score: number;
     standard_deviation: number;
   };
-  episodes_counts: StatArray[];
-  formats: StatArray[];
-  release_years: StatArray[];
-  scores: StatArray[];
-  statuses: StatArray[];
-  watch_years: StatArray[];
+  counts: StatArray[];
   genres: StatArray[];
-  studios: StatArray[];
-  animes: { [k: string]: Anime };
-}
-
-export interface Anime {
-  id: number;
-  title: string;
-  title_en: string;
-  title_ja: string;
-  image_url_id: string;
-  genres: string[];
-  studios: string[];
-  episodes_count: number;
-  format: { id: string; name: string };
-  release_year: number | undefined;
-  watch_year: number | undefined;
-  score: number;
-  status: { id: string; name: string };
-}
-
-export interface MangaStats {
-  chapters_counts: StatArray[];
-  volumes_counts: StatArray[];
+  creators: StatArray[];
   formats: StatArray[];
-  release_years: StatArray[];
-  scores: StatArray[];
   statuses: StatArray[];
+  release_years: StatArray[];
   start_years: StatArray[];
-  genres: StatArray[];
-  authors: StatArray[];
-  mangas: { [k: string]: Manga };
+  scores: StatArray[];
+  titles: { [k: string]: AnimeManga };
 }
 
-export interface Manga {
+export interface AnimeManga {
   id: number;
   title: string;
   title_en: string;
   title_ja: string;
   image_url_id: string;
   genres: string[];
-  authors: string[];
-  chapters_count: number;
-  volumes_count: number;
+  creators: string[];
   format: { id: string; name: string };
+  status: { id: string; name: string };
   release_year: number | undefined;
   start_year: number | undefined;
   score: number;
-  status: { id: string; name: string };
+  count: number;
 }
 
-export type Animes = { [k: string]: Anime };
+export type Titles = { [k: string]: AnimeManga };
 
-export type AnimeStatArraysOnly = Omit<AnimeStats, "overview" | "animes">;
-
-export type Mangas = { [k: string]: Manga };
-
-export type MangaStatArraysOnly = Omit<MangaStats, "overview" | "mangas">;
+export type StatArraysOnly = Omit<Stats, "overview" | "titles">;
