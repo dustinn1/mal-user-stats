@@ -1,9 +1,11 @@
 import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
-import AnimeCard from "./Anime";
-import MangaCard from "./Manga";
 import { AnimeManga } from "../../../interfaces/stats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
+import dynamic from "next/dynamic";
+
+const AnimeCard = dynamic(() => import("./Anime"));
+const MangaCard = dynamic(() => import("./Manga"));
 
 type Props = {
   type: "anime" | "manga";

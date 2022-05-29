@@ -3,8 +3,12 @@ import { useRouter } from "next/router";
 import { StatArray, StatArraysOnly } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
-import CardsFilters from "../../../../../components/stats/CardFilters";
 import { statsPages } from "../../../../../data/statsPages";
+import dynamic from "next/dynamic";
+
+const CardFilters = dynamic(
+  () => import("../../../../../components/stats/CardFilters")
+);
 
 export default function StatSection() {
   const router = useRouter();
@@ -26,7 +30,7 @@ export default function StatSection() {
 
     if (statsSectionData) {
       return (
-        <CardsFilters
+        <CardFilters
           type="anime"
           key={router.asPath}
           data={statsSectionData}
