@@ -27,7 +27,7 @@ export default function StatsHeader() {
   const router = useRouter();
 
   return (
-    <header className="h-68 my-2.5 mx-3 flex flex-wrap items-center justify-between rounded-2xl bg-gray-200 py-3 px-5 text-gray-900 sm:h-52 xl:mx-auto xl:h-44 xl:px-14">
+    <header className="h-68 my-2.5 mx-3 flex flex-wrap items-center justify-between rounded-2xl border-2 border-blue-500 bg-gray-200 py-3 px-5 text-gray-900 sm:h-52 xl:mx-auto xl:h-44 xl:px-14">
       <div className="flex w-full flex-wrap items-center justify-center lg:w-auto">
         <div className="relative h-[100px] w-[100px]">
           <Image

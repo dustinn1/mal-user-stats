@@ -11,7 +11,7 @@ type Props = {
 
 export default function AnimeCard({ anime }: Props) {
   return (
-    <div className="rounded-lg bg-gray-100">
+    <div className="rounded-lg border border-blue-600 bg-gray-100">
       <div className="flex">
         <div className="relative mr-1 h-56 w-1/3 self-center">
           <Image

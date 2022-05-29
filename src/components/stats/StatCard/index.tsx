@@ -89,7 +89,7 @@ export default function StatCard({
 
   return (
     <div
-      className="w-full rounded-lg bg-gray-100 pt-3 pb-0.5"
+      className="w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 pb-0.5"
       id={`card-${statArray.name}`}
     >
       <div className="mx-4 flex items-center font-bold">

@@ -14,7 +14,11 @@ export default function Tab({ name, dropdown, active, icon }: Props) {
     <div
       className={classNames(
         "truncate rounded-md py-2 px-4",
-        active ? "bg-gray-700 text-white" : "bg-gray-200 hover:bg-gray-300"
+        dropdown
+          ? "bg-blue-600 text-white hover:bg-blue-700"
+          : active
+          ? "bg-gray-600 text-white"
+          : "bg-gray-200 hover:bg-gray-300"
       )}
     >
       <div className="flex items-center justify-center gap-3">
