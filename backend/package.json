@@ -6,17 +6,16 @@
   "license": "MIT",
   "main": "server.js",
   "scripts": {
-    "build": "rm -rf ./dist && swc src --include-dotfiles -d dist",
+    "build": "rm -rf ./dist && swc src --source-maps --copy-files -d dist",
     "dev": "ts-node-dev --transpile-only -r dotenv/config src/server.ts",
     "start": "node dist/server.js"
   },
   "dependencies": {
     "@fastify/cors": "^7.0.0",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "fastify": "^3.27.2",
     "keyv": "^4.2.9",
-    "lodash": "^4.17.21",
-    "puppeteer": "^14.1.1"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.55",

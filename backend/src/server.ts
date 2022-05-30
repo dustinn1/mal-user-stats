@@ -4,7 +4,9 @@ import cors from "@fastify/cors";
 
 const fastify = Fastify();
 
-fastify.register(cors);
+fastify.register(cors, {
+  origin: ["https://mal-user-stats.vercel.app", "http://localhost:3000"],
+});
 fastify.register(routes);
 
 fastify.listen(process.env["PORT"] || 8000, function (err, address) {
