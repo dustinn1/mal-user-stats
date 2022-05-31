@@ -27,7 +27,7 @@ export default function AnimeFilterContainer({ stats }: Props) {
     <Disclosure>
       {({ open }) => (
         <>
-          <div className="mb-5 flex flex-wrap justify-center gap-2 lg:justify-between">
+          <div className="mb-4 flex flex-wrap justify-center gap-2 lg:justify-between">
             <div className="flex grow xl:w-1/3 xl:grow-0">
               <FilterInput />
               <Disclosure.Button className="ml-1">
@@ -86,7 +86,7 @@ export default function AnimeFilterContainer({ stats }: Props) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-100 opacity-0"
           >
-            <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
+            <Disclosure.Panel className="mb-4 grid grid-cols-1 gap-4 rounded-md bg-gray-200 p-3 dark:bg-gray-800 md:grid-cols-2 xl:grid-cols-4 xl:p-5">
               <FilterSelect data={stats.genres} name="genres" />
               <FilterSelect
                 data={stats.creators}

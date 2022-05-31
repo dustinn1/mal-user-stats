@@ -72,7 +72,7 @@ export default function StatsMangaPage() {
                 name="search"
                 placeholder="Search"
                 autoComplete="off"
-                className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors lg:h-auto"
+                className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
                 debounceTimeout={300}
                 onChange={(event) => setSearchQuery(event.target.value)}
               />

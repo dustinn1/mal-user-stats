@@ -39,7 +39,7 @@ export default function CardsFilters({ type, data, allStats }: Props) {
 
   return (
     <>
-      <div className="mb-3 w-full rounded-lg border border-blue-600 bg-gray-100 pt-3">
+      <div className="mb-3 w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 dark:bg-gray-800">
         <div className="mx-4 flex items-center justify-center font-bold">
           <span className="text-center text-3xl">{data.name}</span>
         </div>

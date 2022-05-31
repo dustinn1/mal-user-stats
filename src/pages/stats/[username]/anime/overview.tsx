@@ -41,7 +41,7 @@ export default function StatsAnimeOverview() {
   if (typeof window !== "undefined") {
     return (
       <>
-        <div className="mb-3 w-full rounded-lg bg-gray-100 pt-3">
+        <div className="mb-3 w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 dark:bg-gray-800">
           <div className="mx-4 flex items-center justify-center font-bold">
             <span className="text-3xl">Overview</span>
           </div>
