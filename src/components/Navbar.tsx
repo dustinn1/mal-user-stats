@@ -31,7 +31,7 @@ export default function Navbar() {
           </h1>
         </a>
       </Link>
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-2">
         <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
         <Menu as="div" className="relative inline-block">
           <Menu.Button className="w-12">
