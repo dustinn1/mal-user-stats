@@ -61,15 +61,17 @@ export default function Modal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
                   <Dialog.Title
                     as="h2"
-                    className="text-xl font-medium leading-6 text-gray-900"
+                    className="text-xl font-medium leading-6 text-gray-900 dark:text-gray-100"
                   >
                     {title}
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-gray-500">{description}</p>
+                    <p className="text-gray-500 dark:text-gray-300">
+                      {description}
+                    </p>
                   </div>
                   <div className="mt-4 flex justify-end">
                     <Button

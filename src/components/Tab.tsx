@@ -17,8 +17,8 @@ export default function Tab({ name, dropdown, active, icon }: Props) {
         dropdown
           ? "bg-blue-600 text-white hover:bg-blue-700"
           : active
-          ? "bg-gray-600 text-white"
-          : "bg-gray-200 hover:bg-gray-300"
+          ? "bg-gray-600 text-white dark:bg-gray-500"
+          : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-500"
       )}
     >
       <div className="flex items-center justify-center gap-3">

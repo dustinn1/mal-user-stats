@@ -39,7 +39,7 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute left-0 z-50 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute left-0 z-50 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
             <div className="px-0.5">
               {statsTabs.map((tab) => (
                 <Menu.Item key={tab.name.toLowerCase()}>
@@ -50,8 +50,8 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
                         active ||
                           currentCategory ===
                             tab.name.toLowerCase().replaceAll(" ", "_")
-                          ? "bg-gray-700 text-white"
-                          : "text-gray-900"
+                          ? "bg-gray-700 text-white dark:bg-gray-600"
+                          : "text-gray-900 dark:text-gray-100"
                       )}
                       onClick={() =>
                         setCurrentCategory(

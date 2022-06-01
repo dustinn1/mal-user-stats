@@ -42,7 +42,7 @@ export default function Generate() {
               <input
                 type="submit"
                 value="Submit"
-                className="mx-1 inline-block cursor-pointer rounded-md border border-gray-700 py-2 px-4 transition-colors hover:bg-gray-700 hover:text-white"
+                className="mx-1 inline-block cursor-pointer rounded-md border border-gray-700 py-2 px-4 hover:bg-gray-700 hover:text-white focus:transition-colors"
               />
             </div>
           </form>

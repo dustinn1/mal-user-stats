@@ -11,7 +11,7 @@ type Props = {
 
 export default function AnimeCard({ anime }: Props) {
   return (
-    <div className="rounded-lg border border-blue-600 bg-gray-100">
+    <div className="rounded-lg border border-blue-600 bg-gray-100 dark:bg-gray-800">
       <div className="flex">
         <div className="relative mr-1 h-56 w-1/3 self-center">
           <Image
@@ -21,7 +21,7 @@ export default function AnimeCard({ anime }: Props) {
             objectFit="cover"
             className="rounded-l-md"
           />
-          <div className="absolute top-0 left-0 m-1 rounded bg-gray-800/75 py-1 px-2 text-center text-white">
+          <div className="absolute top-0 left-0 m-1 rounded bg-gray-800/80 py-1 px-2 text-center text-white">
             <Link href={`/stats/triplezko/anime/formats/${anime.format.id}`}>
               <a className="underline hover:text-gray-200">
                 {anime.format.name}
@@ -50,22 +50,19 @@ export default function AnimeCard({ anime }: Props) {
         <div className="max-h-56 w-2/3 overflow-y-scroll py-1.5 px-2">
           <div className="border-b border-gray-600 pb-0.5">
             <Tippy content={<span>{anime.title}</span>}>
-              <h1
-                className="text-lg font-bold leading-none line-clamp-2"
-                title={anime.title}
-              >
+              <h1 className="text-lg font-bold leading-none line-clamp-2">
                 {anime.title}
               </h1>
             </Tippy>
             <span className="mt-0 text-sm">
               <Link href={`/stats/triplezko/anime/statuses/${anime.status.id}`}>
-                <a className="text-blue-500 hover:text-blue-600 hover:underline">
+                <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                   {anime.status.name}
                 </a>
               </Link>{" "}
               / Score:{" "}
               <Link href={`/stats/triplezko/anime/scores/${anime.score}`}>
-                <a className="text-blue-500 hover:text-blue-600 hover:underline">
+                <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                   {anime.score}
                 </a>
               </Link>{" "}
@@ -74,7 +71,7 @@ export default function AnimeCard({ anime }: Props) {
                 <Link
                   href={`/stats/triplezko/anime/watch_years/${anime.start_year}`}
                 >
-                  <a className="text-blue-500 hover:text-blue-600 hover:underline">
+                  <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                     {anime.start_year}
                   </a>
                 </Link>
@@ -93,7 +90,7 @@ export default function AnimeCard({ anime }: Props) {
                       .replaceAll(" ", "_")}`}
                     key={studio}
                   >
-                    <a className="text-blue-500 hover:text-blue-600 hover:underline">
+                    <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                       {studio}
                     </a>
                   </Link>,
@@ -109,7 +106,7 @@ export default function AnimeCard({ anime }: Props) {
                       .replaceAll(" ", "_")}`}
                     key={genre}
                   >
-                    <a className="text-blue-500 hover:text-blue-600 hover:underline">
+                    <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                       {genre}
                     </a>
                   </Link>,
@@ -123,7 +120,7 @@ export default function AnimeCard({ anime }: Props) {
                       anime.release_year
                     )}`}
                   >
-                    <a className="text-blue-500 hover:text-blue-600 hover:underline">
+                    <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                       {anime.release_year}
                     </a>
                   </Link>

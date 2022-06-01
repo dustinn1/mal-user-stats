@@ -89,7 +89,7 @@ export default function StatCard({
 
   return (
     <div
-      className="w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 pb-0.5"
+      className="w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 pb-0.5 dark:bg-gray-800"
       id={`card-${statArray.name}`}
     >
       <div className="mx-4 flex items-center font-bold">
@@ -101,7 +101,7 @@ export default function StatCard({
             .toLowerCase()
             .replaceAll(" ", "_")}`}
         >
-          <a className="truncate text-3xl text-blue-500 hover:text-blue-600 hover:underline">
+          <a className="truncate text-3xl text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-500 dark:hover:text-blue-400">
             {statArray.name}
           </a>
         </Link>

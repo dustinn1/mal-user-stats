@@ -36,10 +36,10 @@ export default function FilterSelect({ data, name, displayName }: Props) {
         className={classNames(
           "flex justify-between py-1",
           matchedFilter && matchedFilter.type === "include"
-            ? "text-green-600"
+            ? "font-bold text-emerald-700 dark:text-emerald-400"
             : "",
           matchedFilter && matchedFilter.type === "exclude"
-            ? "text-red-600"
+            ? "font-bold text-red-600 dark:text-red-500"
             : ""
         )}
       >
@@ -97,8 +97,8 @@ export default function FilterSelect({ data, name, displayName }: Props) {
   }
 
   return (
-    <div className="rounded-md bg-white">
-      <div className="border-b border-black px-4 py-1 font-bold capitalize">
+    <div className="rounded-md bg-white dark:bg-gray-700">
+      <div className="border-b border-black px-4 py-1 font-bold capitalize dark:border-white">
         {displayName ?? name}
       </div>
       <div ref={parentRef} className="max-h-64 overflow-y-scroll px-4 py-1">

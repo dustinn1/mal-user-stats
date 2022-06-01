@@ -24,10 +24,10 @@ export default function FilterTags() {
       <div
         className={classNames(
           "group inline-flex h-7 items-center rounded px-2 py-0.5 text-sm capitalize text-white",
-          type === "include" ? "bg-green-500" : "",
-          type === "exclude" ? "bg-red-500" : "",
-          type === "range" ? "bg-yellow-500" : "",
-          type === "search" ? "bg-blue-500" : ""
+          type === "include" ? "bg-emerald-700" : "",
+          type === "exclude" ? "bg-red-600" : "",
+          type === "range" ? "bg-purple-600" : "",
+          type === "search" ? "bg-blue-600" : ""
         )}
       >
         <span className="mr-1 font-bold">{category.replaceAll("_", " ")}:</span>
@@ -62,7 +62,7 @@ export default function FilterTags() {
 
           <div
             className={classNames(
-              "group inline-flex h-7 cursor-pointer items-center rounded bg-gray-400 px-2 py-0.5 text-sm capitalize text-white"
+              "group inline-flex h-7 cursor-pointer items-center rounded bg-gray-500 px-2 py-0.5 text-sm capitalize text-white"
             )}
             onClick={() => {
               clearFilters();

@@ -19,7 +19,7 @@ export default function FilterRange({ name, displayName }: Props) {
   }, [ranges, name]);
 
   return (
-    <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5">
+    <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5 dark:bg-gray-700 ">
       <div className="mb-2.5 flex justify-between">
         <span className="font-bold capitalize">
           {displayName ?? name.replaceAll("_", " ")}
@@ -27,7 +27,7 @@ export default function FilterRange({ name, displayName }: Props) {
         <span className="flex items-center">
           {minMax.toString() !== values.toString() && (
             <span
-              className="mr-2 cursor-pointer text-blue-500 hover:text-blue-600"
+              className="mr-2 cursor-pointer text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-300 dark:hover:text-blue-400"
               onClick={() => {
                 setRanges({ [name]: minMax });
                 removeFilter(name);
