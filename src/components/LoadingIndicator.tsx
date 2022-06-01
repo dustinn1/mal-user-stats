@@ -1,7 +1,7 @@
 export default function LoadingIndicator() {
   return (
     <svg
-      className="h-8 w-8 animate-spin text-gray-700"
+      className="h-8 w-8 animate-spin text-gray-700 dark:text-gray-100"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

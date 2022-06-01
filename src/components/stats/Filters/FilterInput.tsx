@@ -13,7 +13,7 @@ export default function FilterInput() {
       name="search"
       placeholder="Search"
       autoComplete="off"
-      className="h-full w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors dark:border-gray-500 dark:bg-black dark:focus:border-blue-400"
+      className="h-full w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400"
       debounceTimeout={300}
       value={searchInput}
       onChange={(event) => {

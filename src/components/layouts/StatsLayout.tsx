@@ -1,12 +1,12 @@
 import { useState, ReactNode, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Tabs from "../stats/Tabs";
 import { StatsContextProvider } from "../../contexts/StatsContext";
 import LoadingIndicator from "../LoadingIndicator";
 import dynamic from "next/dynamic";
 
 const StatsHeader = dynamic(() => import("../../components/stats/Header"));
+const Tabs = dynamic(() => import("../stats/Tabs"));
 
 type Props = {
   children: ReactNode;
