@@ -14,7 +14,7 @@ import Link from "next/link";
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
-  //const [showFavorites, setShowFavorites] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const [sort, setSort] = useState<"username" | "date">("username");
   const [search, setSearch] = useState("");
 
@@ -36,8 +36,8 @@ export default function Home() {
     <div className="mx-3 mt-5 xl:mx-auto">
       {loaded && users !== undefined && users.length > 0 ? (
         <>
-          <div className="mb-3 flex flex-wrap justify-center gap-2 lg:justify-between">
-            <div className="flex grow xl:w-1/2 xl:grow-0">
+          <div className="mb-3 flex flex-wrap justify-center gap-y-2 md:justify-between">
+            <div className="flex grow flex-wrap gap-y-2 md:flex-nowrap md:gap-y-0 xl:w-1/2 xl:grow-0">
               <input
                 type="search"
                 id="search"
@@ -48,7 +48,7 @@ export default function Home() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
-              {/* <div className="ml-2 w-1/2">
+              <div className="ml-2 flex w-full justify-center md:w-auto">
                 <Button
                   onClick={() => setShowFavorites(false)}
                   size="sm"
@@ -63,9 +63,9 @@ export default function Home() {
                   text="Favorites"
                   active={showFavorites}
                 />
-              </div> */}
+              </div>
             </div>
-            <div className="flex overflow-x-scroll">
+            <div className="flex items-start overflow-x-scroll">
               <Button
                 onClick={() => setSort("username")}
                 size="sm"
@@ -82,7 +82,12 @@ export default function Home() {
               />
             </div>
           </div>
-          <UserCardsContainer users={users} search={search} sort={sort} />
+          <UserCardsContainer
+            users={users}
+            search={search}
+            sort={sort}
+            showFavorites={showFavorites}
+          />
         </>
       ) : (
         <div className="mt-8 text-center ">

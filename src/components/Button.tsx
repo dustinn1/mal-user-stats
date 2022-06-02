@@ -44,7 +44,7 @@ export default function Button({
         )}
       >
         {icon && <FontAwesomeIcon icon={icon} />}
-        <span>{text}</span>
+        <span className="truncate">{text}</span>
         {dropdown && (
           <FontAwesomeIcon
             icon={active ? faCaretUp : faCaretDown}

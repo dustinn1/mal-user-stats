@@ -9,6 +9,7 @@ type Props = {
   users: UserDb[];
   search: string;
   sort: "username" | "date";
+  showFavorites: boolean;
 };
 
 function compare(prop: string) {
@@ -26,19 +27,30 @@ function compare(prop: string) {
   }
 }
 
-export default function UserCardsContainer({ users, search, sort }: Props) {
+export default function UserCardsContainer({
+  users,
+  search,
+  sort,
+  showFavorites,
+}: Props) {
   const [data, setData] = useState(users);
   useEffect(() => {
     const fuse = new Fuse(users, {
       keys: ["username"],
       fieldNormWeight: 1,
     });
-    setData(
+    let usersList =
       search !== ""
         ? fuse.search(search).map((e) => e.item)
-        : users.sort(compare(sort))
-    );
-  }, [users, search, sort]);
+        : users.sort(compare(sort));
+    if (localStorage.getItem("favorites") !== null && showFavorites) {
+      const favorites = JSON.parse(localStorage.getItem("favorites")!);
+      usersList = usersList.filter((user) =>
+        favorites.includes(user.data.mal_id)
+      );
+    }
+    setData(usersList);
+  }, [users, search, sort, showFavorites]);
 
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
@@ -62,6 +74,7 @@ export default function UserCardsContainer({ users, search, sort }: Props) {
 
   return (
     <div ref={parentRef}>
+      {data.length === 0 && <h1>No favorites</h1>}
       <div
         style={{
           height: `${

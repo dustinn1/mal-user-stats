@@ -58,26 +58,31 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
     type?: FilterTypes,
     value?: string
   ) {
-    const updatedFilter = filters;
-    let index: number;
+    let updatedFilter: Filter[] = [];
     if (type !== undefined || value !== undefined) {
-      index = updatedFilter.findIndex(
+      updatedFilter = filters.filter(
         (filter) =>
-          filter.category === category &&
-          filter.type === type &&
-          filter.value === value
+          !(
+            filter.category === category &&
+            filter.type === type &&
+            filter.value === value
+          )
       );
+      console.log(updatedFilter, "a");
     } else {
-      index = updatedFilter.findIndex((filter) => filter.category === category);
-    }
-    if (index > -1) {
-      updatedFilter.splice(index, 1);
+      updatedFilter = filters.filter((filter) => filter.category !== category);
+      console.log(updatedFilter, "b");
     }
     if (category === "search") {
       setSearchInput("");
     }
-    if (type === "range") {
-      setRanges({ [category]: [0, 10] });
+    if (
+      category === "score" ||
+      category === "count" ||
+      category === "release_year" ||
+      category === "start_year"
+    ) {
+      setRanges({ [category]: initialRanges[category] });
     }
     setFilters(updatedFilter);
     setFilteredList(filterList(initialList, updatedFilter));

@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StatsContext } from "../../contexts/StatsContext";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
   faArrowsRotate,
-  faTrashCan,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -16,6 +16,8 @@ import Modal from "../Modal";
 import { useRouter } from "next/router";
 import Tippy from "@tippyjs/react";
 import { db } from "../../db";
+import Button from "../Button";
+import { useUserFavorite } from "../../hooks/useUserFavorite";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -25,6 +27,7 @@ dayjs.extend(relativeTime);
 export default function StatsHeader() {
   const { user } = useContext(StatsContext);
   const router = useRouter();
+  const { isFavorite, updateFavorite } = useUserFavorite(user.mal_id);
 
   return (
     <header className="h-68 my-2.5 mx-3 flex flex-wrap items-center justify-between rounded-2xl border-2 border-blue-500 bg-gray-200 py-3 px-5 text-gray-900 dark:bg-gray-900 dark:text-gray-200 sm:h-52 xl:mx-auto xl:h-44 xl:px-14">
@@ -56,6 +59,13 @@ export default function StatsHeader() {
           </span>
         </Tippy>
         <div className="grid grid-cols-2">
+          <Button
+            size="lg"
+            text={isFavorite ? "Favorited" : "Favorite"}
+            active={isFavorite}
+            icon={faHeart}
+            onClick={() => updateFavorite()}
+          />
           <Modal
             title="Update Stats"
             description="Are you sure you want to update this user's stats? These current stats will be overriden."
@@ -72,7 +82,7 @@ export default function StatsHeader() {
                 ),
             }}
           />
-          <Modal
+          {/* <Modal
             title="Delete Stats"
             description="Are you sure you want to delete this user's stats? You will have to regenerate to view them again."
             button={{ text: "Delete Stats", icon: faTrashCan }}
@@ -84,7 +94,7 @@ export default function StatsHeader() {
                 db.animeStats.delete(user.username);
               },
             }}
-          />
+          /> */}
         </div>
       </div>
     </header>
