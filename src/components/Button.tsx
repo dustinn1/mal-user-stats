@@ -31,7 +31,7 @@ export default function Button({
       className={classNames(
         size === "sm" ? "py-1.5 px-3" : "py-2 px-4",
         active
-          ? "bg-gray-600 text-white dark:bg-gray-500"
+          ? "bg-gray-700 text-white dark:bg-gray-500"
           : "hover:bg-gray-700 hover:text-white dark:bg-gray-800 dark:hover:bg-gray-500",
         "mx-1 inline-block cursor-pointer rounded-md border border-gray-700"
       )}

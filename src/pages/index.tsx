@@ -2,16 +2,27 @@ import { useEffect, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
 import LoadingIndicator from "../components/LoadingIndicator";
-import Image from "next/image";
+import Button from "../components/Button";
+import {
+  faArrowDownAZ,
+  faClock,
+  faHeart,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import UserCardsContainer from "../components/home/CardsContainer";
+import Link from "next/link";
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
+  //const [showFavorites, setShowFavorites] = useState(false);
+  const [sort, setSort] = useState<"username" | "date">("username");
+  const [search, setSearch] = useState("");
 
-  const userInfo = useLiveQuery(async () => {
+  const users = useLiveQuery(async () => {
     return await db.userInfo.toArray();
   });
 
-  useEffect(() => setLoaded(userInfo !== undefined), [userInfo]);
+  useEffect(() => setLoaded(users !== undefined), [users]);
 
   if (!loaded) {
     return (
@@ -22,35 +33,68 @@ export default function Home() {
   }
 
   return (
-    <div className="mt-5">
-      {loaded && userInfo !== undefined && userInfo.length > 0 ? (
-        <div className="flex flex-col gap-5">
-          {userInfo.map((user) => (
-            <div
-              key={user.username}
-              className="mx-3 flex h-40 flex-wrap items-center justify-between rounded-2xl bg-gray-200 py-3 px-10 text-gray-900"
-            >
-              <div className="flex w-full flex-wrap items-center justify-center lg:w-auto">
-                <div className="relative h-[100px] w-[100px]">
-                  <Image
-                    src={`https://cdn.myanimelist.net/images/userimages/${user.data.mal_id}.webp`}
-                    alt="profile picture"
-                    layout="fill"
-                    objectFit="contain"
-                    priority
-                  />
-                </div>
-                <h1 className="ml-5 w-full break-words text-center text-xl font-bold sm:w-auto sm:text-2xl md:text-4xl xl:text-5xl">
-                  {user.data.username}
-                </h1>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
+    <div className="mx-3 mt-5 xl:mx-auto">
+      {loaded && users !== undefined && users.length > 0 ? (
         <>
-          <p>Does not exist</p>
+          <div className="mb-3 flex flex-wrap justify-center gap-2 lg:justify-between">
+            <div className="flex grow xl:w-1/2 xl:grow-0">
+              <input
+                type="search"
+                id="search"
+                name="search"
+                placeholder="Search"
+                autoComplete="off"
+                className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+              {/* <div className="ml-2 w-1/2">
+                <Button
+                  onClick={() => setShowFavorites(false)}
+                  size="sm"
+                  icon={faUser}
+                  text="All"
+                  active={!showFavorites}
+                />
+                <Button
+                  onClick={() => setShowFavorites(true)}
+                  size="sm"
+                  icon={faHeart}
+                  text="Favorites"
+                  active={showFavorites}
+                />
+              </div> */}
+            </div>
+            <div className="flex overflow-x-scroll">
+              <Button
+                onClick={() => setSort("username")}
+                size="sm"
+                icon={faArrowDownAZ}
+                text="Username"
+                active={sort === "username"}
+              />
+              <Button
+                onClick={() => setSort("date")}
+                size="sm"
+                icon={faClock}
+                text="Date Updated"
+                active={sort === "date"}
+              />
+            </div>
+          </div>
+          <UserCardsContainer users={users} search={search} sort={sort} />
         </>
+      ) : (
+        <div className="mt-8 text-center ">
+          <h1 className="mb-3 text-2xl font-bold">
+            No User Stats Have Been Generated
+          </h1>
+          <Link href="/generate">
+            <a className="text-xl text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-500 dark:hover:text-blue-400">
+              Start Generating
+            </a>
+          </Link>
+        </div>
       )}
     </div>
   );

@@ -28,7 +28,7 @@ export default function StatCardsContainer({ type, titles }: Props) {
   if (width >= 1280) {
     split = 3;
   } else if (width >= 768) {
-    split = 3;
+    split = 2;
   } else {
     split = 1;
   }

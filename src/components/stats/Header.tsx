@@ -28,7 +28,7 @@ export default function StatsHeader() {
 
   return (
     <header className="h-68 my-2.5 mx-3 flex flex-wrap items-center justify-between rounded-2xl border-2 border-blue-500 bg-gray-200 py-3 px-5 text-gray-900 dark:bg-gray-900 dark:text-gray-200 sm:h-52 xl:mx-auto xl:h-44 xl:px-14">
-      <div className="flex w-full flex-wrap items-center justify-center lg:w-auto">
+      <div className="flex w-full flex-wrap items-center justify-center gap-x-5 lg:w-auto">
         <div className="relative h-[100px] w-[100px]">
           <Image
             src={`https://cdn.myanimelist.net/images/userimages/${user.mal_id}.webp`}
@@ -38,7 +38,7 @@ export default function StatsHeader() {
             priority
           />
         </div>
-        <h1 className="ml-5 w-full break-words text-center text-xl font-bold sm:w-auto sm:text-2xl md:text-4xl xl:text-5xl">
+        <h1 className="w-full break-words text-center text-xl font-bold sm:w-auto sm:text-2xl md:text-4xl xl:text-5xl">
           {user.username}
         </h1>
       </div>
