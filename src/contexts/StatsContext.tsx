@@ -22,13 +22,22 @@ export const StatsContextProvider = ({ children, username }: ContextProps) => {
   const [loaded, setLoaded] = useState(false);
 
   const userInfo = useLiveQuery(async () => {
-    return await db.userInfo.where("username").equals(username).toArray();
+    return await db.userInfo
+      .where("username")
+      .equals(username.toLowerCase())
+      .toArray();
   });
   const animeStats = useLiveQuery(async () => {
-    return await db.animeStats.where("username").equals(username).toArray();
+    return await db.animeStats
+      .where("username")
+      .equals(username.toLowerCase())
+      .toArray();
   });
   const mangaStats = useLiveQuery(async () => {
-    return await db.mangaStats.where("username").equals(username).toArray();
+    return await db.mangaStats
+      .where("username")
+      .equals(username.toLowerCase())
+      .toArray();
   });
 
   useEffect(

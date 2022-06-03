@@ -1,5 +1,4 @@
 import { useState, ReactNode, useEffect } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { StatsContextProvider } from "../../contexts/StatsContext";
 import LoadingIndicator from "../LoadingIndicator";
@@ -33,9 +32,6 @@ export default function Layout({ children }: Props) {
     if (username !== undefined) {
       return (
         <>
-          <Head>
-            <title>{username} - MyAnimeList User Stats</title>
-          </Head>
           <StatsContextProvider username={username}>
             <StatsHeader />
             <Tabs

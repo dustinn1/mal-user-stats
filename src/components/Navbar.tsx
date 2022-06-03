@@ -6,13 +6,13 @@ import {
   faDisplay,
   faLanguage,
   faMoon,
+  faPlus,
   faSun,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { Menu, Transition } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import { SettingsContext } from "../contexts/SettingsContext";
-import Tippy from "@tippyjs/react";
 
 const themes: { name: "system" | "light" | "dark"; icon: IconDefinition }[] = [
   { name: "system", icon: faDisplay },
@@ -43,14 +43,7 @@ export default function Navbar() {
       <div className="flex items-center gap-2">
         <Menu as="div" className="relative inline-block">
           <Menu.Button className="w-12">
-            <Tippy
-              content={<span>Change Title Language</span>}
-              placement="bottom"
-            >
-              <span>
-                <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
-              </span>
-            </Tippy>
+            <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
           </Menu.Button>
           <Transition
             as={Fragment}
@@ -88,11 +81,7 @@ export default function Navbar() {
         </Menu>
         <Menu as="div" className="relative inline-block">
           <Menu.Button className="w-12">
-            <Tippy content={<span>Change Theme</span>} placement="bottom">
-              <span>
-                <FontAwesomeIcon icon={faSun} className="text-2xl" />
-              </span>
-            </Tippy>
+            <FontAwesomeIcon icon={faSun} className="text-2xl" />
           </Menu.Button>
           <Transition
             as={Fragment}

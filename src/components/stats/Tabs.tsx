@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tab from "../Tab";
 import { statsTabs } from "../../data/statsTabs";
 import { classNames } from "../../utils/classNames";
-import { statsPages } from "../../data/statsPages";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
 
 type Props = {
   currentCategory: "anime" | "manga";
@@ -19,6 +19,7 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
   const currentCategoryTab = statsTabs.find(
     (tab) => tab.name.toLowerCase() === currentCategory
   )!;
+  const width = useWindowWidth();
 
   return (
     <div className="grid grid-cols-2 gap-3 px-3 lg:flex xl:px-0">
@@ -69,76 +70,79 @@ export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
           </Menu.Items>
         </Transition>
       </Menu>
-      <div className="hidden auto-cols-max grid-flow-col gap-2.5 overflow-x-scroll lg:grid">
-        {currentCategoryTab.tabs.map((tab) => (
-          <Link
-            href={`/stats/${username}/${currentCategory}/${tab
-              .toLowerCase()
-              .replaceAll(" ", "_")}`}
-            key={tab}
+      {width >= 1024 ? (
+        <div className="auto-cols-max grid-flow-col gap-2.5 overflow-x-scroll lg:grid">
+          {currentCategoryTab.tabs.map((tab) => (
+            <Link
+              href={`/stats/${username}/${currentCategory}/${tab
+                .toLowerCase()
+                .replaceAll(" ", "_")}`}
+              key={tab}
+            >
+              <a>
+                <Tab
+                  name={tab}
+                  active={
+                    router.asPath.split("/")[3] === currentCategory &&
+                    router.asPath.split("/")[4] ===
+                      tab.toLowerCase().replaceAll(" ", "_")
+                  }
+                />
+              </a>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <Menu as="div" className="relative inline-block">
+          <Menu.Button className="w-full capitalize">
+            <Tab
+              name={router.asPath.split("/")[4].replaceAll("_", " ")}
+              dropdown
+            />
+          </Menu.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
           >
-            <a>
-              <Tab
-                name={tab}
-                active={
-                  router.asPath.split("/")[3] === currentCategory &&
-                  router.asPath.split("/")[4] ===
-                    tab.toLowerCase().replaceAll(" ", "_")
-                }
-              />
-            </a>
-          </Link>
-        ))}
-      </div>
-      <Menu as="div" className="relative inline-block lg:hidden">
-        <Menu.Button className="w-full capitalize">
-          <Tab
-            name={router.asPath.split("/")[4].replaceAll("_", " ")}
-            dropdown
-          />
-        </Menu.Button>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute left-0 z-50 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="px-0.5">
-              {currentCategoryTab.tabs.map((tab) => (
-                <Link
-                  href={`/stats/${username}/${currentCategory}/${tab
-                    .toLowerCase()
-                    .replaceAll(" ", "_")}`}
-                  key={tab}
-                >
-                  <a>
-                    <Menu.Item key={tab.toLowerCase()}>
-                      {({ active }) => (
-                        <button
-                          className={classNames(
-                            "my-0.5 flex w-full items-center truncate rounded-md px-3 py-2",
-                            active ||
-                              router.asPath.split("/")[4] ===
-                                tab.toLowerCase().replaceAll(" ", "_")
-                              ? "bg-gray-700 text-white"
-                              : "text-gray-900"
-                          )}
-                        >
-                          {tab}
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </a>
-                </Link>
-              ))}
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
+            <Menu.Items className="absolute left-0 z-50 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
+              <div className="px-0.5">
+                {currentCategoryTab.tabs.map((tab) => (
+                  <Link
+                    href={`/stats/${username}/${currentCategory}/${tab
+                      .toLowerCase()
+                      .replaceAll(" ", "_")}`}
+                    key={tab}
+                  >
+                    <a>
+                      <Menu.Item key={tab.toLowerCase()}>
+                        {({ active }) => (
+                          <button
+                            className={classNames(
+                              "my-0.5 flex w-full items-center truncate rounded-md px-3 py-2",
+                              active ||
+                                router.asPath.split("/")[4] ===
+                                  tab.toLowerCase().replaceAll(" ", "_")
+                                ? "bg-gray-700 text-white dark:bg-gray-600"
+                                : "text-gray-900 dark:text-gray-100"
+                            )}
+                          >
+                            {tab}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
+      )}
     </div>
   );
 }

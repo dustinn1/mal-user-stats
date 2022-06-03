@@ -118,7 +118,9 @@ export default function StatCard({
         {((!isGrid && width >= 768) || sort === "count") && (
           <p
             className={
-              !isGrid && sort === "count" ? "border-b-2 border-black" : ""
+              !isGrid && sort === "count"
+                ? "border-b-2 border-black dark:border-white"
+                : ""
             }
           >
             <strong>{statArray.count}</strong>{" "}
@@ -128,7 +130,9 @@ export default function StatCard({
         {((!isGrid && width >= 768) || sort === "length") && (
           <p
             className={
-              !isGrid && sort === "length" ? "border-b-2 border-black" : ""
+              !isGrid && sort === "length"
+                ? "border-b-2 border-black dark:border-white"
+                : ""
             }
           >
             {type === "anime" ? (
@@ -156,7 +160,9 @@ export default function StatCard({
         {((!isGrid && width >= 768) || sort === "mean_score") && (
           <p
             className={
-              !isGrid && sort === "mean_score" ? "border-b-2 border-black" : ""
+              !isGrid && sort === "mean_score"
+                ? "border-b-2 border-black dark:border-white"
+                : ""
             }
           >
             <strong>{statArray.mean_score}</strong> Average Score

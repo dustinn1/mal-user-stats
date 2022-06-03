@@ -9,6 +9,7 @@ import { AnimeManga } from "../../../../interfaces/stats";
 import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
 import { useWindowWidth } from "@react-hook/window-size";
 import LoadingIndicator from "../../../../components/LoadingIndicator";
+import { NextSeo } from "next-seo";
 
 function compare(prop: string) {
   if (prop === "title") {
@@ -38,6 +39,7 @@ export default function StatsMangaOverview() {
   if (typeof window !== "undefined") {
     return (
       <>
+        <NextSeo title="Overview / manga" />
         <div className="mb-3 w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 dark:bg-gray-800">
           <div className="mx-4 flex items-center justify-center font-bold">
             <span className="text-3xl">Overview</span>

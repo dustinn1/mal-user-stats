@@ -55,7 +55,7 @@ export default function FetchData({ username }: { username: string }) {
         }
       );
       await db.animeStats.put({
-        username: username,
+        username: username.toLowerCase(),
         data: animeStats.data,
       });
       setMessage("Fetching generated stats... (2/3)");
@@ -67,7 +67,7 @@ export default function FetchData({ username }: { username: string }) {
         }
       );
       await db.mangaStats.put({
-        username: username,
+        username: username.toLowerCase(),
         data: mangaStats.data,
       });
       setMessage("Fetching generated stats... (3/3)");
@@ -79,7 +79,7 @@ export default function FetchData({ username }: { username: string }) {
         }
       );
       await db.userInfo.put({
-        username: username,
+        username: username.toLowerCase(),
         data: userInfo.data,
       });
       setMessage("Stats fetched");

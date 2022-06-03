@@ -21,6 +21,7 @@ import { DebounceInput } from "react-debounce-input";
 import Fuse from "fuse.js";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import LoadingIndicator from "../../../../../components/LoadingIndicator";
+import { NextSeo } from "next-seo";
 //import ChartContainer from "../../../../../components/stats/ChartContainer";
 
 /* const ChartContainer = dynamic(
@@ -34,7 +35,7 @@ export default function StatsAnimePage() {
   const [isGrid, setIsGrid] = useState(true);
   const [sort, setSort] = useState<"count" | "length" | "mean_score">("count");
   const [searchQuery, setSearchQuery] = useState("");
-  const { animes } = useContext(StatsContext);
+  const { animes, user } = useContext(StatsContext);
 
   const width = useWindowWidth();
 
@@ -58,6 +59,9 @@ export default function StatsAnimePage() {
       });
       return (
         <>
+          <NextSeo
+            title={`${pageInfo!.name.anime} / Anime - ${user.username}`}
+          />
           {/* <ChartContainer
             type={pageInfo.chart.type}
             data={statsData}
@@ -134,7 +138,12 @@ export default function StatsAnimePage() {
       );
     } else {
       return (
-        <h1 className="mt-8 text-center text-2xl font-bold">Page Not Found</h1>
+        <>
+          <NextSeo title={`Page Not Found / Anime - ${user.username}`} />
+          <h1 className="mt-8 text-center text-2xl font-bold">
+            Page Not Found
+          </h1>
+        </>
       );
     }
   } else {

@@ -23,7 +23,7 @@ export default function Generate() {
   return (
     <>
       {!show ? (
-        <div className="mt-5">
+        <div className="mt-5 px-3">
           <h1 className="text-3xl font-bold">Generate Stats</h1>
           <p className="mb-3 mt-2">
             Enter the username of the MyAnimeList profile
@@ -37,12 +37,12 @@ export default function Generate() {
                 placeholder="MyAnimeList username"
                 minLength={2}
                 maxLength={16}
-                className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 focus:transition-colors lg:h-auto"
+                className="h-12 w-full appearance-none rounded-md border border-gray-400 bg-white py-2 px-4 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
               />
               <input
                 type="submit"
                 value="Submit"
-                className="mx-1 inline-block cursor-pointer rounded-md border border-gray-700 py-2 px-4 hover:bg-gray-700 hover:text-white focus:transition-colors"
+                className="mx-1 inline-block cursor-pointer rounded-md border border-gray-700 py-2 px-4 hover:bg-gray-700 hover:text-white dark:bg-gray-800 dark:hover:bg-gray-500"
               />
             </div>
           </form>
