@@ -1,15 +1,20 @@
+import { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimeManga } from "../../../interfaces/stats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
+import { getLanguageTitle } from "../../../utils/getLanguageTitle";
+import { SettingsContext } from "../../../contexts/SettingsContext";
 
 type Props = {
   anime: AnimeManga;
 };
 
 export default function AnimeCard({ anime }: Props) {
+  const { titleLanguage } = useContext(SettingsContext);
+
   return (
     <div className="rounded-lg border border-blue-600 bg-gray-100 dark:bg-gray-800">
       <div className="flex">
@@ -49,9 +54,11 @@ export default function AnimeCard({ anime }: Props) {
         </div>
         <div className="max-h-56 w-2/3 overflow-y-scroll py-1.5 px-2">
           <div className="border-b border-gray-600 pb-0.5">
-            <Tippy content={<span>{anime.title}</span>}>
+            <Tippy
+              content={<span>{getLanguageTitle(anime, titleLanguage)}</span>}
+            >
               <h1 className="text-lg font-bold leading-none line-clamp-2">
-                {anime.title}
+                {getLanguageTitle(anime, titleLanguage)}
               </h1>
             </Tippy>
             <span className="mt-0 text-sm">

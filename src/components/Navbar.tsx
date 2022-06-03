@@ -12,11 +12,20 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import { SettingsContext } from "../contexts/SettingsContext";
+import Tippy from "@tippyjs/react";
 
 const themes: { name: "system" | "light" | "dark"; icon: IconDefinition }[] = [
   { name: "system", icon: faDisplay },
   { name: "light", icon: faSun },
   { name: "dark", icon: faMoon },
+];
+const languages: {
+  name: "romaji" | "english" | "japanese";
+  display: string;
+}[] = [
+  { name: "romaji", display: "romaji" },
+  { name: "english", display: "english" },
+  { name: "japanese", display: "日本語" },
 ];
 
 export default function Navbar() {
@@ -32,10 +41,58 @@ export default function Navbar() {
         </a>
       </Link>
       <div className="flex items-center gap-2">
-        <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
         <Menu as="div" className="relative inline-block">
           <Menu.Button className="w-12">
-            <FontAwesomeIcon icon={faSun} className="text-2xl" />
+            <Tippy
+              content={<span>Change Title Language</span>}
+              placement="bottom"
+            >
+              <span>
+                <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
+              </span>
+            </Tippy>
+          </Menu.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="absolute right-0 z-50 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
+              <div className="px-0.5">
+                {languages.map((language) => (
+                  <Menu.Item key={language.name}>
+                    {({ active }) => (
+                      <button
+                        className={classNames(
+                          "my-0.5 flex w-full items-center rounded-md px-3 py-2 capitalize",
+                          active || settings.titleLanguage === language.name
+                            ? "bg-gray-700 text-white dark:bg-gray-600"
+                            : "text-gray-900 dark:text-gray-100"
+                        )}
+                        onClick={() =>
+                          settings.updateTitleLanguage(language.name)
+                        }
+                      >
+                        {language.display}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
+        <Menu as="div" className="relative inline-block">
+          <Menu.Button className="w-12">
+            <Tippy content={<span>Change Theme</span>} placement="bottom">
+              <span>
+                <FontAwesomeIcon icon={faSun} className="text-2xl" />
+              </span>
+            </Tippy>
           </Menu.Button>
           <Transition
             as={Fragment}

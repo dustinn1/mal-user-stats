@@ -37,7 +37,7 @@ export default function Home() {
       {loaded && users !== undefined && users.length > 0 ? (
         <>
           <div className="mb-3 flex flex-wrap justify-center gap-y-2 md:justify-between">
-            <div className="flex grow flex-wrap gap-y-2 md:flex-nowrap md:gap-y-0 xl:w-1/2 xl:grow-0">
+            <div className="flex grow gap-x-1 xl:w-1/3 xl:grow-0">
               <input
                 type="search"
                 id="search"
@@ -48,22 +48,13 @@ export default function Home() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
-              <div className="ml-2 flex w-full justify-center md:w-auto">
-                <Button
-                  onClick={() => setShowFavorites(false)}
-                  size="sm"
-                  icon={faUser}
-                  text="All"
-                  active={!showFavorites}
-                />
-                <Button
-                  onClick={() => setShowFavorites(true)}
-                  size="sm"
-                  icon={faHeart}
-                  text="Favorites"
-                  active={showFavorites}
-                />
-              </div>
+              <Button
+                onClick={() => setShowFavorites(!showFavorites)}
+                size="sm"
+                icon={faHeart}
+                text="Favorites"
+                active={showFavorites}
+              />
             </div>
             <div className="flex items-start overflow-x-scroll">
               <Button

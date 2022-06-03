@@ -4,6 +4,8 @@ import { createContext, useState, FunctionComponent, useEffect } from "react";
 interface Settings {
   theme: "system" | "light" | "dark";
   updateTheme(theme: "system" | "light" | "dark"): void;
+  titleLanguage: "romaji" | "english" | "japanese";
+  updateTitleLanguage(language: "romaji" | "english" | "japanese"): void;
 }
 
 function getSavedTheme(): "system" | "light" | "dark" {
@@ -13,6 +15,16 @@ function getSavedTheme(): "system" | "light" | "dark" {
   } else {
     localStorage.setItem("theme", "system");
     return "system";
+  }
+}
+
+function getSavedTitleLanguage(): "romaji" | "english" | "japanese" {
+  const local: string = localStorage.getItem("title")!;
+  if (local === "romaji" || local === "english" || local === "japanese") {
+    return local;
+  } else {
+    localStorage.setItem("title", "romaji");
+    return "romaji";
   }
 }
 
@@ -26,6 +38,13 @@ export const SettingsContextProvider: FunctionComponent = ({ children }) => {
   function updateTheme(theme: "system" | "light" | "dark") {
     setTheme(theme);
     localStorage.setItem("theme", theme);
+  }
+  const [titleLanguage, setTitleLanguage] = useState<
+    "romaji" | "english" | "japanese"
+  >(getSavedTitleLanguage());
+  function updateTitleLanguage(language: "romaji" | "english" | "japanese") {
+    setTitleLanguage(language);
+    localStorage.setItem("title", language);
   }
 
   useEffect(() => {
@@ -41,6 +60,8 @@ export const SettingsContextProvider: FunctionComponent = ({ children }) => {
       value={{
         theme,
         updateTheme,
+        titleLanguage,
+        updateTitleLanguage,
       }}
     >
       {children}
