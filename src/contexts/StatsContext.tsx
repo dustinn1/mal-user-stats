@@ -4,6 +4,8 @@ import { Stats } from "../interfaces/stats";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { NextSeo } from "next-seo";
+import Link from "next/link";
 
 type ContextProps = {
   children: ReactNode;
@@ -77,7 +79,19 @@ export const StatsContextProvider = ({ children, username }: ContextProps) => {
         )
       ) : (
         <>
-          <p>Does not exist</p>
+          <NextSeo title="User Not Found" />
+          <div className="mt-8 text-center">
+            <h1 className="mb-3 text-2xl font-bold">User Not Found</h1>
+            <p className="text-xl">
+              The user either doesn&#39;t exist or you need to{" "}
+              <Link href="/generate">
+                <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-500 dark:hover:text-blue-400">
+                  generate their stats
+                </a>
+              </Link>{" "}
+              first
+            </p>
+          </div>
         </>
       )}
     </>

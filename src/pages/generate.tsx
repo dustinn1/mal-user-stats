@@ -23,21 +23,20 @@ export default function Generate() {
   return (
     <>
       {!show ? (
-        <div className="mt-5 px-3">
-          <h1 className="text-3xl font-bold">Generate Stats</h1>
-          <p className="mb-3 mt-2">
-            Enter the username of the MyAnimeList profile
-          </p>
+        <div className="mx-3 mt-5 xl:mx-auto">
+          <h1 className="mb-4 border-b-2 border-black pb-3 text-4xl font-bold">
+            Generate Stats
+          </h1>
           <form onSubmit={handleSubmit}>
             <div className="flex">
               <input
                 type="text"
                 value={value}
                 onChange={handleChange}
-                placeholder="MyAnimeList username"
+                placeholder="MyAnimeList Username"
                 minLength={2}
                 maxLength={16}
-                className="h-12 w-full appearance-none rounded-md border border-gray-400 bg-white py-2 px-4 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
+                className="h-12 w-full appearance-none rounded-md border border-gray-400 bg-white py-2 px-4 outline-0 duration-100 ease-linear placeholder:text-gray-500 focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:placeholder:text-gray-400 dark:focus:border-blue-400 lg:h-auto"
               />
               <input
                 type="submit"

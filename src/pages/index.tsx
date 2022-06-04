@@ -7,6 +7,7 @@ import {
   faArrowDownAZ,
   faClock,
   faHeart,
+  faPlus,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import UserCardsContainer from "../components/home/CardsContainer";
@@ -39,6 +40,14 @@ export default function Home() {
       <div className="mx-3 mt-5 xl:mx-auto">
         {loaded && users !== undefined && users.length > 0 ? (
           <>
+            <div className="mb-4 flex items-center justify-between border-b-2 border-black pb-3">
+              <h1 className="text-4xl font-bold">Users</h1>
+              <Link href="/generate">
+                <a>
+                  <Button size="lg" icon={faPlus} text="Generate Stats" />
+                </a>
+              </Link>
+            </div>
             <div className="mb-3 flex flex-wrap justify-center gap-y-2 md:justify-between">
               <div className="flex grow gap-x-1 xl:w-1/3 xl:grow-0">
                 <input
@@ -84,7 +93,7 @@ export default function Home() {
             />
           </>
         ) : (
-          <div className="mt-8 text-center ">
+          <div className="mt-8 text-center">
             <h1 className="mb-3 text-2xl font-bold">
               No User Stats Have Been Generated
             </h1>
