@@ -1,7 +1,7 @@
 import { useContext, ReactElement } from "react";
 import StatsLayout from "../../../../components/layouts/StatsLayout";
 import CardsContainer from "../../../../components/stats/TitleCards/CardsContainer";
-import AnimeFilterContainer from "../../../../components/stats/Filters/AnimeContainer";
+import FilterContainer from "../../../../components/stats/Filters/Container";
 import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
 import { useListFilter } from "../../../../hooks/useListFilter";
@@ -78,7 +78,7 @@ export default function StatsAnimeOverview() {
           </div>
         </div>
         <FilterContext.Provider value={filtersContext}>
-          <AnimeFilterContainer stats={animes} />
+          <FilterContainer type="anime" stats={animes} />
         </FilterContext.Provider>
         <CardsContainer
           type="anime"

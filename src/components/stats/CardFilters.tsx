@@ -2,8 +2,7 @@ import { getTitlesInfo } from "../../utils/getTitlesInfo";
 import CardsContainer from "./TitleCards/CardsContainer";
 import { useListFilter } from "../../hooks/useListFilter";
 import { StatArray, Stats, AnimeManga } from "../../interfaces/stats";
-import AnimeFilterContainer from "./Filters/AnimeContainer";
-import MangaFilterContainer from "./Filters/MangaContainer";
+import FilterContainer from "./Filters/Container";
 import { FilterContext } from "../../contexts/FilterContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import prettyMs from "pretty-ms";
@@ -70,11 +69,7 @@ export default function CardsFilters({ type, data, allStats }: Props) {
         </div>
       </div>
       <FilterContext.Provider value={filtersContext}>
-        {type === "anime" ? (
-          <AnimeFilterContainer stats={allStats} />
-        ) : (
-          <MangaFilterContainer stats={allStats} />
-        )}
+        <FilterContainer type={type} stats={allStats} />
       </FilterContext.Provider>
       <CardsContainer
         type={type}

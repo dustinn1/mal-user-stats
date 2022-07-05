@@ -7,42 +7,49 @@ import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import { getLanguageTitle } from "../../../utils/getLanguageTitle";
 import { SettingsContext } from "../../../contexts/SettingsContext";
+import { StatsContext } from "../../../contexts/StatsContext";
 
 type Props = {
-  anime: AnimeManga;
+  type: "anime" | "manga";
+  title: AnimeManga;
 };
 
-export default function AnimeCard({ anime }: Props) {
+export default function Card({ type, title }: Props) {
   const { titleLanguage } = useContext(SettingsContext);
+  const { user } = useContext(StatsContext);
+
+  const username = user.username;
 
   return (
     <div className="rounded-lg border border-blue-600 bg-gray-100 dark:bg-gray-800">
       <div className="flex">
         <div className="relative mr-1 h-56 w-1/3 self-center">
           <Image
-            src={`https://cdn.myanimelist.net/images/anime/${anime.image_url_id}l.webp`}
+            src={`https://cdn.myanimelist.net/images/${type}/${title.image_url_id}l.webp`}
             alt="image"
             layout="fill"
             objectFit="cover"
             className="rounded-l-md"
           />
           <div className="absolute top-0 left-0 m-1 rounded bg-gray-800/80 py-1 px-2 text-center text-white">
-            <Link href={`/stats/triplezko/anime/formats/${anime.format.id}`}>
+            <Link
+              href={`/stats/${username}/${type}/formats/${title.format.id}`}
+            >
               <a className="underline hover:text-gray-200">
-                {anime.format.name}
+                {title.format.name}
               </a>
             </Link>{" "}
             /{" "}
             <Link
-              href={`/stats/triplezko/anime/episodes_counts/${anime.count}`}
+              href={`/stats/${username}/${type}/episodes_counts/${title.count}`}
             >
               <a className="underline hover:text-gray-200">
-                {anime.count}{" "}
-                {anime.count > 1 || anime.count === 0 ? "eps" : "ep"}
+                {title.count} {type === "anime" ? "ep" : "ch"}
+                {title.count > 1 || title.count === 0 ? "s" : ""}
               </a>
             </Link>
           </div>
-          <Link href={`https://myanimelist.net/anime/${anime.id}`}>
+          <Link href={`https://myanimelist.net/${type}/${title.id}`}>
             <a
               className="absolute bottom-0 right-0 m-1 rounded bg-gray-800/75 py-1 px-2 text-center text-sm text-white"
               target="_blank"
@@ -55,31 +62,34 @@ export default function AnimeCard({ anime }: Props) {
         <div className="max-h-56 w-2/3 overflow-y-scroll py-1.5 px-2">
           <div className="border-b border-gray-600 pb-0.5">
             <Tippy
-              content={<span>{getLanguageTitle(anime, titleLanguage)}</span>}
+              content={<span>{getLanguageTitle(title, titleLanguage)}</span>}
             >
               <h1 className="text-lg font-bold leading-none line-clamp-2">
-                {getLanguageTitle(anime, titleLanguage)}
+                {getLanguageTitle(title, titleLanguage)}
               </h1>
             </Tippy>
             <span className="mt-0 text-sm">
-              <Link href={`/stats/triplezko/anime/statuses/${anime.status.id}`}>
+              <Link
+                href={`/stats/${username}/${type}/statuses/${title.status.id}`}
+              >
                 <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
-                  {anime.status.name}
+                  {title.status.name}
                 </a>
               </Link>{" "}
               / Score:{" "}
-              <Link href={`/stats/triplezko/anime/scores/${anime.score}`}>
+              <Link href={`/stats/${username}/${type}/scores/${title.score}`}>
                 <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
-                  {anime.score}
+                  {title.score}
                 </a>
               </Link>{" "}
-              {anime.start_year && "/ Started Watching in "}
-              {anime.start_year && (
+              {title.start_year &&
+                `/ Started ${type === "anime" ? "Watch" : "Read"}ing in `}
+              {title.start_year && (
                 <Link
-                  href={`/stats/triplezko/anime/watch_years/${anime.start_year}`}
+                  href={`/stats/${username}/${type}/start_years/${title.start_year}`}
                 >
                   <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
-                    {anime.start_year}
+                    {title.start_year}
                   </a>
                 </Link>
               )}
@@ -88,27 +98,27 @@ export default function AnimeCard({ anime }: Props) {
           <div className="overflow-y-scroll">
             <div className="py-1">
               <div>
-                <span>Studios: </span>
-                {anime.creators.map((studio, i) => [
+                <span>{type == "anime" ? "Studios:" : "Authors:"} </span>
+                {title.creators.map((creator, i) => [
                   i > 0 && ", ",
                   <Link
-                    href={`/stats/triplezko/anime/studios/${studio
-                      .toLowerCase()
-                      .replaceAll(" ", "_")}`}
-                    key={studio}
+                    href={`/stats/${username}/${type}/${
+                      type == "anime" ? "studios" : "authors"
+                    }/${creator.toLowerCase().replaceAll(" ", "_")}`}
+                    key={creator}
                   >
                     <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
-                      {studio}
+                      {creator}
                     </a>
                   </Link>,
                 ])}
               </div>
               <div>
                 <span>Genres: </span>
-                {anime.genres.map((genre, i) => [
+                {title.genres.map((genre, i) => [
                   i > 0 && ", ",
                   <Link
-                    href={`/stats/triplezko/anime/genres/${genre
+                    href={`/stats/${username}/${type}/genres/${genre
                       .toLowerCase()
                       .replaceAll(" ", "_")}`}
                     key={genre}
@@ -121,14 +131,14 @@ export default function AnimeCard({ anime }: Props) {
               </div>
               <div>
                 <span>Released in: </span>
-                {anime.release_year && (
+                {title.release_year && (
                   <Link
-                    href={`/stats/triplezko/anime/release_years/${Math.floor(
-                      anime.release_year
+                    href={`/stats/${username}/${type}/release_years/${Math.floor(
+                      title.release_year
                     )}`}
                   >
                     <a className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
-                      {anime.release_year}
+                      {title.release_year}
                     </a>
                   </Link>
                 )}

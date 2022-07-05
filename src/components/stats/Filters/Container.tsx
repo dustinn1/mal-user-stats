@@ -2,12 +2,12 @@ import { useContext } from "react";
 import { FilterContext } from "../../../contexts/FilterContext";
 import Button from "../../Button";
 import {
-  faAngleLeft,
   faArrowDown91,
   faArrowDownAZ,
   faCalendar,
   faFilter,
   faTv,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import FilterSelect from "./FilterSelect";
 import { Stats } from "../../../interfaces/stats";
@@ -17,10 +17,11 @@ import FilterInput from "./FilterInput";
 import FilterRange from "./FilterRange";
 
 type Props = {
+  type: "anime" | "manga";
   stats: Stats;
 };
 
-export default function AnimeFilterContainer({ stats }: Props) {
+export default function FilterContainer({ type, stats }: Props) {
   const { setSort, sort } = useContext(FilterContext);
 
   return (
@@ -58,8 +59,8 @@ export default function AnimeFilterContainer({ stats }: Props) {
               <Button
                 onClick={() => setSort("count")}
                 size="sm"
-                icon={faTv}
-                text="Episodes Count"
+                icon={type === "anime" ? faTv : faBook}
+                text={type == "anime" ? "Episodes Count" : "Chapters Count"}
                 active={sort === "count"}
               />
               <Button
@@ -91,7 +92,7 @@ export default function AnimeFilterContainer({ stats }: Props) {
               <FilterSelect
                 data={stats.creators}
                 name="creators"
-                displayName="studios"
+                displayName={type === "anime" ? "studios" : "authors"}
               />
               <FilterSelect
                 data={stats.statuses}
@@ -104,7 +105,12 @@ export default function AnimeFilterContainer({ stats }: Props) {
                 displayName="formats"
               />
               <FilterRange name="score" displayName="scores" />
-              <FilterRange name="count" displayName="episodes counts" />
+              <FilterRange
+                name="count"
+                displayName={
+                  type === "anime" ? "episodes counts" : "chapters counts"
+                }
+              />
               <FilterRange name="release_year" displayName="release years" />
               <FilterRange name="start_year" displayName="start years" />
             </Disclosure.Panel>

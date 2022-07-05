@@ -76,7 +76,7 @@ export default function StatsHeader() {
                 router.push(
                   {
                     pathname: "/generate",
-                    query: { username: "triplezko" },
+                    query: { username: user.username },
                   },
                   router.asPath
                 ),

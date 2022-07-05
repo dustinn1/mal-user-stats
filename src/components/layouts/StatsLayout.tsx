@@ -14,14 +14,7 @@ type Props = {
 export default function Layout({ children }: Props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
-  const username: string = router.query.username as string;
-
-  const [currentCategory, setCurrentCategory] = useState<"anime" | "manga">(
-    router.asPath.split("/")[3] as "anime" | "manga"
-  );
-  const setCategory = (category: "anime" | "manga") => {
-    setCurrentCategory(category);
-  };
+  const { username } = router.query;
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -29,15 +22,12 @@ export default function Layout({ children }: Props) {
   }, [router.isReady]);
 
   if (isLoaded) {
-    if (username !== undefined) {
+    if (username !== undefined && typeof username === "string") {
       return (
         <>
           <StatsContextProvider username={username}>
             <StatsHeader />
-            <Tabs
-              currentCategory={currentCategory}
-              setCurrentCategory={setCategory}
-            />
+            <Tabs />
             <div className="flex h-screen">
               <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
             </div>

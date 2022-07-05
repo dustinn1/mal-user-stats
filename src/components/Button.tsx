@@ -20,7 +20,7 @@ function classNames(...classes: string[]) {
 
 export default function Button({
   text,
-  size,
+  size = "lg",
   icon,
   active,
   dropdown,

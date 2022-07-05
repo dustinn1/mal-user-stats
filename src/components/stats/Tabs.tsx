@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { useState, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Menu, Transition } from "@headlessui/react";
@@ -7,19 +7,21 @@ import Tab from "../Tab";
 import { statsTabs } from "../../data/statsTabs";
 import { classNames } from "../../utils/classNames";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
+import LoadingIndicator from "../LoadingIndicator";
 
-type Props = {
-  currentCategory: "anime" | "manga";
-  setCurrentCategory: (category: "anime" | "manga") => void;
-};
-
-export default function Tabs({ currentCategory, setCurrentCategory }: Props) {
+export default function Tabs() {
   const router = useRouter();
-  const { username } = router.query;
+  const { username, type } = router.query;
+  const [currentCategory, setCurrentCategory] = useState(type);
+
   const currentCategoryTab = statsTabs.find(
     (tab) => tab.name.toLowerCase() === currentCategory
   )!;
   const width = useWindowWidth();
+
+  if (currentCategoryTab === undefined) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <div className="grid grid-cols-2 gap-3 px-3 lg:flex xl:px-0">

@@ -4,8 +4,7 @@ import { AnimeManga } from "../../../interfaces/stats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import dynamic from "next/dynamic";
 
-const AnimeCard = dynamic(() => import("./Anime"));
-const MangaCard = dynamic(() => import("./Manga"));
+const TitleCard = dynamic(() => import("."));
 
 type Props = {
   type: "anime" | "manga";
@@ -58,14 +57,10 @@ export default function StatCardsContainer({ type, titles }: Props) {
           >
             {[...Array(split)].map((_, i) => {
               if (titles[split * virtualRow.index + i] !== undefined) {
-                return type === "anime" ? (
-                  <AnimeCard
-                    anime={titles[split * virtualRow.index + i]}
-                    key={i}
-                  />
-                ) : (
-                  <MangaCard
-                    manga={titles[split * virtualRow.index + i]}
+                return (
+                  <TitleCard
+                    type={type}
+                    title={titles[split * virtualRow.index + i]}
                     key={i}
                   />
                 );
