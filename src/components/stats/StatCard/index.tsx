@@ -43,7 +43,7 @@ export default function StatCard({
   });
 
   const CoversList = useMemo(() => {
-    const titlesInfo = getTitlesInfo(statArray.titles, allTitles);
+    const titlesInfo = getTitlesInfo(allTitles, statArray.titles);
     return (
       <div
         style={{

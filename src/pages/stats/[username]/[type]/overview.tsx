@@ -1,102 +1,81 @@
 import { useContext, ReactElement } from "react";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import StatsLayout from "../../../../components/layouts/StatsLayout";
-import CardsContainer from "../../../../components/stats/TitleCards/CardsContainer";
-import FilterContainer from "../../../../components/stats/Filters/Container";
-import { FilterContext } from "../../../../contexts/FilterContext";
 import { StatsContext } from "../../../../contexts/StatsContext";
-import { useListFilter } from "../../../../hooks/useListFilter";
-import { AnimeManga } from "../../../../interfaces/stats";
-import { getTitlesInfo } from "../../../../utils/getTitlesInfo";
-import { useWindowWidth } from "@react-hook/window-size";
-import prettyMs from "pretty-ms";
-import LoadingIndicator from "../../../../components/LoadingIndicator";
 import { NextSeo } from "next-seo";
+import TitleCardsContainerHeader from "../../../../components/stats/TitleCards/CardsContainer/Header";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
+import prettyMs from "pretty-ms";
 
-function compare(prop: string) {
-  if (prop === "title") {
-    return function (a: AnimeManga, b: AnimeManga) {
-      return a[prop].localeCompare(b[prop]);
-    };
-  } else if (
-    prop === "score" ||
-    prop === "count" ||
-    prop === "release_year" ||
-    prop === "start_year"
-  ) {
-    return function (a: AnimeManga, b: AnimeManga) {
-      return b[prop]! - a[prop]!;
-    };
-  }
-}
+const TitleCardsContainerFilters = dynamic(
+  () =>
+    import("../../../../components/stats/TitleCards/CardsContainer/WithFilters")
+);
 
-export default function StatsAnimeOverview() {
-  const { animes } = useContext(StatsContext);
-  const animesInfos = getTitlesInfo(
-    Object.keys(animes.titles).map(Number),
-    animes.titles
-  );
-  const filtersContext = useListFilter(animesInfos as AnimeManga[]);
-
+export default function StatOverview() {
+  const router = useRouter();
+  const { type } = router.query;
+  const { user, ...stats } = useContext(StatsContext);
   const width = useWindowWidth();
 
-  if (typeof window !== "undefined") {
-    return (
-      <>
-        <NextSeo title="Overview / Anime" />
-        <div className="mb-3 w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 dark:bg-gray-800">
-          <div className="mx-4 flex items-center justify-center font-bold">
-            <span className="text-3xl">Overview</span>
-          </div>
-          <div className="mx-4 flex py-2 text-center">
-            <span className="w-1/5">
-              <strong>{animes.overview.total}</strong>
-              <br /> Animes
-            </span>
-            <span className="w-1/5">
-              <strong>{animes.overview.watched_readed}</strong>
-              <br /> Episodes Watched
-            </span>
-            <span className="w-1/5">
-              <strong>
-                {animes.overview.length > 0
-                  ? prettyMs(animes.overview.length * 1000, {
-                      verbose: true,
-                      unitCount: width >= 768 ? 3 : 2,
-                    })
-                  : "No time"}
-              </strong>
-              <br /> Watched
-            </span>
-            <span className="w-1/5">
-              <strong>{animes.overview.mean_score}</strong>
-              <br /> Average Score
-            </span>
-            <span className="w-1/5">
-              <strong>{animes.overview.standard_deviation}</strong>
-              <br /> Standard Deviation
-            </span>
-          </div>
-        </div>
-        <FilterContext.Provider value={filtersContext}>
-          <FilterContainer type="anime" stats={animes} />
-        </FilterContext.Provider>
-        <CardsContainer
-          type="anime"
-          titles={filtersContext.filteredList.sort(
-            compare(filtersContext.sort)
-          )}
-        />
-      </>
-    );
-  } else {
-    return (
-      <div className="flex h-48 items-center justify-center">
-        <LoadingIndicator />
-      </div>
-    );
+  if (type !== "anime" && type !== "manga") {
+    return <h1>404</h1>;
   }
+
+  const typeStats = stats[`${type}s`];
+
+  return (
+    <>
+      <NextSeo
+        title={`Overview / ${type === "anime" ? "Anime" : "Manga"} - ${
+          user.username
+        }`}
+      />
+      <TitleCardsContainerHeader
+        data={{
+          title: "Overview",
+          stats: [
+            {
+              id: "Animes",
+              value: typeStats.overview.total,
+            },
+            {
+              id: type === "anime" ? "Episodes Watched" : "Chapters Readed",
+              value: typeStats.overview.watched_readed,
+            },
+            {
+              id: "Watched",
+              value:
+                type === "anime"
+                  ? typeStats.overview.length > 0
+                    ? prettyMs(typeStats.overview.total * 1000, {
+                        verbose: true,
+                        unitCount: width >= 768 ? 3 : 2,
+                      })
+                    : "No time"
+                  : null,
+            },
+            {
+              id: "Average Score",
+              value: typeStats.overview.mean_score,
+            },
+            {
+              id: "Standard Deviation",
+              value: typeStats.overview.standard_deviation,
+            },
+          ],
+        }}
+      />
+      <TitleCardsContainerFilters
+        type={type}
+        key={router.asPath}
+        allStats={typeStats}
+      />
+    </>
+  );
 }
 
-StatsAnimeOverview.getLayout = function getLayout(page: ReactElement) {
+StatOverview.getLayout = function getLayout(page: ReactElement) {
   return <StatsLayout>{page}</StatsLayout>;
 };

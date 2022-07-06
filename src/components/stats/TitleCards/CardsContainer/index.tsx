@@ -1,17 +1,17 @@
 import { useRef, useCallback } from "react";
 import { useVirtual } from "react-virtual";
-import { AnimeManga } from "../../../interfaces/stats";
+import { AnimeManga } from "../../../../interfaces/stats";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import dynamic from "next/dynamic";
 
-const TitleCard = dynamic(() => import("."));
+const TitleCard = dynamic(() => import(".."));
 
 type Props = {
   type: "anime" | "manga";
   titles: AnimeManga[];
 };
 
-export default function StatCardsContainer({ type, titles }: Props) {
+export default function TitleCardsContainer({ type, titles }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
     size: titles.length,

@@ -6,15 +6,22 @@ import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import { statsPages } from "../../../../../data/statsPages";
 import { NextSeo } from "next-seo";
+import TitleCardsContainerHeader from "../../../../../components/stats/TitleCards/CardsContainer/Header";
+import { useWindowWidth } from "@react-hook/window-size/throttled";
+import prettyMs from "pretty-ms";
 
-const CardFilters = dynamic(
-  () => import("../../../../../components/stats/CardFilters")
+const TitleCardsContainerFilters = dynamic(
+  () =>
+    import(
+      "../../../../../components/stats/TitleCards/CardsContainer/WithFilters"
+    )
 );
 
 export default function StatSection() {
   const router = useRouter();
   const { type, stat, section } = router.query;
   const { user, ...stats } = useContext(StatsContext);
+  const width = useWindowWidth();
 
   if (type !== "anime" && type !== "manga") {
     return <h1>404</h1>;
@@ -49,7 +56,36 @@ export default function StatSection() {
             type === "anime" ? "Anime" : "Manga"
           } - ${user.username}`}
         />
-        <CardFilters
+        <TitleCardsContainerHeader
+          data={{
+            title: statsSectionData.name,
+            stats: [
+              {
+                id: "Animes",
+                value: statsSectionData.count,
+              },
+              {
+                id: type === "anime" ? "Watched" : "Read",
+                value:
+                  type === "anime"
+                    ? statsSectionData.length > 0
+                      ? prettyMs(statsSectionData.length * 1000, {
+                          verbose: true,
+                          unitCount: width >= 768 ? 3 : 2,
+                        })
+                      : "No time"
+                    : statsSectionData.length > 0
+                    ? `${statsSectionData.length} chapters`
+                    : "No chapters",
+              },
+              {
+                id: "Average Score",
+                value: statsSectionData.mean_score,
+              },
+            ],
+          }}
+        />
+        <TitleCardsContainerFilters
           type={type}
           key={router.asPath}
           data={statsSectionData}
