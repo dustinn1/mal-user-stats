@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Image from "next/image";
+import Image from "next/future/image";
 import Link from "next/link";
 import { AnimeManga } from "../../../interfaces/stats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,13 +23,13 @@ export default function Card({ type, title }: Props) {
   return (
     <div className="rounded-lg border border-blue-600 bg-gray-100 dark:bg-gray-800">
       <div className="flex">
-        <div className="relative mr-1 h-56 w-1/3 self-center">
+        <div className="relative mr-1 h-56 w-[165px] self-center">
           <Image
             src={`https://cdn.myanimelist.net/images/${type}/${title.image_url_id}l.webp`}
             alt="image"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-l-md"
+            height={225}
+            width={165}
+            className="h-full rounded-l-md object-cover"
           />
           <div className="absolute top-0 left-0 m-1 rounded bg-gray-800/80 py-1 px-2 text-center text-white">
             <Link

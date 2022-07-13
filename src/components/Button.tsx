@@ -10,6 +10,7 @@ type Props = {
   size: "sm" | "lg";
   icon?: IconDefinition;
   active?: boolean;
+  disabled?: boolean;
   dropdown?: boolean;
   onClick?: () => void;
 };
@@ -23,6 +24,7 @@ export default function Button({
   size = "lg",
   icon,
   active,
+  disabled,
   dropdown,
   onClick,
 }: Props) {
@@ -30,12 +32,13 @@ export default function Button({
     <div
       className={classNames(
         size === "sm" ? "py-1.5 px-3" : "py-2 px-4",
-        active
-          ? "bg-gray-700 text-white dark:bg-gray-500"
+        active ? "bg-gray-700 text-white dark:bg-gray-500" : "",
+        disabled
+          ? "cursor-not-allowed opacity-40"
           : "hover:bg-gray-700 hover:text-white dark:bg-gray-800 dark:hover:bg-gray-500",
-        "mx-1 inline-block cursor-pointer rounded-md border border-gray-700"
+        "mx-1 inline-block cursor-pointer select-none rounded-md border border-gray-700"
       )}
-      onClick={onClick}
+      onClick={!disabled ? onClick : undefined}
     >
       <div
         className={classNames(

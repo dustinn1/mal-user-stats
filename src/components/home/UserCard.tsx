@@ -15,7 +15,6 @@ dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 
 export default function UserCard({ user }: { user: UserDb }) {
-  console.log(user);
   return (
     <Link
       href={`/stats/${user.data.username}/anime/overview`}

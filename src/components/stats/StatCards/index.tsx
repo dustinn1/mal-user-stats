@@ -1,114 +1,44 @@
-import { useMemo, useRef, useCallback, useContext } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { StatArray } from "../../../interfaces/stats";
-import { getTitlesInfo } from "../../../utils/getTitlesInfo";
-import { useVirtual } from "react-virtual";
-import { StatsContext } from "../../../contexts/StatsContext";
 import { useWindowWidth } from "@react-hook/window-size/throttled";
 import { classNames } from "../../../utils/classNames";
 import prettyMs from "pretty-ms";
+import CoversList from "./CoverList";
 
 type Props = {
   type: "anime" | "manga";
-  statArray: StatArray;
+  data: StatArray;
   sort: "count" | "length" | "mean_score";
   rank: number;
   isGrid: boolean;
 };
 
-export default function StatCard({
-  type,
-  statArray,
-  sort,
-  rank,
-  isGrid,
-}: Props) {
+export default function StatCard({ type, data, sort, rank, isGrid }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
-  const stats = useContext(StatsContext);
-  const allTitles =
-    type === "anime" ? stats.animes.titles : stats.mangas.titles;
   const width = useWindowWidth();
-
-  const listParentRef = useRef<HTMLDivElement>(null);
-  const rowVirtualizer = useVirtual({
-    horizontal: true,
-    size: statArray.titles.length,
-    parentRef: listParentRef,
-    estimateSize: useCallback(() => 90, []),
-    paddingStart: 16,
-    paddingEnd: 16,
-  });
-
-  const CoversList = useMemo(() => {
-    const titlesInfo = getTitlesInfo(allTitles, statArray.titles);
-    return (
-      <div
-        style={{
-          width: `${rowVirtualizer.totalSize}px`,
-          height: "120px",
-          position: "relative",
-        }}
-      >
-        {rowVirtualizer.virtualItems.map((virtualRow) => (
-          <div
-            key={virtualRow.index}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              height: "100%",
-              width: `${virtualRow.size}px`,
-              transform: `translateX(${virtualRow.start}px)`,
-            }}
-          >
-            <Image
-              src={`https://cdn.myanimelist.net/images/${type}/${
-                titlesInfo[virtualRow.index].image_url_id
-              }l.webp`}
-              alt="image"
-              height={"120"}
-              width={"85"}
-              objectFit="cover"
-              className="rounded-md"
-              priority={virtualRow.index < 6}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }, [
-    allTitles,
-    rowVirtualizer.totalSize,
-    rowVirtualizer.virtualItems,
-    statArray.titles,
-    type,
-  ]);
 
   return (
     <div
       className="w-full rounded-lg border border-blue-600 bg-gray-100 pt-3 pb-0.5 dark:bg-gray-800"
-      id={`card-${statArray.name}`}
+      id={`card-${data.name}`}
     >
       <div className="mx-4 flex items-center font-bold">
         <div className="mr-2 whitespace-nowrap rounded-lg bg-gray-700 px-3 py-1 text-center text-white">
           # {rank}
         </div>
         <Link
-          href={`/stats/${username}/${type}/${stat}/${statArray.name
+          href={`/stats/${username}/${type}/${stat}/${data.name
             .toLowerCase()
             .replaceAll(" ", "_")}`}
         >
           <a className="truncate text-3xl text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-500 dark:hover:text-blue-400">
-            {statArray.name}
+            {data.name}
           </a>
         </Link>
       </div>
-      <div className="overflow-auto py-3" ref={listParentRef}>
-        {CoversList}
-      </div>
+      <CoversList type={type} statArray={data} />
       <div
         className={classNames(
           "mx-4 mb-3 justify-around text-center",
@@ -123,7 +53,7 @@ export default function StatCard({
                 : ""
             }
           >
-            <strong>{statArray.count}</strong>{" "}
+            <strong>{data.count}</strong>{" "}
             {type === "anime" ? "Animes" : "Mangas"}
           </p>
         )}
@@ -138,8 +68,8 @@ export default function StatCard({
             {type === "anime" ? (
               <>
                 <strong>
-                  {statArray.length > 0
-                    ? prettyMs(statArray.length * 1000, {
+                  {data.length > 0
+                    ? prettyMs(data.length * 1000, {
                         verbose: true,
                         unitCount: width >= 640 ? 3 : 2,
                       })
@@ -149,9 +79,7 @@ export default function StatCard({
               </>
             ) : (
               <>
-                <strong>
-                  {statArray.length > 0 ? statArray.length : "No chapters"}
-                </strong>{" "}
+                <strong>{data.length > 0 ? data.length : "No chapters"}</strong>{" "}
                 Read
               </>
             )}
@@ -165,7 +93,7 @@ export default function StatCard({
                 : ""
             }
           >
-            <strong>{statArray.mean_score}</strong> Average Score
+            <strong>{data.mean_score}</strong> Average Score
           </p>
         )}
       </div>

@@ -1,23 +1,48 @@
 import "../styles/globals.css";
-import type { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import type { NextPage } from "next";
-import AppLayout from "../components/layouts/AppLayout";
+import { NextSeo } from "next-seo";
+import { SettingsContextProvider } from "../contexts/SettingsContext";
+import Navbar from "../components/Navbar";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "tippy.js/dist/tippy.css";
 config.autoAddCss = false;
 
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
+  Component: {
+    getLayout?: (page: ReactElement) => ReactNode;
+  };
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setLoaded(true);
+    }
+  }, []);
+
   const getLayout = Component.getLayout ?? ((page) => page);
-  return <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>;
+  return (
+    <>
+      <NextSeo
+        title="MyAnimeList User Stats"
+        defaultTitle="MyAnimeList User Stats"
+        titleTemplate="%s - MyAnimeList User Stats"
+      />
+      {loaded ? (
+        <SettingsContextProvider>
+          <Navbar />
+          <main className="xl:container xl:mx-auto">
+            {getLayout(<Component {...pageProps} />)}
+          </main>
+        </SettingsContextProvider>
+      ) : (
+        <LoadingIndicator />
+      )}
+    </>
+  );
 }

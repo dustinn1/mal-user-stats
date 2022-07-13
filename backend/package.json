@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^7.0.0",
+    "@tanstack/react-virtual": "^3.0.0-beta.2",
     "axios": "^0.26.1",
     "fastify": "^3.27.2",
     "keyv": "^4.2.9",

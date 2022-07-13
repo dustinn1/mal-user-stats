@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { classNames } from "../utils/classNames";
+import { classNames } from "../../../utils/classNames";
 
 type Props = {
   name: string;

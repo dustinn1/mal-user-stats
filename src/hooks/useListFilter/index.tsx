@@ -68,10 +68,8 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
             filter.value === value
           )
       );
-      console.log(updatedFilter, "a");
     } else {
       updatedFilter = filters.filter((filter) => filter.category !== category);
-      console.log(updatedFilter, "b");
     }
     if (category === "search") {
       setSearchInput("");
