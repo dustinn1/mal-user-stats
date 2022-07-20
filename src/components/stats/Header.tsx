@@ -58,12 +58,12 @@ export default function StatsHeader() {
             Last Updated: {dayjs(user.generated_on).fromNow()}
           </span>
         </Tippy>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-2">
           <Button
             size="lg"
             text={isFavorite ? "Favorited" : "Favorite"}
             active={isFavorite}
-            icon={faHeart}
+            startIcon={faHeart}
             onClick={() => updateFavorite()}
           />
           <Modal

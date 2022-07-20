@@ -28,7 +28,7 @@ export default function Modal({
     <>
       <Button
         text={button.text}
-        icon={button.icon}
+        startIcon={button.icon}
         size="lg"
         onClick={() => setIsOpen(true)}
       />
@@ -76,7 +76,7 @@ export default function Modal({
                   <div className="mt-4 flex justify-end">
                     <Button
                       text={actionButton.text}
-                      icon={button.icon}
+                      startIcon={button.icon}
                       size="sm"
                       onClick={actionButton.onClick}
                     />

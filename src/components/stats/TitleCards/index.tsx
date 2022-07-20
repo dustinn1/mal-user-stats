@@ -14,7 +14,7 @@ type Props = {
   title: AnimeManga;
 };
 
-export default function Card({ type, title }: Props) {
+export default function TitleCard({ type, title }: Props) {
   const { titleLanguage } = useContext(SettingsContext);
   const { user } = useContext(StatsContext);
 

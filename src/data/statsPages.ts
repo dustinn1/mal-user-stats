@@ -1,131 +1,100 @@
-import { Stats } from "../interfaces/stats";
+import type { StatArraysOnly } from "../interfaces/stats";
 
-type pageInfo = {
-  id: {
-    anime: string;
-    manga: string;
-  };
-  name: {
-    anime: string;
-    manga: string;
-  };
-  key: keyof Stats;
-  chart: {
-    type: "line" | "bar" | "pie";
+type Pages = {
+  [key: string]: {
+    name: string;
+    key: keyof StatArraysOnly;
+    chart: string;
   };
 };
 
-export const statsPages: pageInfo[] = [
-  {
-    id: {
-      anime: "episodes_counts",
-      manga: "chapters_counts",
-    },
-    name: {
-      anime: "Episodes Counts",
-      manga: "Chapters Counts",
-    },
+const anime: Pages = {
+  episodes_counts: {
+    name: "Episodes Counts",
     key: "counts",
-    chart: {
-      type: "bar",
-    },
+    chart: "bar",
   },
-  {
-    id: {
-      anime: "genres",
-      manga: "genres",
-    },
-    name: {
-      anime: "Genres",
-      manga: "Genres",
-    },
+  genres: {
+    name: "Genres",
     key: "genres",
-    chart: {
-      type: "bar",
-    },
+    chart: "bar",
   },
-  {
-    id: {
-      anime: "studios",
-      manga: "authors",
-    },
-    name: {
-      anime: "Studios",
-      manga: "Authors",
-    },
+  studios: {
+    name: "Studios",
     key: "creators",
-    chart: {
-      type: "bar",
-    },
+    chart: "bar",
   },
-  {
-    id: {
-      anime: "formats",
-      manga: "formats",
-    },
-    name: {
-      anime: "Formats",
-      manga: "Formats",
-    },
+  formats: {
+    name: "Formats",
     key: "formats",
-    chart: {
-      type: "bar",
-    },
+    chart: "bar",
   },
-  {
-    id: {
-      anime: "statuses",
-      manga: "statuses",
-    },
-    name: {
-      anime: "Statuses",
-      manga: "Statuses",
-    },
+  statuses: {
+    name: "Statuses",
     key: "statuses",
-    chart: {
-      type: "bar",
-    },
+    chart: "bar",
   },
-  {
-    id: {
-      anime: "release_years",
-      manga: "release_years",
-    },
-    name: {
-      anime: "Release Years",
-      manga: "Release Years",
-    },
+  release_years: {
+    name: "Release Years",
     key: "release_years",
-    chart: {
-      type: "line",
-    },
+    chart: "line",
   },
-  {
-    id: {
-      anime: "start_years",
-      manga: "start_years",
-    },
-    name: {
-      anime: "Start Years",
-      manga: "Start Years",
-    },
+  start_years: {
+    name: "Start Years",
     key: "start_years",
-    chart: {
-      type: "line",
-    },
+    chart: "line",
   },
-  {
-    id: {
-      anime: "scores",
-      manga: "scores",
-    },
-    name: {
-      anime: "Scores",
-      manga: "Scores",
-    },
+  scores: {
+    name: "Scores",
     key: "scores",
-    chart: {
-      type: "bar",
-    },
+    chart: "bar",
   },
-];
+};
+
+const manga: Pages = {
+  chapters_counts: {
+    name: "Chapters Counts",
+    key: "counts",
+    chart: "bar",
+  },
+  genres: {
+    name: "Genres",
+    key: "genres",
+    chart: "bar",
+  },
+  authors: {
+    name: "Authors",
+    key: "creators",
+    chart: "bar",
+  },
+  formats: {
+    name: "Formats",
+    key: "formats",
+    chart: "bar",
+  },
+  statuses: {
+    name: "Statuses",
+    key: "statuses",
+    chart: "bar",
+  },
+  release_years: {
+    name: "Release Years",
+    key: "release_years",
+    chart: "line",
+  },
+  start_years: {
+    name: "Start Years",
+    key: "start_years",
+    chart: "line",
+  },
+  scores: {
+    name: "Scores",
+    key: "scores",
+    chart: "bar",
+  },
+};
+
+export const pageInfos = {
+  anime,
+  manga,
+};

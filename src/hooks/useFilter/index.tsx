@@ -1,6 +1,6 @@
-import { Reducer, useReducer, useState } from "react";
-import { AnimeManga } from "../../interfaces/stats";
-import {
+import { Reducer, useMemo, useReducer, useState } from "react";
+import type { AnimeManga } from "../../interfaces/stats";
+import type {
   Filter,
   FilterCategories,
   FilterHookExports,
@@ -10,18 +10,23 @@ import {
 import { filterList } from "./filterList";
 import { getRange } from "../../utils/getRange";
 
-export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
-  const [filteredList, setFilteredList] = useState(initialList);
+export function useFilter(initialList: AnimeManga[]): FilterHookExports {
   const [filters, setFilters] = useState<Filter[]>([]);
   const [sort, setSort] = useState("title");
-  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const initialRanges: FilterRanges = {
-    score: [0, 10],
-    count: getRange(initialList, "count"),
-    release_year: getRange(initialList, "release_year"),
-    start_year: getRange(initialList, "start_year"),
-  };
+  const filteredList = useMemo(() => {
+    return filterList(initialList, filters);
+  }, [filters, initialList]);
+
+  const initialRanges = useMemo<FilterRanges>(() => {
+    return {
+      score: [0, 10],
+      count: getRange(initialList, "count"),
+      release_year: getRange(initialList, "release_year"),
+      start_year: getRange(initialList, "start_year"),
+    };
+  }, [initialList]);
 
   const [ranges, setRanges] = useReducer<
     Reducer<FilterRanges, Partial<FilterRanges>>
@@ -50,7 +55,6 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
       updatedFilter = [...filters, { category, type, value }];
     }
     setFilters(updatedFilter);
-    setFilteredList(filterList(initialList, updatedFilter));
   }
 
   function removeFilter(
@@ -59,7 +63,7 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
     value?: string
   ) {
     let updatedFilter: Filter[] = [];
-    if (type !== undefined || value !== undefined) {
+    if (type || value) {
       updatedFilter = filters.filter(
         (filter) =>
           !(
@@ -72,7 +76,7 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
       updatedFilter = filters.filter((filter) => filter.category !== category);
     }
     if (category === "search") {
-      setSearchInput("");
+      setSearchQuery("");
     }
     if (
       category === "score" ||
@@ -83,12 +87,10 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
       setRanges({ [category]: initialRanges[category] });
     }
     setFilters(updatedFilter);
-    setFilteredList(filterList(initialList, updatedFilter));
   }
 
   function clearFilters() {
     setFilters([]);
-    setFilteredList(initialList);
     setRanges(initialRanges);
   }
 
@@ -98,8 +100,8 @@ export function useListFilter(initialList: AnimeManga[]): FilterHookExports {
     removeFilter,
     clearFilters,
     filters,
-    searchInput,
-    setSearchInput,
+    searchQuery,
+    setSearchQuery,
     sort,
     setSort,
     ranges,

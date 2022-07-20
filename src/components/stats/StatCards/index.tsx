@@ -1,23 +1,19 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { StatArray } from "../../../interfaces/stats";
-import { useWindowWidth } from "@react-hook/window-size/throttled";
-import { classNames } from "../../../utils/classNames";
 import prettyMs from "pretty-ms";
 import CoversList from "./CoverList";
 
 type Props = {
   type: "anime" | "manga";
   data: StatArray;
-  sort: "count" | "length" | "mean_score";
+  sort: string;
   rank: number;
-  isGrid: boolean;
 };
 
-export default function StatCard({ type, data, sort, rank, isGrid }: Props) {
+export default function StatCard({ type, data, sort, rank }: Props) {
   const router = useRouter();
   const { username, stat } = router.query;
-  const width = useWindowWidth();
 
   return (
     <div
@@ -39,39 +35,22 @@ export default function StatCard({ type, data, sort, rank, isGrid }: Props) {
         </Link>
       </div>
       <CoversList type={type} statArray={data} />
-      <div
-        className={classNames(
-          "mx-4 mb-3 justify-around text-center",
-          isGrid ? "" : "flex"
-        )}
-      >
-        {((!isGrid && width >= 768) || sort === "count") && (
-          <p
-            className={
-              !isGrid && sort === "count"
-                ? "border-b-2 border-black dark:border-white"
-                : ""
-            }
-          >
+      <div className="mx-4 mb-2 text-center">
+        {sort === "count" && (
+          <>
             <strong>{data.count}</strong>{" "}
             {type === "anime" ? "Animes" : "Mangas"}
-          </p>
+          </>
         )}
-        {((!isGrid && width >= 768) || sort === "length") && (
-          <p
-            className={
-              !isGrid && sort === "length"
-                ? "border-b-2 border-black dark:border-white"
-                : ""
-            }
-          >
+        {sort === "length" && (
+          <>
             {type === "anime" ? (
               <>
                 <strong>
                   {data.length > 0
                     ? prettyMs(data.length * 1000, {
                         verbose: true,
-                        unitCount: width >= 640 ? 3 : 2,
+                        unitCount: 2,
                       })
                     : "No time"}
                 </strong>{" "}
@@ -83,18 +62,12 @@ export default function StatCard({ type, data, sort, rank, isGrid }: Props) {
                 Read
               </>
             )}
-          </p>
+          </>
         )}
-        {((!isGrid && width >= 768) || sort === "mean_score") && (
-          <p
-            className={
-              !isGrid && sort === "mean_score"
-                ? "border-b-2 border-black dark:border-white"
-                : ""
-            }
-          >
+        {sort === "mean_score" && (
+          <>
             <strong>{data.mean_score}</strong> Average Score
-          </p>
+          </>
         )}
       </div>
     </div>

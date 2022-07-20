@@ -1,57 +1,33 @@
-import { useState, ChangeEvent } from "react";
-import { useRouter } from "next/router";
+import { ChangeEvent, useContext } from "react";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
+import type { Pagination } from "../../interfaces/pagination";
+import { StatCardsContext } from "../../contexts/StatCardsContext";
+import { TitleCardsContext } from "../../contexts/TitleCardsContext";
 
-type Props = {
-  pages: number;
-};
-
-export default function Pagination({ pages }: Props) {
-  const router = useRouter();
-  const { username, type, stat, page } = router.query;
-
-  const [pageCount] = useState(pages);
-  const [currentPage, setCurrentPage] = useState(
-    parseInt((page as string) ?? 1)
-  );
-
-  const hasPrevious = currentPage - 1 > 0;
-  const hasNext = currentPage < pageCount;
-
-  const changePage = (pageNumber: number) => {
-    router.push(
-      {
-        pathname: "/stats/[username]/[type]/[stat]",
-        query: { username, type, stat, page: pageNumber },
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
-
+function Pagination({ pagination }: { pagination: Pagination }) {
+  const { pageCount, page, setPage, hasPrevious, hasNext } = pagination;
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setCurrentPage(parseInt(event.target.value));
-    changePage(parseInt(event.target.value));
+    setPage(parseInt(event.target.value));
   };
 
   const handleButton = (direction: "prev" | "next") => {
-    const newPage = direction === "prev" ? currentPage - 1 : currentPage + 1;
-    setCurrentPage(newPage);
-    changePage(newPage);
+    const newPage = direction === "prev" ? page - 1 : page + 1;
+    setPage(newPage);
   };
 
   return (
-    <nav className="flex items-center">
-      <div className="mr-3 text-lg">
+    <nav className="sticky bottom-0 my-2 flex items-center justify-center gap-2 bg-white py-2 dark:bg-gray-900">
+      <div className="mr-1 text-lg">
         Page
         <select
-          value={currentPage}
+          value={page}
           onChange={handleSelect}
-          className="mx-2 rounded border border-gray-700 px-1.5 py-0.5 font-bold"
+          className="mx-2 rounded border border-gray-700 px-1.5 py-0.5 font-bold disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-900 dark:text-white"
+          disabled={pageCount === 1}
         >
           {[...Array(pageCount)].map((_, i) => {
             const count = 1 + i;
@@ -62,22 +38,32 @@ export default function Pagination({ pages }: Props) {
             );
           })}
         </select>
-        / {Math.ceil(pageCount)}
+        / {pageCount}
       </div>
       <Button
         size="sm"
-        icon={faChevronLeft}
+        startIcon={faChevronLeft}
         text="Previous"
         disabled={!hasPrevious}
         onClick={() => handleButton("prev")}
       />
       <Button
         size="sm"
-        icon={faChevronRight}
+        endIcon={faChevronRight}
         text="Next"
         disabled={!hasNext}
         onClick={() => handleButton("next")}
       />
     </nav>
   );
+}
+
+export function StatsPagination() {
+  const { pagination } = useContext(StatCardsContext);
+  return <Pagination pagination={pagination} />;
+}
+
+export function TitlesPagination() {
+  const { pagination } = useContext(TitleCardsContext);
+  return <Pagination pagination={pagination} />;
 }

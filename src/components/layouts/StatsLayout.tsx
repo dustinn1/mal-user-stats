@@ -11,7 +11,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function Layout({ children }: Props) {
+export default function StatsLayout({ children }: Props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
   const { username } = router.query;

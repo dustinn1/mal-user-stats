@@ -1,54 +1,27 @@
-import { useState, useContext, ReactElement } from "react";
+import { useContext, ReactElement } from "react";
 import { useRouter } from "next/router";
-import type {
-  StatArraysOnly,
-  StatArray,
-} from "../../../../../interfaces/stats";
+import type { StatArray } from "../../../../../interfaces/stats";
 import StatsLayout from "../../../../../components/layouts/StatsLayout";
-import { statsPages } from "../../../../../data/statsPages";
+import { pageInfos } from "../../../../../data/statsPages";
 import { StatsContext } from "../../../../../contexts/StatsContext";
-import { useWindowWidth } from "@react-hook/window-size/throttled";
 import { NextSeo } from "next-seo";
-import StatCardsContainerFilter from "../../../../../components/stats/StatCards/CardsContainer/withFilter";
+import { StatCardsContextProvider } from "../../../../../contexts/StatCardsContext";
+import StatCardsContainer from "../../../../../components/stats/StatCards/CardsContainer";
+import { StatCardsTopBar } from "../../../../../components/stats/CardsTopBar";
+import { StatsPagination } from "../../../../../components/stats/Pagination";
 
 export default function StatPage() {
   const router = useRouter();
-  const { type, stat, page } = router.query;
-  const [isGrid, setIsGrid] = useState(true);
-  const [sort, setSort] = useState<"count" | "length" | "mean_score">("count");
+  const { type, stat } = router.query;
   const { user, ...stats } = useContext(StatsContext);
-
-  const width = useWindowWidth();
 
   if (type !== "anime" && type !== "manga") {
     return <h1>404</h1>;
   }
 
-  if (stat !== undefined && statsPages.some((v) => v.id[type] === stat)) {
-    const pageInfo = statsPages.find((v) => v.id[type] === stat);
-    const typeStats = stats[`${type}s`];
-    const statsData: StatArray[] =
-      typeStats[
-        statsPages.find((v) => v.id[type] === stat)?.key as keyof StatArraysOnly
-      ];
-    return (
-      <>
-        <NextSeo
-          title={`${pageInfo!.name.anime} / ${
-            type === "anime" ? "Anime" : "Manga"
-          } - ${user.username}`}
-        />
-        <StatCardsContainerFilter
-          key={router.asPath}
-          type={type}
-          data={statsData}
-          offset={(parseInt((page as string) ?? 1) - 1) * 12}
-          sort={sort}
-          isGrid={isGrid && width >= 1024}
-        />
-      </>
-    );
-  } else {
+  const pageInfo = pageInfos[type][stat as string];
+
+  if (!pageInfo) {
     return (
       <>
         <NextSeo
@@ -60,6 +33,24 @@ export default function StatPage() {
       </>
     );
   }
+
+  const typeStats = stats[`${type}s`];
+  const statsData: StatArray[] = typeStats[pageInfo.key];
+
+  return (
+    <>
+      <NextSeo
+        title={`${pageInfo.name} / ${type === "anime" ? "Anime" : "Manga"} - ${
+          user.username
+        }`}
+      />
+      <StatCardsContextProvider type={type} data={statsData}>
+        <StatCardsTopBar />
+        <StatCardsContainer />
+        <StatsPagination />
+      </StatCardsContextProvider>
+    </>
+  );
 }
 
 StatPage.getLayout = function getLayout(page: ReactElement) {

@@ -12,7 +12,7 @@ export function filterList(
       filteredList = filteredList.filter((title) => {
         if (filter.category === "genres" || filter.category === "creators") {
           if (filter.type === "exclude") {
-            return !title[filter.category!].includes(filter.value);
+            return !title[filter.category].includes(filter.value);
           }
           if (filter.type === "include") {
             return title[filter.category].includes(filter.value);

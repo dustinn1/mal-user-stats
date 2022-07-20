@@ -31,7 +31,7 @@ export default function Dropdown({ menuButton, items }: Props) {
         >
           <div className="px-0.5">
             {items.data.map((item) => (
-              <Menu.Item key={items.key ? item[items.key] : item}>
+              <Menu.Item key={item.key ? item[item.key] : item.name}>
                 {({ active }) => items.button({ active, item })}
               </Menu.Item>
             ))}
