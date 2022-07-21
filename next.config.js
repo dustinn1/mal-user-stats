@@ -4,6 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["cdn.myanimelist.net"],
+    unoptimized: true,
   },
   async redirects() {
     return [
