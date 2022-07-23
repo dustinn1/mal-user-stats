@@ -13,6 +13,8 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { TitleCardsContext } from "../../contexts/TitleCardsContext";
+import FilterTags from "./Filters/FilterTags";
+import FiltersContainer from "./Filters/FiltersContainer";
 
 type Props = {
   context: {
@@ -26,41 +28,45 @@ type Props = {
     icon: IconDefinition;
   }[];
   search: (event: ChangeEvent<HTMLInputElement>) => void;
+  hasFilters?: boolean;
 };
 
-function CardsTopBar({ context, sortButtons, search }: Props) {
+function CardsTopBar({ context, sortButtons, search, hasFilters }: Props) {
   const { sort, setSort, searchQuery } = context;
   return (
-    <div className="mb-2 py-1">
-      <div className="flex flex-wrap justify-center gap-2 lg:justify-between">
-        <div className="flex grow lg:w-1/3 lg:grow-0">
-          <DebounceInput
-            type="search"
-            id="search"
-            name="search"
-            placeholder="Search"
-            autoComplete="off"
-            className="h-8 w-full appearance-none rounded border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
-            debounceTimeout={300}
-            value={searchQuery}
-            onChange={search}
-          />
-        </div>
-        <div className="flex gap-2 overflow-x-scroll">
-          {sortButtons.map((button) => (
-            <Button
-              key={button.id}
-              onClick={() => setSort(button.id)}
-              size="sm"
-              startIcon={button.icon}
-              text={button.name}
-              active={sort === button.id}
+    <>
+      <div className="mb-2 py-1">
+        <div className="flex flex-wrap justify-center gap-2 lg:justify-between">
+          <div className="flex grow lg:w-1/3 lg:grow-0">
+            <DebounceInput
+              type="search"
+              id="search"
+              name="search"
+              placeholder="Search"
+              autoComplete="off"
+              className="h-8 w-full appearance-none rounded border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
+              debounceTimeout={300}
+              value={searchQuery}
+              onChange={search}
             />
-          ))}
+          </div>
+          <div className="flex gap-2 overflow-x-scroll">
+            {sortButtons.map((button) => (
+              <Button
+                key={button.id}
+                onClick={() => setSort(button.id)}
+                size="sm"
+                startIcon={button.icon}
+                text={button.name}
+                active={sort === button.id}
+              />
+            ))}
+          </div>
         </div>
+        {hasFilters && <FiltersContainer />}
       </div>
-      <div className="flex items-center gap-2"></div>
-    </div>
+      {hasFilters && <FilterTags />}
+    </>
   );
 }
 
@@ -153,6 +159,7 @@ export function TitleCardsTopBar() {
           removeFilter("search");
         }
       }}
+      hasFilters
     />
   );
 }

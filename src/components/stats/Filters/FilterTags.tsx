@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { FilterContext } from "../../../contexts/FilterContext";
 import {
   faDeleteLeft,
   faFilter,
@@ -8,6 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FilterCategories, FilterTypes } from "../../../interfaces/filters";
 import { classNames } from "../../../utils/classNames";
+import { TitleCardsContext } from "../../../contexts/TitleCardsContext";
 
 type TagProps = {
   category: FilterCategories;
@@ -16,8 +16,15 @@ type TagProps = {
 };
 
 export default function FilterTags() {
-  const { removeFilter, filteredList, filters, clearFilters, setSearchInput } =
-    useContext(FilterContext);
+  const {
+    listFilter: {
+      removeFilter,
+      filteredList,
+      filters,
+      clearFilters,
+      setSearchQuery,
+    },
+  } = useContext(TitleCardsContext);
 
   function Tag({ category, type, value }: TagProps) {
     return (
@@ -46,7 +53,7 @@ export default function FilterTags() {
   return (
     <>
       {filters.length > 0 && (
-        <div className="my-3.5 flex flex-wrap items-center gap-1.5">
+        <div className="mb-3 flex flex-wrap items-center gap-1.5">
           <span className="mr-2 text-lg font-bold">
             <FontAwesomeIcon icon={faFilter} className="mr-1" />{" "}
             {filteredList.length} Animes
@@ -66,7 +73,7 @@ export default function FilterTags() {
             )}
             onClick={() => {
               clearFilters();
-              setSearchInput("");
+              setSearchQuery("");
             }}
           >
             <span className="mr-1 font-bold">Clear</span>

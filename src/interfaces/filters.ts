@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { AnimeManga } from "./stats";
+import type { AnimeManga, StatArraysOnly } from "./stats";
 
 export type Filter = {
   category: FilterCategories;

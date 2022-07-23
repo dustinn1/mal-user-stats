@@ -21,31 +21,31 @@ export default function StatsLayout({ children }: Props) {
     setIsLoaded(true);
   }, [router.isReady]);
 
-  if (isLoaded) {
-    if (username !== undefined && typeof username === "string") {
-      return (
-        <>
-          <StatsContextProvider username={username}>
-            <StatsHeader />
-            <Tabs />
-            <div className="flex h-screen">
-              <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
-            </div>
-          </StatsContextProvider>
-        </>
-      );
-    } else {
-      return (
-        <div className="flex h-48 items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      );
-    }
-  } else {
+  if (!isLoaded) {
     return (
       <div className="flex h-48 items-center justify-center">
         <LoadingIndicator />
       </div>
     );
   }
+
+  if (username === undefined || typeof username !== "string") {
+    return (
+      <div className="flex h-48 items-center justify-center">
+        <LoadingIndicator />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <StatsContextProvider username={username}>
+        <StatsHeader />
+        <Tabs />
+        <div className="flex h-screen">
+          <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
+        </div>
+      </StatsContextProvider>
+    </>
+  );
 }
