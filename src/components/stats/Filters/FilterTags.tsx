@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FilterCategories, FilterTypes } from "../../../interfaces/filters";
 import { classNames } from "../../../utils/classNames";
-import { TitleCardsContext } from "../../../contexts/TitleCardsContext";
+import { TitleCardsContext } from "../../../contexts/cards/TitleCardsContext";
 
 type TagProps = {
   category: FilterCategories;

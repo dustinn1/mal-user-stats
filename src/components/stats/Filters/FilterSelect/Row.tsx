@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TitleCardsContext } from "../../../../contexts/TitleCardsContext";
+import { TitleCardsContext } from "../../../../contexts/cards/TitleCardsContext";
 import type { StatArray } from "../../../../interfaces/stats";
 import type { FilterCategories } from "../../../../interfaces/filters";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";

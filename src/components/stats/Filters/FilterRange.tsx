@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Range, getTrackBackground } from "react-range";
-import { TitleCardsContext } from "../../../contexts/TitleCardsContext";
+import { TitleCardsContext } from "../../../contexts/cards/TitleCardsContext";
 
 type Props = {
   name: "score" | "count" | "release_year" | "start_year";
@@ -19,7 +19,7 @@ export default function FilterRange({ name }: Props) {
   }, [ranges, name]);
 
   return (
-    <div className="rounded-md bg-white px-4 pb-5 dark:bg-gray-700 ">
+    <div className="px-4 pb-5">
       <div className="mb-2.5 flex items-center justify-between">
         {values[0]} - {values[1]}
         {minMax.toString() !== values.toString() && (

@@ -24,7 +24,7 @@ export default function Generate() {
     <>
       {!show ? (
         <div className="mx-3 mt-5 xl:mx-auto">
-          <h1 className="mb-4 border-b-2 border-black pb-3 text-4xl font-bold">
+          <h1 className="mb-4 border-b-2 border-black pb-3 text-4xl font-bold dark:border-white">
             Generate Stats
           </h1>
           <form onSubmit={handleSubmit}>

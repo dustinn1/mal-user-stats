@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StatCardsContext } from "../../../contexts/StatCardsContext";
+import { StatCardsContext } from "../../../contexts/cards/StatCardsContext";
 import StatCard from ".";
 
 export default function StatCardsContainer() {

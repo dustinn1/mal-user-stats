@@ -8,10 +8,10 @@ import {
   useEffect,
 } from "react";
 import { useRouter } from "next/router";
-import type { StatArray } from "../interfaces/stats";
+import type { StatArray } from "../../interfaces/stats";
 import Fuse from "fuse.js";
-import { usePagination } from "../hooks/usePagination";
-import type { Pagination } from "../interfaces/pagination";
+import { usePagination } from "../../hooks/usePagination";
+import type { Pagination } from "../../interfaces/pagination";
 
 type Props = {
   type: "anime" | "manga";

@@ -28,25 +28,23 @@ export default function FilterSelect({ name, dataKey }: Props) {
   const dataSort = data.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <div className="rounded-md bg-white dark:bg-gray-700">
-      <div ref={parentRef} className="max-h-96 overflow-y-scroll px-4">
-        <div
-          className="relative divide-y divide-gray-300"
-          style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
-        >
-          {rowVirtualizer.getVirtualItems().map((virtualItem) => (
-            <div
-              key={virtualItem.key}
-              className="absolute top-0 left-0 w-full"
-              style={{
-                height: `${virtualItem.size}px`,
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-            >
-              <SelectRow name={name} stat={dataSort[virtualItem.index]} />
-            </div>
-          ))}
-        </div>
+    <div ref={parentRef} className="max-h-96 overflow-y-scroll px-4">
+      <div
+        className="relative divide-y divide-gray-300"
+        style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
+      >
+        {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+          <div
+            key={virtualItem.key}
+            className="absolute top-0 left-0 w-full"
+            style={{
+              height: `${virtualItem.size}px`,
+              transform: `translateY(${virtualItem.start}px)`,
+            }}
+          >
+            <SelectRow name={name} stat={dataSort[virtualItem.index]} />
+          </div>
+        ))}
       </div>
     </div>
   );

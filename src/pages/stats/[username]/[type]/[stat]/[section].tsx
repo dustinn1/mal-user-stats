@@ -7,7 +7,7 @@ import { pageInfos } from "../../../../../data/statsPages";
 import { NextSeo } from "next-seo";
 import TitleCardsContainerHeader from "../../../../../components/stats/TitleCards/CardsContainer/Header";
 import prettyMs from "pretty-ms";
-import { TitleCardsContextProvider } from "../../../../../contexts/TitleCardsContext";
+import { TitleCardsContextProvider } from "../../../../../contexts/cards/TitleCardsContext";
 import TitleCardsContainer from "../../../../../components/stats/TitleCards/CardsContainer";
 import { TitlesPagination } from "../../../../../components/stats/Pagination";
 import { TitleCardsTopBar } from "../../../../../components/stats/CardsTopBar";

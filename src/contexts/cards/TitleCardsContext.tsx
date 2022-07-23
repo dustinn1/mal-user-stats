@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useRouter } from "next/router";
-import type { StatArray } from "../interfaces/stats";
-import { usePagination } from "../hooks/usePagination";
-import type { Pagination } from "../interfaces/pagination";
-import { getTitlesInfo } from "../utils/getTitlesInfo";
-import { useFilter } from "../hooks/useFilter";
-import { StatsContext } from "./StatsContext";
-import type { FilterHookExports } from "../interfaces/filters";
+import type { StatArray } from "../../interfaces/stats";
+import { usePagination } from "../../hooks/usePagination";
+import type { Pagination } from "../../interfaces/pagination";
+import { getTitlesInfo } from "../../utils/getTitlesInfo";
+import { useFilter } from "../../hooks/useFilter";
+import { StatsContext } from "../StatsContext";
+import type { FilterHookExports } from "../../interfaces/filters";
 
 type Props = {
   type: "anime" | "manga";

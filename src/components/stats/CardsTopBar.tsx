@@ -1,5 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction, useContext } from "react";
-import { StatCardsContext } from "../../contexts/StatCardsContext";
+import {
+  ChangeEvent,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+} from "react";
+import { StatCardsContext } from "../../contexts/cards/StatCardsContext";
 import { DebounceInput } from "react-debounce-input";
 import Button from "../Button";
 import {
@@ -9,12 +15,14 @@ import {
   faCalendar,
   faClock,
   faDivide,
+  faHeart,
   faTv,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { TitleCardsContext } from "../../contexts/TitleCardsContext";
+import { TitleCardsContext } from "../../contexts/cards/TitleCardsContext";
 import FilterTags from "./Filters/FilterTags";
 import FiltersContainer from "./Filters/FiltersContainer";
+import { UserCardsContext } from "../../contexts/cards/UserCardsContext";
 
 type Props = {
   context: {
@@ -29,15 +37,22 @@ type Props = {
   }[];
   search: (event: ChangeEvent<HTMLInputElement>) => void;
   hasFilters?: boolean;
+  favorites?: ReactNode;
 };
 
-function CardsTopBar({ context, sortButtons, search, hasFilters }: Props) {
+function CardsTopBar({
+  context,
+  sortButtons,
+  search,
+  hasFilters,
+  favorites,
+}: Props) {
   const { sort, setSort, searchQuery } = context;
   return (
     <>
       <div className="mb-2 py-1">
         <div className="flex flex-wrap justify-center gap-2 lg:justify-between">
-          <div className="flex grow lg:w-1/3 lg:grow-0">
+          <div className="flex grow gap-2 lg:w-1/3 lg:grow-0">
             <DebounceInput
               type="search"
               id="search"
@@ -49,6 +64,7 @@ function CardsTopBar({ context, sortButtons, search, hasFilters }: Props) {
               value={searchQuery}
               onChange={search}
             />
+            {favorites}
           </div>
           <div className="flex gap-2 overflow-x-scroll">
             {sortButtons.map((button) => (
@@ -160,6 +176,50 @@ export function TitleCardsTopBar() {
         }
       }}
       hasFilters
+    />
+  );
+}
+
+export function UserCardsTopBar() {
+  const {
+    sort,
+    setSort,
+    searchQuery,
+    setSearchQuery,
+    showFavorites,
+    setShowFavorites,
+  } = useContext(UserCardsContext);
+  return (
+    <CardsTopBar
+      context={{
+        sort,
+        setSort,
+        searchQuery,
+      }}
+      sortButtons={[
+        {
+          id: "username",
+          name: "Username",
+          icon: faArrowDownAZ,
+        },
+        {
+          id: "date",
+          name: "Date Updated",
+          icon: faClock,
+        },
+      ]}
+      search={(event) => {
+        setSearchQuery(event.target.value);
+      }}
+      favorites={
+        <Button
+          onClick={() => setShowFavorites(!showFavorites)}
+          size="sm"
+          startIcon={faHeart}
+          text={showFavorites ? "Hide Favorites" : "Show Favorites"}
+          active={showFavorites}
+        />
+      }
     />
   );
 }

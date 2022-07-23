@@ -5,7 +5,7 @@ import StatsLayout from "../../../../../components/layouts/StatsLayout";
 import { pageInfos } from "../../../../../data/statsPages";
 import { StatsContext } from "../../../../../contexts/StatsContext";
 import { NextSeo } from "next-seo";
-import { StatCardsContextProvider } from "../../../../../contexts/StatCardsContext";
+import { StatCardsContextProvider } from "../../../../../contexts/cards/StatCardsContext";
 import StatCardsContainer from "../../../../../components/stats/StatCards/CardsContainer";
 import { StatCardsTopBar } from "../../../../../components/stats/CardsTopBar";
 import { StatsPagination } from "../../../../../components/stats/Pagination";

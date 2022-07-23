@@ -44,12 +44,14 @@ function PopoverPanel({ name, type, select, range }: PopoverProps) {
             className="absolute z-10"
           >
             <Popover.Panel
-              className="mt-1.5 grid w-96 rounded-md border border-gray-700 bg-white py-1 shadow-lg"
+              className="mt-1.5 grid w-96 rounded-md border border-gray-700 bg-white py-1 shadow-lg dark:bg-gray-700"
               ref={setPopperElement}
               style={styles.popper}
               {...attributes.popper}
             >
-              <span className="mb-1 px-4 text-lg font-bold">{name} </span>
+              <span className="mb-1 px-4 text-lg font-bold underline decoration-2 underline-offset-4">
+                {name}
+              </span>
               {type === "select" && select && (
                 <FilterSelect
                   name={select.filterName}
@@ -73,7 +75,7 @@ export default function FiltersContainer() {
       <Disclosure defaultOpen>
         {({ open }) => (
           <>
-            <Disclosure.Button className="border-b-2 border-dashed border-gray-700">
+            <Disclosure.Button className="border-b-2 border-dashed border-gray-700 dark:border-white">
               Filters{" "}
               <FontAwesomeIcon
                 icon={open ? faAngleUp : faAngleDown}

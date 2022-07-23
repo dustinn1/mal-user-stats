@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TitleCardsContext } from "../../../../contexts/TitleCardsContext";
+import { TitleCardsContext } from "../../../../contexts/cards/TitleCardsContext";
 import TitleCard from "..";
 import type { AnimeManga } from "../../../../interfaces/stats";
 

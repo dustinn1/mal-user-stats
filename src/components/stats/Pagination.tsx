@@ -5,10 +5,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
 import type { Pagination } from "../../interfaces/pagination";
-import { StatCardsContext } from "../../contexts/StatCardsContext";
-import { TitleCardsContext } from "../../contexts/TitleCardsContext";
+import { StatCardsContext } from "../../contexts/cards/StatCardsContext";
+import { TitleCardsContext } from "../../contexts/cards/TitleCardsContext";
+import { UserCardsContext } from "../../contexts/cards/UserCardsContext";
 
-function Pagination({ pagination }: { pagination: Pagination }) {
+function PaginationBase({ pagination }: { pagination: Pagination }) {
   const { pageCount, page, setPage, hasPrevious, hasNext } = pagination;
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     setPage(parseInt(event.target.value));
@@ -60,10 +61,15 @@ function Pagination({ pagination }: { pagination: Pagination }) {
 
 export function StatsPagination() {
   const { pagination } = useContext(StatCardsContext);
-  return <Pagination pagination={pagination} />;
+  return <PaginationBase pagination={pagination} />;
 }
 
 export function TitlesPagination() {
   const { pagination } = useContext(TitleCardsContext);
-  return <Pagination pagination={pagination} />;
+  return <PaginationBase pagination={pagination} />;
+}
+
+export function UsersPagination() {
+  const { pagination } = useContext(UserCardsContext);
+  return <PaginationBase pagination={pagination} />;
 }
