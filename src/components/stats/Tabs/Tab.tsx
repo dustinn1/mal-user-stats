@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { classNames } from "../../../utils/classNames";
@@ -9,7 +10,7 @@ type Props = {
   active?: boolean;
 };
 
-export default function Tab({ name, dropdown, active, icon }: Props) {
+export default memo(function Tab({ name, dropdown, active, icon }: Props) {
   return (
     <div
       className={classNames(
@@ -28,4 +29,4 @@ export default function Tab({ name, dropdown, active, icon }: Props) {
       </div>
     </div>
   );
-}
+});

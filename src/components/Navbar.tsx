@@ -9,7 +9,6 @@ import {
   faSun,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { Menu, Transition } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import { SettingsContext } from "../contexts/SettingsContext";
 import Dropdown from "./Dropdown";

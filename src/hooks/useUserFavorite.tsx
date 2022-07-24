@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 function getFavorite(mal_id: number): boolean {
   const local: string = localStorage.getItem("favorites")!;
@@ -18,7 +18,7 @@ export function useUserFavorite(mal_id: number): {
 } {
   const [isFavorite, setIsFavorite] = useState(getFavorite(mal_id));
 
-  function updateFavorite() {
+  const updateFavorite = useCallback(() => {
     const local: string = localStorage.getItem("favorites")!;
     let updatedArray: number[] = JSON.parse(local);
     if (!isFavorite) {
@@ -29,7 +29,7 @@ export function useUserFavorite(mal_id: number): {
       setIsFavorite(false);
     }
     localStorage.setItem("favorites", JSON.stringify(updatedArray));
-  }
+  }, [isFavorite, mal_id]);
 
   return {
     isFavorite,

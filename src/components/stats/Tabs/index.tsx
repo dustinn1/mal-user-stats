@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,9 +9,9 @@ import { useWindowWidth } from "@react-hook/window-size/throttled";
 import LoadingIndicator from "../../LoadingIndicator";
 import Dropdown from "../../Dropdown";
 
-export default function Tabs() {
+export default memo(function Tabs() {
   const router = useRouter();
-  const { username, type, stat } = router.query;
+  const { username, type } = router.query;
   const [currentCategory, setCurrentCategory] = useState(type);
 
   const currentCategoryTab = statsTabs.find(
@@ -74,7 +74,7 @@ export default function Tabs() {
                   name={tab}
                   active={
                     pathSplit[3] === currentCategory &&
-                    stat === tab.toLowerCase().replaceAll(" ", "_")
+                    pathSplit[4] === tab.toLowerCase().replaceAll(" ", "_")
                   }
                 />
               </a>
@@ -116,4 +116,4 @@ export default function Tabs() {
       )}
     </div>
   );
-}
+});

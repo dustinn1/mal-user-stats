@@ -1,4 +1,4 @@
-import { Reducer, useMemo, useReducer, useState } from "react";
+import { Reducer, useCallback, useMemo, useReducer, useState } from "react";
 import type { AnimeManga } from "../../interfaces/stats";
 import type {
   Filter,
@@ -32,67 +32,66 @@ export function useFilter(initialList: AnimeManga[]): FilterHookExports {
     Reducer<FilterRanges, Partial<FilterRanges>>
   >((state, newState) => ({ ...state, ...newState }), initialRanges);
 
-  function addFilter(
-    category: FilterCategories,
-    type: FilterTypes,
-    value: string
-  ) {
-    let index: number;
-    let updatedFilter: Filter[] = filters;
-    if (type === "range" || type === "search") {
-      index = filters.findIndex((filter) => filter.category === category);
-    } else {
-      index = filters.findIndex(
-        (filter) =>
-          filter.category === category &&
-          filter.type === type &&
-          filter.value === value
-      );
-    }
-    if (index > -1) {
-      updatedFilter[index] = { category, type, value };
-    } else {
-      updatedFilter = [...filters, { category, type, value }];
-    }
-    setFilters(updatedFilter);
-  }
+  const addFilter = useCallback(
+    (category: FilterCategories, type: FilterTypes, value: string) => {
+      setFilters((filters) => {
+        let index: number;
+        if (type === "range" || type === "search") {
+          index = filters.findIndex((filter) => filter.category === category);
+        } else {
+          index = filters.findIndex(
+            (filter) =>
+              filter.category === category &&
+              filter.type === type &&
+              filter.value === value
+          );
+        }
+        if (index > -1) {
+          filters[index] = { category, type, value };
+          return filters;
+        } else {
+          return [...filters, { category, type, value }];
+        }
+      });
+    },
+    []
+  );
 
-  function removeFilter(
-    category: FilterCategories,
-    type?: FilterTypes,
-    value?: string
-  ) {
-    let updatedFilter: Filter[] = [];
-    if (type || value) {
-      updatedFilter = filters.filter(
-        (filter) =>
-          !(
-            filter.category === category &&
-            filter.type === type &&
-            filter.value === value
-          )
-      );
-    } else {
-      updatedFilter = filters.filter((filter) => filter.category !== category);
-    }
-    if (category === "search") {
-      setSearchQuery("");
-    }
-    if (
-      category === "score" ||
-      category === "count" ||
-      category === "release_year" ||
-      category === "start_year"
-    ) {
-      setRanges({ [category]: initialRanges[category] });
-    }
-    setFilters(updatedFilter);
-  }
+  const removeFilter = useCallback(
+    (category: FilterCategories, type?: FilterTypes, value?: string) => {
+      if (category === "search") {
+        setSearchQuery("");
+      }
+      if (
+        category === "score" ||
+        category === "count" ||
+        category === "release_year" ||
+        category === "start_year"
+      ) {
+        setRanges({ [category]: initialRanges[category] });
+      }
+      setFilters((filters) => {
+        if (type || value) {
+          return filters.filter(
+            (filter) =>
+              !(
+                filter.category === category &&
+                filter.type === type &&
+                filter.value === value
+              )
+          );
+        } else {
+          return filters.filter((filter) => filter.category !== category);
+        }
+      });
+    },
+    [initialRanges]
+  );
 
-  function clearFilters() {
+  const clearFilters = useCallback(() => {
     setFilters([]);
     setRanges(initialRanges);
-  }
+  }, [initialRanges]);
 
   return {
     filteredList,

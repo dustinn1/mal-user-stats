@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, memo } from "react";
 import { StatsContext } from "../../contexts/StatsContext";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,7 +24,7 @@ dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 
-export default function StatsHeader() {
+export default memo(function StatsHeader() {
   const { user } = useContext(StatsContext);
   const router = useRouter();
   const { isFavorite, updateFavorite } = useUserFavorite(user.mal_id);
@@ -99,4 +99,4 @@ export default function StatsHeader() {
       </div>
     </header>
   );
-}
+});

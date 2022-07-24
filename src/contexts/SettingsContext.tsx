@@ -1,6 +1,17 @@
 import { useMediaQuery } from "@react-hook/media-query";
-import { createContext, useState, FunctionComponent, useEffect } from "react";
+import {
+  createContext,
+  useState,
+  FunctionComponent,
+  useEffect,
+  ReactNode,
+  useMemo,
+  memo,
+} from "react";
 
+type Props = {
+  children: ReactNode;
+};
 interface Settings {
   theme: "system" | "light" | "dark";
   updateTheme(theme: "system" | "light" | "dark"): void;
@@ -30,7 +41,7 @@ function getSavedTitleLanguage(): "romaji" | "english" | "japanese" {
 
 export const SettingsContext = createContext({} as Settings);
 
-export const SettingsContextProvider: FunctionComponent = ({ children }) => {
+export const SettingsContextProvider = ({ children }: Props) => {
   const prefersColorScheme = useMediaQuery("(prefers-color-scheme: dark)");
   const [theme, setTheme] = useState<"system" | "light" | "dark">(
     getSavedTheme()
@@ -55,15 +66,17 @@ export const SettingsContextProvider: FunctionComponent = ({ children }) => {
     }
   }, [prefersColorScheme, theme]);
 
+  const values = useMemo(() => {
+    return {
+      theme,
+      updateTheme,
+      titleLanguage,
+      updateTitleLanguage,
+    };
+  }, [theme, titleLanguage]);
+
   return (
-    <SettingsContext.Provider
-      value={{
-        theme,
-        updateTheme,
-        titleLanguage,
-        updateTitleLanguage,
-      }}
-    >
+    <SettingsContext.Provider value={values}>
       {children}
     </SettingsContext.Provider>
   );
