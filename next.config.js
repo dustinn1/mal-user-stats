@@ -10,7 +10,6 @@ const nextConfig = {
   },
   images: {
     domains: ["cdn.myanimelist.net"],
-    unoptimized: true,
   },
   async redirects() {
     return [
