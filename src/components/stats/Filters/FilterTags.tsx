@@ -30,14 +30,16 @@ export default function FilterTags() {
     return (
       <div
         className={classNames(
-          "group inline-flex h-7 items-center rounded px-2 py-0.5 text-sm capitalize text-white",
+          "group inline-flex h-7 items-center rounded px-2 py-0.5 text-sm text-white",
           type === "include" ? "bg-emerald-700" : "",
           type === "exclude" ? "bg-red-600" : "",
           type === "range" ? "bg-purple-600" : "",
           type === "search" ? "bg-blue-600" : ""
         )}
       >
-        <span className="mr-1 font-bold">{category.replaceAll("_", " ")}:</span>
+        <span className="mr-1 font-bold capitalize">
+          {category.replaceAll("_", " ")}:
+        </span>
         <span>{type !== "range" ? value : value.replaceAll(",", " - ")}</span>
         <div className="ml-1.5 mt-0.5 hidden group-hover:inline-block">
           <FontAwesomeIcon
@@ -56,7 +58,8 @@ export default function FilterTags() {
         <div className="mb-3 flex flex-wrap items-center gap-1.5">
           <span className="mr-2 text-lg font-bold">
             <FontAwesomeIcon icon={faFilter} className="mr-1" />{" "}
-            {filteredList.length} Animes
+            {filteredList.length} Match
+            {filteredList.length !== 1 ? "es" : ""}
           </span>
           {filters.map((filter) => (
             <Tag
@@ -66,7 +69,6 @@ export default function FilterTags() {
               value={filter.value}
             />
           ))}
-
           <div
             className={classNames(
               "group inline-flex h-7 cursor-pointer items-center rounded bg-gray-500 px-2 py-0.5 text-sm capitalize text-white"

@@ -25,7 +25,9 @@ function PopoverPanel({ name, type, select, range }: PopoverProps) {
   let [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
   let [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
-  let { styles, attributes } = usePopper(referenceElement, popperElement);
+  let { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [{ name: "offset", options: { offset: [0, 6] } }],
+  });
 
   return (
     <Popover className="relative">
@@ -44,12 +46,12 @@ function PopoverPanel({ name, type, select, range }: PopoverProps) {
             className="absolute z-10"
           >
             <Popover.Panel
-              className="mt-1.5 grid w-96 rounded-md border border-gray-700 bg-white py-1 shadow-lg dark:bg-gray-700"
+              className="grid w-96 rounded-md border border-gray-700 bg-white py-1 shadow-lg dark:bg-gray-700"
               ref={setPopperElement}
               style={styles.popper}
               {...attributes.popper}
             >
-              <span className="mb-1 px-4 text-lg font-bold underline decoration-2 underline-offset-4">
+              <span className="mb-1 px-4 text-lg font-bold underline decoration-2 underline-offset-2">
                 {name}
               </span>
               {type === "select" && select && (

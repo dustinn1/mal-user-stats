@@ -42,9 +42,7 @@ export default function StatsLayout({ children }: Props) {
       <StatsContextProvider username={username}>
         <StatsHeader />
         <Tabs />
-        <div className="flex h-screen">
-          <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
-        </div>
+        <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
       </StatsContextProvider>
     </>
   );

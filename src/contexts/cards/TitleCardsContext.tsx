@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { useRouter } from "next/router";
 import type { StatArray } from "../../interfaces/stats";
 import { usePagination } from "../../hooks/usePagination";
@@ -26,16 +32,29 @@ export const TitleCardsContext = createContext<TitleCardsContext>(
 
 export const TitleCardsContextProvider = ({ data, type, children }: Props) => {
   const router = useRouter();
-  const { page /* search */ } = router.query;
+  const { page, search } = router.query;
   const stats = useContext(StatsContext);
-  const listFilter = useFilter(
-    getTitlesInfo(stats[`${type}s`].titles, data?.titles)
-  );
+  const initialList = useMemo(() => {
+    return getTitlesInfo(stats[`${type}s`].titles, data?.titles);
+  }, [data?.titles, stats, type]);
+  const listFilter = useFilter(initialList, search as string);
 
   const pagination = usePagination(
     listFilter.filteredList.length,
     parseInt(page as string)
   );
+
+  useEffect(() => {
+    let url = `
+      ${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+    if (listFilter.searchQuery) {
+      url += `?search=${listFilter.searchQuery}`;
+    }
+    if (pagination.page > 1) {
+      url += `${listFilter.searchQuery ? "&" : "?"}page=${pagination.page}`;
+    }
+    window.history.replaceState(null, "", url);
+  }, [pagination.page, listFilter.searchQuery]);
 
   return (
     <TitleCardsContext.Provider

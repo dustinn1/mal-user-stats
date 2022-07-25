@@ -167,13 +167,7 @@ export function TitleCardsTopBar() {
         },
       ]}
       search={(event) => {
-        const input = event.target.value;
-        setSearchQuery(input);
-        if (input !== "") {
-          addFilter("search", "search", input);
-        } else {
-          removeFilter("search");
-        }
+        setSearchQuery(event.target.value);
       }}
       hasFilters
     />

@@ -1,4 +1,11 @@
-import { Reducer, useCallback, useMemo, useReducer, useState } from "react";
+import {
+  Reducer,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 import type { AnimeManga } from "../../interfaces/stats";
 import type {
   Filter,
@@ -10,10 +17,13 @@ import type {
 import { filterList } from "./filterList";
 import { getRange } from "../../utils/getRange";
 
-export function useFilter(initialList: AnimeManga[]): FilterHookExports {
+export function useFilter(
+  initialList: AnimeManga[],
+  initialSearch?: string
+): FilterHookExports {
   const [filters, setFilters] = useState<Filter[]>([]);
   const [sort, setSort] = useState("title");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialSearch ?? "");
 
   const filteredList = useMemo(() => {
     return filterList(initialList, filters);
@@ -35,17 +45,17 @@ export function useFilter(initialList: AnimeManga[]): FilterHookExports {
   const addFilter = useCallback(
     (category: FilterCategories, type: FilterTypes, value: string) => {
       setFilters((filters) => {
-        let index: number;
-        if (type === "range" || type === "search") {
-          index = filters.findIndex((filter) => filter.category === category);
-        } else {
-          index = filters.findIndex(
-            (filter) =>
+        const index = filters.findIndex((filter) => {
+          if (type === "range" || type === "search") {
+            return filter.category === category;
+          } else {
+            return (
               filter.category === category &&
               filter.type === type &&
               filter.value === value
-          );
-        }
+            );
+          }
+        });
         if (index > -1) {
           filters[index] = { category, type, value };
           return filters;
@@ -92,6 +102,18 @@ export function useFilter(initialList: AnimeManga[]): FilterHookExports {
     setFilters([]);
     setRanges(initialRanges);
   }, [initialRanges]);
+
+  useEffect(() => {
+    clearFilters();
+  }, [clearFilters]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      addFilter("search", "search", searchQuery);
+    } else {
+      removeFilter("search");
+    }
+  }, [addFilter, removeFilter, searchQuery]);
 
   return {
     filteredList,
