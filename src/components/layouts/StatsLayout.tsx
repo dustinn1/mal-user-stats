@@ -11,51 +11,39 @@ type Props = {
   children: ReactNode;
 };
 
-export default function Layout({ children }: Props) {
+export default function StatsLayout({ children }: Props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
-  const username: string = router.query.username as string;
-
-  const [currentCategory, setCurrentCategory] = useState<"anime" | "manga">(
-    router.asPath.split("/")[3] as "anime" | "manga"
-  );
-  const setCategory = (category: "anime" | "manga") => {
-    setCurrentCategory(category);
-  };
+  const { username } = router.query;
 
   useEffect(() => {
     if (!router.isReady) return;
     setIsLoaded(true);
   }, [router.isReady]);
 
-  if (isLoaded) {
-    if (username !== undefined) {
-      return (
-        <>
-          <StatsContextProvider username={username}>
-            <StatsHeader />
-            <Tabs
-              currentCategory={currentCategory}
-              setCurrentCategory={setCategory}
-            />
-            <div className="flex h-screen">
-              <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
-            </div>
-          </StatsContextProvider>
-        </>
-      );
-    } else {
-      return (
-        <div className="flex h-48 items-center justify-center">
-          <LoadingIndicator />
-        </div>
-      );
-    }
-  } else {
+  if (!isLoaded) {
     return (
       <div className="flex h-48 items-center justify-center">
         <LoadingIndicator />
       </div>
     );
   }
+
+  if (username === undefined || typeof username !== "string") {
+    return (
+      <div className="flex h-48 items-center justify-center">
+        <LoadingIndicator />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <StatsContextProvider username={username}>
+        <StatsHeader />
+        <Tabs />
+        <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
+      </StatsContextProvider>
+    </>
+  );
 }

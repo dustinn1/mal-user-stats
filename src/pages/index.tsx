@@ -3,22 +3,16 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Button from "../components/Button";
-import {
-  faArrowDownAZ,
-  faClock,
-  faHeart,
-  faPlus,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import UserCardsContainer from "../components/home/CardsContainer";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import UserCardsContainer from "../components/UserCards/CardsContainer";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
+import { UserCardsContextProvider } from "../contexts/cards/UserCardsContext";
+import { UserCardsTopBar } from "../components/stats/CardsTopBar";
+import { UsersPagination } from "../components/stats/Pagination";
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
-  const [showFavorites, setShowFavorites] = useState(false);
-  const [sort, setSort] = useState<"username" | "date">("username");
-  const [search, setSearch] = useState("");
 
   const users = useLiveQuery(async () => {
     return await db.userInfo.toArray();
@@ -40,57 +34,19 @@ export default function Home() {
       <div className="mx-3 mt-5 xl:mx-auto">
         {loaded && users !== undefined && users.length > 0 ? (
           <>
-            <div className="mb-4 flex items-center justify-between border-b-2 border-black pb-3">
+            <div className="mb-4 flex items-center justify-between border-b-2 border-black pb-3 dark:border-white">
               <h1 className="text-4xl font-bold">Users</h1>
               <Link href="/generate">
                 <a>
-                  <Button size="lg" icon={faPlus} text="Generate Stats" />
+                  <Button size="lg" startIcon={faPlus} text="Generate Stats" />
                 </a>
               </Link>
             </div>
-            <div className="mb-3 flex flex-wrap justify-center gap-y-2 md:justify-between">
-              <div className="flex grow gap-x-1 xl:w-1/3 xl:grow-0">
-                <input
-                  type="search"
-                  id="search"
-                  name="search"
-                  placeholder="Search"
-                  autoComplete="off"
-                  className="h-8 w-full appearance-none rounded-md border border-gray-400 bg-white px-3 outline-0 duration-100 ease-linear focus:border-blue-900 dark:border-gray-500 dark:bg-black dark:focus:border-blue-400 lg:h-auto"
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                />
-                <Button
-                  onClick={() => setShowFavorites(!showFavorites)}
-                  size="sm"
-                  icon={faHeart}
-                  text="Favorites"
-                  active={showFavorites}
-                />
-              </div>
-              <div className="flex items-start overflow-x-scroll">
-                <Button
-                  onClick={() => setSort("username")}
-                  size="sm"
-                  icon={faArrowDownAZ}
-                  text="Username"
-                  active={sort === "username"}
-                />
-                <Button
-                  onClick={() => setSort("date")}
-                  size="sm"
-                  icon={faClock}
-                  text="Date Updated"
-                  active={sort === "date"}
-                />
-              </div>
-            </div>
-            <UserCardsContainer
-              users={users}
-              search={search}
-              sort={sort}
-              showFavorites={showFavorites}
-            />
+            <UserCardsContextProvider data={users}>
+              <UserCardsTopBar />
+              <UserCardsContainer />
+              <UsersPagination />
+            </UserCardsContextProvider>
           </>
         ) : (
           <div className="mt-8 text-center">

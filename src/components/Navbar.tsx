@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,13 +6,12 @@ import {
   faDisplay,
   faLanguage,
   faMoon,
-  faPlus,
   faSun,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { Menu, Transition } from "@headlessui/react";
 import { classNames } from "../utils/classNames";
 import { SettingsContext } from "../contexts/SettingsContext";
+import Dropdown from "./Dropdown";
 
 const themes: { name: "system" | "light" | "dark"; icon: IconDefinition }[] = [
   { name: "system", icon: faDisplay },
@@ -41,84 +40,57 @@ export default function Navbar() {
         </a>
       </Link>
       <div className="flex items-center gap-2">
-        <Menu as="div" className="relative inline-block">
-          <Menu.Button className="w-12">
-            <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
-          </Menu.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute right-0 z-50 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
-              <div className="px-0.5">
-                {languages.map((language) => (
-                  <Menu.Item key={language.name}>
-                    {({ active }) => (
-                      <button
-                        className={classNames(
-                          "my-0.5 flex w-full items-center rounded-md px-3 py-2 capitalize",
-                          active || settings.titleLanguage === language.name
-                            ? "bg-gray-700 text-white dark:bg-gray-600"
-                            : "text-gray-900 dark:text-gray-100"
-                        )}
-                        onClick={() =>
-                          settings.updateTitleLanguage(language.name)
-                        }
-                      >
-                        {language.display}
-                      </button>
-                    )}
-                  </Menu.Item>
-                ))}
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-        <Menu as="div" className="relative inline-block">
-          <Menu.Button className="w-12">
-            <FontAwesomeIcon icon={faSun} className="text-2xl" />
-          </Menu.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute right-0 z-50 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
-              <div className="px-0.5">
-                {themes.map((theme) => (
-                  <Menu.Item key={theme.name}>
-                    {({ active }) => (
-                      <button
-                        className={classNames(
-                          "my-0.5 flex w-full items-center rounded-md px-3 py-2 capitalize",
-                          active || settings.theme === theme.name
-                            ? "bg-gray-700 text-white dark:bg-gray-600"
-                            : "text-gray-900 dark:text-gray-100"
-                        )}
-                        onClick={() => settings.updateTheme(theme.name)}
-                      >
-                        <FontAwesomeIcon
-                          icon={theme.icon}
-                          className="mr-3 w-6"
-                        />
-                        {theme.name}
-                      </button>
-                    )}
-                  </Menu.Item>
-                ))}
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+        <Dropdown
+          menuButton={
+            <div className="w-12">
+              <FontAwesomeIcon icon={faLanguage} className="text-3xl" />
+            </div>
+          }
+          items={{
+            data: languages,
+            key: "name",
+            width: "32",
+            button: ({ active, item }) => (
+              <button
+                className={classNames(
+                  "my-0.5 flex w-full items-center rounded-md px-3 py-2 capitalize",
+                  active || settings.titleLanguage === item.name
+                    ? "bg-gray-700 text-white dark:bg-gray-600"
+                    : "text-gray-900 dark:text-gray-100"
+                )}
+                onClick={() => settings.updateTitleLanguage(item.name)}
+              >
+                {item.display}
+              </button>
+            ),
+          }}
+        />
+        <Dropdown
+          menuButton={
+            <div className="w-12">
+              <FontAwesomeIcon icon={faSun} className="text-2xl" />
+            </div>
+          }
+          items={{
+            data: themes,
+            key: "name",
+            width: "32",
+            button: ({ active, item }) => (
+              <button
+                className={classNames(
+                  "my-0.5 flex w-full items-center rounded-md px-3 py-2 capitalize",
+                  active || settings.theme === item.name
+                    ? "bg-gray-700 text-white dark:bg-gray-600"
+                    : "text-gray-900 dark:text-gray-100"
+                )}
+                onClick={() => settings.updateTheme(item.name)}
+              >
+                <FontAwesomeIcon icon={item.icon} className="mr-3 w-6" />
+                {item.name}
+              </button>
+            ),
+          }}
+        />
       </div>
     </nav>
   );

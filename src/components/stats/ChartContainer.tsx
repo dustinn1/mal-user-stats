@@ -62,21 +62,21 @@ export default function ChartContainer({
             <Button
               onClick={() => setYKey("count")}
               size="sm"
-              icon={faArrowDown91}
+              startIcon={faArrowDown91}
               text="Count"
               active={ykey === "count"}
             />
             <Button
               onClick={() => setYKey("length")}
               size="sm"
-              icon={faClock}
+              startIcon={faClock}
               text="Time Watched"
               active={ykey === "length"}
             />
             <Button
               onClick={() => setYKey("mean_score")}
               size="sm"
-              icon={faDivide}
+              startIcon={faDivide}
               text="Mean Score"
               active={ykey === "mean_score"}
             />

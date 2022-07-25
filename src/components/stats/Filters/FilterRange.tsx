@@ -1,17 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { FilterContext } from "../../../contexts/FilterContext";
+import { useContext, useEffect, useState, useMemo } from "react";
 import { Range, getTrackBackground } from "react-range";
+import { TitleCardsContext } from "../../../contexts/cards/TitleCardsContext";
 
 type Props = {
   name: "score" | "count" | "release_year" | "start_year";
-  displayName?: string;
 };
 
-export default function FilterRange({ name, displayName }: Props) {
-  const { ranges, setRanges, initialRanges, removeFilter, addFilter } =
-    useContext(FilterContext);
+export default function FilterRange({ name }: Props) {
+  const {
+    listFilter: { ranges, setRanges, initialRanges, removeFilter, addFilter },
+  } = useContext(TitleCardsContext);
 
-  const [minMax] = useState(initialRanges[name]);
   const [values, setValues] = useState(ranges[name]);
 
   useEffect(() => {
@@ -19,37 +18,32 @@ export default function FilterRange({ name, displayName }: Props) {
   }, [ranges, name]);
 
   return (
-    <div className="rounded-md bg-white px-3.5 pb-5 pt-2.5 dark:bg-gray-700 ">
-      <div className="mb-2.5 flex justify-between">
-        <span className="font-bold capitalize">
-          {displayName ?? name.replaceAll("_", " ")}
-        </span>
-        <span className="flex items-center">
-          {minMax.toString() !== values.toString() && (
-            <span
-              className="mr-2 cursor-pointer text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-300 dark:hover:text-blue-400"
-              onClick={() => {
-                setRanges({ [name]: minMax });
-                removeFilter(name);
-                setValues(minMax);
-              }}
-            >
-              Reset
-            </span>
-          )}
-          {values[0]} - {values[1]}
-        </span>
+    <div className="px-4 pb-5">
+      <div className="mb-2.5 flex items-center justify-between">
+        {values[0]} - {values[1]}
+        {initialRanges[name].toString() !== values.toString() && (
+          <span
+            className="mr-2 cursor-pointer text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-300 dark:hover:text-blue-400"
+            onClick={() => {
+              setRanges({ [name]: initialRanges[name] });
+              removeFilter(name);
+              setValues(initialRanges[name]);
+            }}
+          >
+            Reset
+          </span>
+        )}
       </div>
       <Range
         values={values}
-        min={minMax[0]}
-        max={minMax[1]}
+        min={initialRanges[name][0]}
+        max={initialRanges[name][1]}
         onChange={(values) => {
           setValues(values);
         }}
         onFinalChange={(values) => {
           setRanges({ [name]: values });
-          if (values.toString() === minMax.toString()) {
+          if (values.toString() === initialRanges[name].toString()) {
             removeFilter(name);
           } else {
             addFilter(name, "range", values.toString());
@@ -70,8 +64,8 @@ export default function FilterRange({ name, displayName }: Props) {
                 background: getTrackBackground({
                   values,
                   colors: ["#ccc", "#548BF4", "#ccc"],
-                  min: minMax[0],
-                  max: minMax[1],
+                  min: initialRanges[name][0],
+                  max: initialRanges[name][1],
                 }),
               }}
               className="h-1.5 w-full self-center rounded-md"

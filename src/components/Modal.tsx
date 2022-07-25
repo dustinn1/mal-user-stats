@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
@@ -23,20 +23,25 @@ export default function Modal({
   actionButton,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const modalRef = useRef(null);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
 
   return (
     <>
       <Button
         text={button.text}
-        icon={button.icon}
+        startIcon={button.icon}
         size="lg"
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
       />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
+          initialFocus={modalRef}
           as="div"
           className="relative z-10"
-          onClose={() => setIsOpen(false)}
+          onClose={handleClose}
         >
           <Transition.Child
             as={Fragment}
@@ -49,8 +54,7 @@ export default function Modal({
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 overflow-y-auto" ref={modalRef}>
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
@@ -73,18 +77,14 @@ export default function Modal({
                       {description}
                     </p>
                   </div>
-                  <div className="mt-4 flex justify-end">
+                  <div className="mt-4 flex justify-end gap-2">
                     <Button
                       text={actionButton.text}
-                      icon={button.icon}
+                      startIcon={button.icon}
                       size="sm"
                       onClick={actionButton.onClick}
                     />
-                    <Button
-                      text="Close"
-                      size="sm"
-                      onClick={() => setIsOpen(false)}
-                    />
+                    <Button text="Close" size="sm" onClick={handleClose} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

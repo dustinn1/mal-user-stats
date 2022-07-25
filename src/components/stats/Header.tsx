@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, memo } from "react";
 import { StatsContext } from "../../contexts/StatsContext";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,7 +24,7 @@ dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 
-export default function StatsHeader() {
+export default memo(function StatsHeader() {
   const { user } = useContext(StatsContext);
   const router = useRouter();
   const { isFavorite, updateFavorite } = useUserFavorite(user.mal_id);
@@ -58,12 +58,12 @@ export default function StatsHeader() {
             Last Updated: {dayjs(user.generated_on).fromNow()}
           </span>
         </Tippy>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-2">
           <Button
             size="lg"
             text={isFavorite ? "Favorited" : "Favorite"}
             active={isFavorite}
-            icon={faHeart}
+            startIcon={faHeart}
             onClick={() => updateFavorite()}
           />
           <Modal
@@ -76,7 +76,7 @@ export default function StatsHeader() {
                 router.push(
                   {
                     pathname: "/generate",
-                    query: { username: "triplezko" },
+                    query: { username: user.username },
                   },
                   router.asPath
                 ),
@@ -99,4 +99,4 @@ export default function StatsHeader() {
       </div>
     </header>
   );
-}
+});

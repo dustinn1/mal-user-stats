@@ -1,8 +1,10 @@
 import type { AnimeManga } from "../interfaces/stats";
 
 export function getTitlesInfo(
-  titlesIds: number[],
-  allTitles: { [k: string]: AnimeManga }
+  allTitles: { [k: string]: AnimeManga },
+  titlesIds?: number[]
 ): AnimeManga[] {
-  return titlesIds.map((id) => allTitles[id]);
+  return titlesIds
+    ? titlesIds.map((id) => allTitles[id])
+    : Object.values(allTitles);
 }

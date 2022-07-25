@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { AnimeManga } from "./stats";
+import type { AnimeManga, StatArraysOnly } from "./stats";
 
 export type Filter = {
   category: FilterCategories;
@@ -37,8 +37,8 @@ export type FilterHookExports = {
   ): void;
   clearFilters(): void;
   filters: Filter[];
-  searchInput: string;
-  setSearchInput: Dispatch<SetStateAction<string>>;
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
   sort: string;
   setSort: Dispatch<SetStateAction<string>>;
   ranges: FilterRanges;

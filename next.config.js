@@ -2,6 +2,12 @@
 const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
+  experimental: {
+    images: {
+      allowFutureImage: true,
+      unoptimized: true,
+    },
+  },
   images: {
     domains: ["cdn.myanimelist.net"],
     unoptimized: true,
