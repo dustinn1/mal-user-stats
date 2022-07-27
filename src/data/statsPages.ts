@@ -4,7 +4,7 @@ type Pages = {
   [key: string]: {
     name: string;
     key: keyof StatArraysOnly;
-    chart: string;
+    chart: "bar" | "line";
   };
 };
 

@@ -23,7 +23,7 @@ export default function Generate() {
   return (
     <>
       {!show ? (
-        <div className="mx-3 mt-5 xl:mx-auto">
+        <div className="mx-3 mt-5 xl:container xl:mx-auto">
           <h1 className="mb-4 border-b-2 border-black pb-3 text-4xl font-bold dark:border-white">
             Generate Stats
           </h1>

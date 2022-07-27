@@ -61,40 +61,42 @@ export default function StatSectionPage() {
           type === "anime" ? "Anime" : "Manga"
         } - ${user.username}`}
       />
-      <TitleCardsContextProvider type={type} data={statsSectionData}>
-        <TitleCardsContainerHeader
-          data={{
-            title: statsSectionData.name,
-            stats: [
-              {
-                id: "Animes",
-                value: statsSectionData.count,
-              },
-              {
-                id: type === "anime" ? "Watched" : "Read",
-                value:
-                  type === "anime"
-                    ? statsSectionData.length > 0
-                      ? prettyMs(statsSectionData.length * 1000, {
-                          verbose: true,
-                          unitCount: 3,
-                        })
-                      : "No time"
-                    : statsSectionData.length > 0
-                    ? `${statsSectionData.length} chapters`
-                    : "No chapters",
-              },
-              {
-                id: "Average Score",
-                value: statsSectionData.mean_score,
-              },
-            ],
-          }}
-        />
-        <TitleCardsTopBar />
-        <TitleCardsContainer />
-        <TitlesPagination />
-      </TitleCardsContextProvider>
+      <div className="xl:container xl:mx-auto">
+        <TitleCardsContextProvider type={type} data={statsSectionData}>
+          <TitleCardsContainerHeader
+            data={{
+              title: statsSectionData.name,
+              stats: [
+                {
+                  id: "Animes",
+                  value: statsSectionData.count,
+                },
+                {
+                  id: type === "anime" ? "Watched" : "Read",
+                  value:
+                    type === "anime"
+                      ? statsSectionData.length > 0
+                        ? prettyMs(statsSectionData.length * 1000, {
+                            verbose: true,
+                            unitCount: 3,
+                          })
+                        : "No time"
+                      : statsSectionData.length > 0
+                      ? `${statsSectionData.length} chapters`
+                      : "No chapters",
+                },
+                {
+                  id: "Average Score",
+                  value: statsSectionData.mean_score,
+                },
+              ],
+            }}
+          />
+          <TitleCardsTopBar />
+          <TitleCardsContainer />
+          <TitlesPagination />
+        </TitleCardsContextProvider>
+      </div>
     </>
   );
 }

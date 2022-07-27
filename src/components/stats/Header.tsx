@@ -15,7 +15,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Modal from "../Modal";
 import { useRouter } from "next/router";
 import Tippy from "@tippyjs/react";
-import { db } from "../../db";
 import Button from "../Button";
 import { useUserFavorite } from "../../hooks/useUserFavorite";
 

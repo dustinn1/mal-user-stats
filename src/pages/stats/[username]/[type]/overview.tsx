@@ -28,46 +28,48 @@ export default function StatOverview() {
           user.username
         }`}
       />
-      <TitleCardsContextProvider type={type}>
-        <TitleCardsContainerHeader
-          data={{
-            title: "Overview",
-            stats: [
-              {
-                id: "Animes",
-                value: typeStats.overview.total,
-              },
-              {
-                id: type === "anime" ? "Episodes Watched" : "Chapters Readed",
-                value: typeStats.overview.watched_readed,
-              },
-              {
-                id: "Watched",
-                value:
-                  type === "anime"
-                    ? typeStats.overview.length > 0
-                      ? prettyMs(typeStats.overview.total * 1000, {
-                          verbose: true,
-                          unitCount: 3,
-                        })
-                      : "No time"
-                    : null,
-              },
-              {
-                id: "Average Score",
-                value: typeStats.overview.mean_score,
-              },
-              {
-                id: "Standard Deviation",
-                value: typeStats.overview.standard_deviation,
-              },
-            ],
-          }}
-        />
-        <TitleCardsTopBar />
-        <TitleCardsContainer />
-        <TitlesPagination />
-      </TitleCardsContextProvider>
+      <div className="xl:container xl:mx-auto">
+        <TitleCardsContextProvider type={type}>
+          <TitleCardsContainerHeader
+            data={{
+              title: "Overview",
+              stats: [
+                {
+                  id: "Animes",
+                  value: typeStats.overview.total,
+                },
+                {
+                  id: type === "anime" ? "Episodes Watched" : "Chapters Readed",
+                  value: typeStats.overview.watched_readed,
+                },
+                {
+                  id: "Watched",
+                  value:
+                    type === "anime"
+                      ? typeStats.overview.length > 0
+                        ? prettyMs(typeStats.overview.total * 1000, {
+                            verbose: true,
+                            unitCount: 3,
+                          })
+                        : "No time"
+                      : null,
+                },
+                {
+                  id: "Average Score",
+                  value: typeStats.overview.mean_score,
+                },
+                {
+                  id: "Standard Deviation",
+                  value: typeStats.overview.standard_deviation,
+                },
+              ],
+            }}
+          />
+          <TitleCardsTopBar />
+          <TitleCardsContainer />
+          <TitlesPagination />
+        </TitleCardsContextProvider>
+      </div>
     </>
   );
 }

@@ -9,6 +9,7 @@ import { StatCardsContextProvider } from "../../../../../contexts/cards/StatCard
 import StatCardsContainer from "../../../../../components/stats/StatCards/CardsContainer";
 import { StatCardsTopBar } from "../../../../../components/stats/CardsTopBar";
 import { StatsPagination } from "../../../../../components/stats/Pagination";
+import ChartContainer from "../../../../../components/charts/Container";
 
 export default function StatPage() {
   const router = useRouter();
@@ -45,9 +46,12 @@ export default function StatPage() {
         }`}
       />
       <StatCardsContextProvider type={type} data={statsData}>
-        <StatCardsTopBar />
-        <StatCardsContainer />
-        <StatsPagination />
+        <ChartContainer type={pageInfo.chart} />
+        <div className="xl:container xl:mx-auto">
+          <StatCardsTopBar />
+          <StatCardsContainer />
+          <StatsPagination />
+        </div>
       </StatCardsContextProvider>
     </>
   );

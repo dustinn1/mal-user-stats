@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <>
       <NextSeo title="Home" />
-      <div className="mx-3 mt-5 xl:mx-auto">
+      <div className="mx-3 mt-5 xl:container xl:mx-auto">
         {loaded && users !== undefined && users.length > 0 ? (
           <>
             <div className="mb-4 flex items-center justify-between border-b-2 border-black pb-3 dark:border-white">

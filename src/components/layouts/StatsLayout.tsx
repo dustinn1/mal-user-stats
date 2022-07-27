@@ -40,8 +40,10 @@ export default function StatsLayout({ children }: Props) {
   return (
     <>
       <StatsContextProvider username={username}>
-        <StatsHeader />
-        <Tabs />
+        <div className="xl:container xl:mx-auto">
+          <StatsHeader />
+          <Tabs />
+        </div>
         <div className="mt-3 w-full px-3 xl:px-0">{children}</div>
       </StatsContextProvider>
     </>

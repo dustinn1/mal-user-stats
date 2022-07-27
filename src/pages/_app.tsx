@@ -36,9 +36,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       {loaded ? (
         <SettingsContextProvider>
           <Navbar />
-          <main className="xl:container xl:mx-auto">
-            {getLayout(<Component {...pageProps} />)}
-          </main>
+          {getLayout(<Component {...pageProps} />)}
         </SettingsContextProvider>
       ) : (
         <LoadingIndicator />
